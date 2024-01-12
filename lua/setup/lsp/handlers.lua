@@ -62,7 +62,7 @@ local function lsp_keymaps(bufnr)
     )
   end
 
-  telescope_builtin = require("telescope.builtin")
+  local telescope_builtin = require("telescope.builtin")
 
   nmap('gd', telescope_builtin.lsp_definitions, 'Definition')
   nmap('gr', telescope_builtin.lsp_references, 'References')
@@ -73,7 +73,6 @@ local function lsp_keymaps(bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature help')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, 'Declaration')

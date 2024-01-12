@@ -7,7 +7,7 @@ return {
       return require("tmux").setup()
     end,
   },
-  
+
   {
     -- Theme inspired by Atom
     "navarasu/onedark.nvim",
