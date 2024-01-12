@@ -8,8 +8,8 @@ require("core.autocmd")
 
 require("setup.telescope")
 require("setup.which-key")
-require("setup.lsp")
+require("setup.lsp.mason")
+require("setup.lsp.handlers")
 require("setup.term")
 require("setup.cmp")
-require("setup.lang")
 

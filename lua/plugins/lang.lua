@@ -20,6 +20,17 @@ return {
       status = { virtual_text = true },
       output = { open_on_run = true },
     },
+    config = function(_, opts)
+      opts.adapters = {
+        require("neotest-python")({
+          dap = {
+            justMyCode = false,
+          },
+          args = { },
+          runner = "pytest",
+        })
+      }
+    end,
     -- config = function(_, opts)
     --   local neotest_ns = vim.api.nvim_create_namespace("neotest")
     --   vim.diagnostic.config({
