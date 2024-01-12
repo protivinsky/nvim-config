@@ -20,7 +20,7 @@ return {
   {
     -- Set lualine as statusline
     "nvim-lualine/lualine.nvim",
-    -- See `:help lualine.txt`
+    dependencies = { "AndreM222/copilot-lualine" },
     opts = {
       options = {
         icons_enabled = true,
@@ -31,6 +31,7 @@ return {
       },
       extensions = { "neo-tree", "lazy", "toggleterm" },
       sections = {
+        lualine_x = { "copilot", "encoding", "fileformat", "filetype" },
         lualine_y = {
           { "progress", separator = " ", padding = { left = 1, right = 0 } },
           { "location", padding = { left = 0, right = 1 } },
