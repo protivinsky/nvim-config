@@ -3,8 +3,8 @@ return {
     "nvim-neotest/neotest",
     dependencies = {
       "nvim-neotest/neotest-python",
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-lua/plenary.nvim",
+      -- "nvim-treesitter/nvim-treesitter",
+      -- "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
     },
     opts = {
