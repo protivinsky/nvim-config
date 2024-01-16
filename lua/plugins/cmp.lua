@@ -15,12 +15,12 @@ return {
       'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-nvim-lua',
 
-      -- -- Snippet Engine & its associated nvim-cmp source
-      -- 'L3MON4D3/LuaSnip',
-      -- 'saadparwaiz1/cmp_luasnip',
-      --
-      -- -- Adds a number of user-friendly snippets
-      -- 'rafamadriz/friendly-snippets',
+      -- Snippet Engine & its associated nvim-cmp source
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
+
+      -- Adds a number of user-friendly snippets
+      'rafamadriz/friendly-snippets',
     },
     opts = function()
       vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
@@ -30,11 +30,11 @@ return {
         completion = {
           completeopt = "menu,menuone,noinsert,noselect",
         },
-        -- snippet = {
-        --   expand = function(args)
-        --     require("luasnip").lsp_expand(args.body)
-        --   end,
-        -- },
+        snippet = {
+          expand = function(args)
+            require("luasnip").lsp_expand(args.body)
+          end,
+        },
         mapping = cmp.mapping.preset.insert({
           ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
           ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
@@ -53,12 +53,13 @@ return {
           end,
         }),
         sources = cmp.config.sources({
-          { name = "nvim_lsp" },
-          -- { name = "luasnip" },
-          { name = "path" },
-          { name = "calc" },
-          { name = "copilot" },
-          { name = "buffer" },
+          { name = "nvim_lua"},
+          { name = "path"},
+          { name = "nvim_lsp"},
+          { name = "calc"},
+          { name = "copilot"},
+          { name = "buffer"},
+          { name = "luasnip" },
         }),
         formatting = {
           format = function(_, item)
