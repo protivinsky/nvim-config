@@ -1,5 +1,35 @@
 return {
-  -- "github/copilot.vim",
+  {
+    "p00f/clangd_extensions.nvim",
+    lazy = true,
+    config = function() end,
+    opts = {
+      inlay_hints = {
+        inline = false,
+      },
+      ast = {
+        --These require codicons (https://github.com/microsoft/vscode-codicons)
+        role_icons = {
+          type = "",
+          declaration = "",
+          expression = "",
+          specifier = "",
+          statement = "",
+          ["template argument"] = "",
+        },
+        kind_icons = {
+          Compound = "",
+          Recovery = "",
+          TranslationUnit = "",
+          PackExpansion = "",
+          TemplateTypeParm = "",
+          TemplateTemplateParm = "",
+          TemplateParamObject = "",
+        },
+      },
+    },
+  },
+
 
   {
     -- Autocompletion
@@ -26,6 +56,8 @@ return {
       vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
       local cmp = require("cmp")
       local defaults = require("cmp.config.default")()
+      def_sorting = defaults.sorting
+      -- table.insert(def_sorting.comparators, 1, require("clangd_extensions.cmp_scores"))
       return {
         completion = {
           completeopt = "menu,menuone,noinsert,noselect",
@@ -75,7 +107,7 @@ return {
             hl_group = "CmpGhostText",
           },
         },
-        sorting = defaults.sorting,
+        sorting = def_sorting,
       }
     end,
     ---@param opts cmp.ConfigSchema
@@ -83,30 +115,32 @@ return {
       for _, source in ipairs(opts.sources) do
         source.group_index = source.group_index or 1
       end
-    local cmp = require("cmp")
-    cmp.setup(opts)
-    -- `/` cmdline setup.
-    cmp.setup.cmdline('/', {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = {
-        { name = 'buffer' }
-      }
-    })
-
-    -- `:` cmdline setup.
-    cmp.setup.cmdline(':', {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = cmp.config.sources({
-        { name = 'path' }
-      }, {
-        {
-          name = 'cmdline',
-          option = {
-            ignore_cmds = { 'Man', '!' }
-          }
+      local cmp = require("cmp")
+      cmp.setup(opts)
+      -- `/` cmdline setup.
+      cmp.setup.cmdline('/', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = 'buffer' }
         }
       })
-    })
+
+      -- `:` cmdline setup.
+      cmp.setup.cmdline(':', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { 
+            name = 'path',
+          }
+        }, {
+          {
+            name = 'cmdline',
+            option = {
+              ignore_cmds = { 'Man', '!', 'TermExec' }
+            }
+          }
+        })
+      })
     end,
   },
 

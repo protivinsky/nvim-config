@@ -5,6 +5,7 @@ end
 
 local servers = {
   "lua_ls",
+  "clangd",
   -- "cssls",
   -- "html",
   -- "tsserver",
