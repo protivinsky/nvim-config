@@ -111,6 +111,7 @@ map("n", keys.diag.prev_warning.key, diagnostic_goto(false, "WARN"), { desc = ke
 
 -- quit
 map("n", keys.quit.all.key, "<cmd>qa<cr>", { desc = keys.quit.all.desc })
+map("n", keys.quit.window.key, "<cmd>q<cr>", { desc = keys.quit.window.desc })
 
 -- restore session
 -- map("n", "<leader>qr", require("persistence").load(), "Restore session")

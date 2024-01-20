@@ -109,6 +109,7 @@ M.diag.prev_warning = { key = "[w", desc = "Prev warning" }
 
 M.quit = {}
 M.quit.all = { key = "<leader>qq", desc = "Quit all" }
+M.quit.window = { key = "<leader>qw", desc = "Quit window" }
 -- persistance
 M.quit.restore_session = { key = "<leader>qs", desc = "Restore session" }
 M.quit.restore_last_session = { key = "<leader>ql", desc = "Restore last session" }
