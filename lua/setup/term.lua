@@ -80,8 +80,8 @@ vim.keymap.set(
 vim.keymap.set(
   "n",
   keys.term.open_ipython.key,
-  -- "<cmd>TermExec direction=vertical size=120 cmd='${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}ipython --TerminalInteractiveShell.autoindent=False'<cr>",
-  "<cmd>TermExec direction=vertical size=120 cmd='ipython --TerminalInteractiveShell.autoindent=False'<cr>",
+  "<cmd>TermExec direction=vertical size=120 cmd='${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}ipython --TerminalInteractiveShell.autoindent=False'<cr>",
+  -- "<cmd>TermExec direction=vertical size=120 cmd='ipython --TerminalInteractiveShell.autoindent=False'<cr>",
   { desc = keys.term.open_ipython.desc }
 )
 vim.keymap.set(

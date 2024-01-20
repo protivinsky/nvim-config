@@ -34,7 +34,8 @@ map("n", keys.buffer.next.key, "<cmd>bnext<cr>", { desc = keys.buffer.next.desc 
 map("n", keys.buffer.prev.key2, "<cmd>bprevious<cr>", { desc = keys.buffer.prev.desc })
 map("n", keys.buffer.next.key2, "<cmd>bnext<cr>", { desc = keys.buffer.next.desc })
 map("n", keys.buffer.switch.key, "<cmd>e #<cr>", { desc = keys.buffer.switch.desc })
-map("n", keys.buffer.delete.key, "<cmd>bp|bd #<cr>", { desc = keys.buffer.delete.desc })
+-- Use mini.bufremove instead
+-- map("n", keys.buffer.delete.key, "<cmd>bp|bd #<cr>", { desc = keys.buffer.delete.desc })
 -- map("n", keys.buffer.switch.key2, "<cmd>e #<cr>", { desc = keys.buffer.switch.desc })
 
 -- Clear search with <esc>

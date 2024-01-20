@@ -67,7 +67,7 @@ local function lsp_keymaps(bufnr)
   local telescope_builtin = require("telescope.builtin")
 
   nmap(keys.lsp.definition.key, telescope_builtin.lsp_definitions, keys.lsp.definition.desc)
-  nmap(keys.lsp.references.key, telescope_builtin.lsp_references, keys.lsp.references.desc)
+  nmap(keys.lsp.references.key, function() telescope_builtin.lsp_references({ fname_width = 100 }) end, keys.lsp.references.desc)
   nmap(keys.lsp.implementation.key, telescope_builtin.lsp_implementations, keys.lsp.implementation.desc)
   nmap(keys.lsp.type_def.key, telescope_builtin.lsp_type_definitions, keys.lsp.type_def.desc)
   -- These are defined in telescope.lua
