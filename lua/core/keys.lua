@@ -43,6 +43,13 @@ M.debug.test_method = { key = "<leader>dm", desc = "Debug: Test method" }
 M.debug.test_class = { key = "<leader>dc", desc = "Debug: Test class" }
 
 M.git = {}
+M.git.branches = { key = "<leader>gb", desc = "git branches" }
+M.git.blame = { key = "<leader>gB", desc = "git blame" }
+M.git.commits = { key = "<leader>gc", desc = "git commits" }
+M.git.status = { key = "<leader>gs", desc = "git status" }
+M.git.stash = { key = "<leader>gS", desc = "git stash" }
+M.git.fugitive = { key = "<leader>gg", desc = "git fugitive" }
+
 M.git.stage_hunk = { key = "<leader>hs", desc = "git stage hunk" }
 M.git.reset_hunk = { key = "<leader>hr", desc = "git reset hunk" }
 M.git.stage_buffer = { key = "<leader>hS", desc = "git stage buffer" }
@@ -140,6 +147,10 @@ M.find.files = { key = "<leader><space>", key2 = "<leader>ff", desc = "Find file
 M.find.config = { key = "<leader>fc", desc = "Find config files" }
 M.find.git_files = { key = "<leader>fg", desc = "Find git files" }
 M.find.jumplist = { key = "<leader>fj", desc = "Jumplist" }
+M.find.treesitter = { key = "<leader>fT", desc = "Treesitter" }
+M.find.builtin = { key = "<leader>fB", desc = "Built-in pickers" }
+M.find.reloader = { key = "<leader>fR", desc = "Reload lua module" }
+M.find.planets = { key = "<leader>fP", desc = "Planets" }
 
 M.search = {}
 M.search.buffer = { key = "<leader>/", key2 = "<leader>sb", desc = "Search buffer" }
@@ -158,6 +169,7 @@ M.search.marks = { key = "<leader>sm", desc = "Jump to mark" }
 M.search.options = { key = "<leader>sO", desc = "Options" }
 M.search.resume = { key = "<leader>sR", desc = "Resume" }
 M.search.word_root = { key = "<leader>sw", desc = "Word (root dir)" }
+M.search.grep_string = { key = "<leader>ss", desc = "Grep string" }
 M.search.word_cwd = { key = "<leader>sW", desc = "Word (cwd)" }
 M.search.colorscheme = { key = "<leader>uC", desc = "Colorscheme with preview" }
 

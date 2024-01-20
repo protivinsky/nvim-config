@@ -84,10 +84,16 @@ vim.keymap.set("n", keys.find.buffers.key2, function() builtin.buffers({ sort_mr
 vim.keymap.set('n', keys.find.oldfiles.key2, builtin.oldfiles, { desc = keys.find.oldfiles.desc })
 vim.keymap.set("n", keys.find.git_files.key, builtin.git_files, { desc = keys.find.git_files.desc })
 vim.keymap.set("n", keys.find.jumplist.key, builtin.jumplist, { desc = keys.find.jumplist.desc })
+vim.keymap.set("n", keys.find.treesitter.key, builtin.treesitter, { desc = keys.find.treesitter.desc })
+vim.keymap.set("n", keys.find.builtin.key, builtin.builtin, { desc = keys.find.builtin.desc })
+vim.keymap.set("n", keys.find.reloader.key, builtin.reloader, { desc = keys.find.reloader.desc })
+vim.keymap.set("n", keys.find.planets.key, builtin.planets, { desc = keys.find.planets.desc })
 
 -- git
-vim.keymap.set("n", "<leader>gc", builtin.git_commits, { desc = "commits" })
-vim.keymap.set("n", "<leader>gs", builtin.git_status, { desc = "status" })
+vim.keymap.set("n", keys.git.branches.key, builtin.git_branches, { desc = keys.git.branches.desc })
+vim.keymap.set("n", keys.git.commits.key, builtin.git_commits, { desc = keys.git.commits.desc })
+vim.keymap.set("n", keys.git.status.key, builtin.git_status, { desc = keys.git.status.desc })
+vim.keymap.set("n", keys.git.stash.key, builtin.git_stash, { desc = keys.git.stash.desc })
 
       -- search
 vim.keymap.set("n", keys.search.registers.key, builtin.registers, { desc = keys.search.registers.desc })
@@ -106,6 +112,7 @@ vim.keymap.set("n", keys.search.marks.key, builtin.marks, { desc = keys.search.m
 vim.keymap.set("n", keys.search.options.key, builtin.vim_options, { desc = keys.search.options.desc })
 vim.keymap.set("n", keys.search.resume.key, builtin.resume, { desc = keys.search.resume.desc })
 
+vim.keymap.set("n", keys.search.grep_string.key, builtin.grep_string, { desc = keys.search.grep_string.desc })
 vim.keymap.set("n", keys.search.word_root.key, function() builtin.grep_string({ word_match = "-w" }) end, { desc = keys.search.word_root.desc })
 vim.keymap.set("n", keys.search.word_cwd.key, function() builtin.grep_string({ cwd = false, word_match = "-w" }) end, { desc = keys.search.word_cwd.desc })
 vim.keymap.set("v", keys.search.word_root.key, function() builtin.grep_string({ word_match = "-w" }) end, { desc = keys.search.word_root.desc })

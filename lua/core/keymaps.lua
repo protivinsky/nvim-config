@@ -81,6 +81,10 @@ map("n", keys.quickfix_list.key, "<cmd>copen<cr>", { desc = keys.quickfix_list.d
 map("n", keys.quickfix_prev.key, vim.cmd.cprev, { desc = keys.quickfix_prev.desc })
 map("n", keys.quickfix_next.key, vim.cmd.cnext, { desc = keys.quickfix_next.desc })
 
+-- git
+map("n", keys.git.fugitive.key, "<cmd>G<cr>", { desc = keys.git.fugitive.desc })
+map("n", keys.git.blame.key, "<cmd>Git blame<cr>", { desc = keys.git.blame.desc })
+
 -- diagnostic
 local diagnostic_goto = function(next, severity)
   local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
