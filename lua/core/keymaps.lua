@@ -1,5 +1,6 @@
 -- taken from https://raw.githubusercontent.com/LazyVim/LazyVim/main/lua/lazyvim/config/keymaps.lua
 local map = vim.keymap.set
+local keys = require("core.keys")
 
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -61,17 +62,14 @@ map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
--- lazy
-map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
-
 -- new file
-map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
+map("n", keys.new_file.key, "<cmd>enew<cr>", { desc = keys.new_file.desc })
 
-map("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
-map("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
+map("n", keys.location_list.key, "<cmd>lopen<cr>", { desc = keys.location_list.desc })
+map("n", keys.quickfix_list.key, "<cmd>copen<cr>", { desc = keys.quickfix_list.desc })
 
-map("n", "[q", vim.cmd.cprev, { desc = "Previous quickfix" })
-map("n", "]q", vim.cmd.cnext, { desc = "Next quickfix" })
+map("n", keys.quickfix_prev.key, vim.cmd.cprev, { desc = keys.quickfix_prev.desc })
+map("n", keys.quickfix_next.key, vim.cmd.cnext, { desc = keys.quickfix_next.desc })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)
@@ -81,13 +79,13 @@ local diagnostic_goto = function(next, severity)
     go({ severity = severity })
   end
 end
-map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
-map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
-map("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
-map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
-map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
-map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
-map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
+map("n", keys.diag.line.key, vim.diagnostic.open_float, { desc = keys.diag.line.desc })
+map("n", keys.diag.next_diag.key, diagnostic_goto(true), { desc = keys.diag.next_diag.desc })
+map("n", keys.diag.prev_diag.key, diagnostic_goto(false), { desc = keys.diag.prev_diag.desc })
+map("n", keys.diag.next_error.key, diagnostic_goto(true, "ERROR"), { desc = keys.diag.next_error.desc })
+map("n", keys.diag.prev_error.key, diagnostic_goto(false, "ERROR"), { desc = keys.diag.prev_error.desc })
+map("n", keys.diag.next_warning.key, diagnostic_goto(true, "WARN"), { desc = keys.diag.next_warning.desc })
+map("n", keys.diag.prev_warning.key, diagnostic_goto(false, "WARN"), { desc = keys.diag.prev_warning.desc })
 
 -- quit
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
@@ -96,7 +94,7 @@ map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
 -- map("n", "<leader>qr", require("persistence").load(), "Restore session")
 
 -- highlights under cursor
-map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
+map("n", keys.ui.show_pos.key, vim.show_pos, { desc = keys.ui.show_pos.desc })
 
 -- Terminal Mappings
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })

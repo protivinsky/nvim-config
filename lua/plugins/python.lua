@@ -1,3 +1,5 @@
+local keys = require("core.keys")
+
 return {
   {
     "nvim-neotest/neotest",
@@ -48,14 +50,14 @@ return {
     -- end,
     -- stylua: ignore
     keys = {
-      { "<leader>tt", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Run File" },
-      { "<leader>tT", function() require("neotest").run.run(vim.loop.cwd()) end, desc = "Run All Test Files" },
-      { "<leader>tr", function() require("neotest").run.run() end, desc = "Run Nearest" },
-      { "<leader>ts", function() require("neotest").summary.toggle() end, desc = "Toggle Summary" },
-      { "<leader>to", function() require("neotest").output.open({ enter = true, auto_close = true }) end, desc = "Show Output" },
-      { "<leader>tO", function() require("neotest").output_panel.toggle() end, desc = "Toggle Output Panel" },
-      { "<leader>tS", function() require("neotest").run.stop() end, desc = "Stop" },
-      { "<leader>td", function() require("neotest").run.run({strategy = "dap"}) end, desc = "Debug Nearest" },
+      { keys.test.run_file.key, function() require("neotest").run.run(vim.fn.expand("%")) end, desc = keys.test.run_file.desc },
+      { keys.test.run_all_files.key, function() require("neotest").run.run(vim.loop.cwd()) end, desc = keys.test.run_all_files.desc },
+      { keys.test.run_nearest.key, function() require("neotest").run.run() end, desc = keys.test.run_nearest.desc },
+      { keys.test.toggle_summary.key, function() require("neotest").summary.toggle() end, desc = keys.test.toggle_summary.desc },
+      { keys.test.show_output.key, function() require("neotest").output.open({ enter = true, auto_close = true }) end, desc = keys.test.show_output.desc },
+      { keys.test.toggle_output_panel.key, function() require("neotest").output_panel.toggle() end, desc = keys.test.toggle_output_panel.desc },
+      { keys.test.stop.key, function() require("neotest").run.stop() end, desc = keys.test.stop.desc },
+      { keys.test.debug_nearest.key, function() require("neotest").run.run({strategy = "dap"}) end, desc = keys.test.debug_nearest.desc },
     },
   },
   {
@@ -73,10 +75,10 @@ return {
     event = 'VeryLazy', -- Optional: needed only if you want to type `:VenvSelect` without a keymapping
     keys = {
       -- Keymap to open VenvSelector to pick a venv.
-      { '<leader>cv', '<cmd>VenvSelect<cr>' , desc = "Select VirtualEnv" },
+      { keys.code.venv_select.key, '<cmd>VenvSelect<cr>' , desc = keys.code.venv_select.desc },
       -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
-      { '<leader>cV', '<cmd>VenvSelectCached<cr>' , desc = "Cached VirtualEnv" },
-      { "<leader>cV", "<cmd>VenvSelectCurrent<cr>", desc = "Current VirtualEnv Info" },
+      { keys.code.venv_cached.key, '<cmd>VenvSelectCached<cr>' , desc = keys.code.venv_cached.desc },
+      { keys.code.venv_info.key, "<cmd>VenvSelectCurrent<cr>", desc = keys.code.venv_info.desc },
     },
   },
 }

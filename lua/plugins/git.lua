@@ -1,3 +1,5 @@
+local keys = require('core.keys')
+
 return {
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -61,33 +63,33 @@ return {
 
         -- Actions
         -- visual mode
-        map('v', '<leader>hs', function()
+        map('v', keys.git.stage_hunk.key, function()
           gs.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
-        end, { desc = 'stage git hunk' })
-        map('v', '<leader>hr', function()
+        end, { desc = keys.git.stage_hunk.desc })
+        map('v', keys.git.reset_hunk.key, function()
           gs.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
-        end, { desc = 'reset git hunk' })
+        end, { desc = keys.git.reset_hunk.desc })
         -- normal mode
-        map('n', '<leader>hs', gs.stage_hunk, { desc = 'git stage hunk' })
-        map('n', '<leader>hr', gs.reset_hunk, { desc = 'git reset hunk' })
-        map('n', '<leader>hS', gs.stage_buffer, { desc = 'git Stage buffer' })
-        map('n', '<leader>hu', gs.undo_stage_hunk, { desc = 'undo stage hunk' })
-        map('n', '<leader>hR', gs.reset_buffer, { desc = 'git Reset buffer' })
-        map('n', '<leader>hp', gs.preview_hunk, { desc = 'preview git hunk' })
-        map('n', '<leader>hb', function()
+        map('n', keys.git.stage_hunk.key, gs.stage_hunk, { desc = keys.git.stage_hunk.desc })
+        map('n', keys.git.reset_hunk.key, gs.reset_hunk, { desc = keys.git.reset_hunk.desc })
+        map('n', keys.git.stage_buffer.key, gs.stage_buffer, { desc = keys.git.stage_buffer.desc })
+        map('n', keys.git.undo_stage_hunk.key, gs.undo_stage_hunk, { desc = keys.git.undo_stage_hunk.desc })
+        map('n', keys.git.reset_buffer.key, gs.reset_buffer, { desc = keys.git.reset_buffer.desc })
+        map('n', keys.git.preview_hunk.key, gs.preview_hunk, { desc = keys.git.preview_hunk.desc })
+        map('n', keys.git.blame_line.key, function()
           gs.blame_line { full = false }
-        end, { desc = 'git blame line' })
-        map('n', '<leader>hd', gs.diffthis, { desc = 'git diff against index' })
-        map('n', '<leader>hD', function()
+        end, { desc = keys.git.blame_line.desc })
+        map('n', keys.git.diff_against_index.key, gs.diffthis, { desc = keys.git.diff_against_index.desc })
+        map('n', keys.git.diff_against_last_commit.key, function()
           gs.diffthis '~'
-        end, { desc = 'git diff against last commit' })
+        end, { desc = keys.git.diff_against_last_commit.desc })
 
         -- Toggles
-        map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'toggle git blame line' })
-        map('n', '<leader>td', gs.toggle_deleted, { desc = 'toggle git show deleted' })
+        map('n', keys.git.toggle_blame_line.key, gs.toggle_current_line_blame, { desc = keys.git.toggle_blame_line.desc })
+        map('n', keys.git.toggle_deleted.key, gs.toggle_deleted, { desc = keys.git.toggle_deleted.desc })
 
         -- Text object
-        map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'select git hunk' })
+        map({ 'o', 'x' }, keys.git.select_hunk.key, ':<C-U>Gitsigns select_hunk<CR>', { desc = keys.git.select_hunk.desc })
       end,
     },
   },

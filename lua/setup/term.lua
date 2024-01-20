@@ -5,6 +5,7 @@ local toggleterm = require("toggleterm")
 
 local lazy = require("toggleterm.lazy")
 local utils = lazy.require("toggleterm.utils")
+local keys = require("core.keys")
 
 local function custom_send_lines_to_terminal(selection_type, trim_spaces, cmd_data)
   local id = tonumber(cmd_data.args) or 1
@@ -71,41 +72,41 @@ end, { range = true, nargs = "?" })
 
 vim.keymap.set(
   "n",
-  "<leader>cp",
+  keys.term.open_python.key,
   -- "<cmd>TermExec direction=vertical size=120 cmd='${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}python'<cr>",
   "<cmd>TermExec direction=vertical size=120 cmd='python'<cr>",
-  { desc = "Open Python terminal" }
+  { desc = keys.term.open_python.desc }
 )
 vim.keymap.set(
   "n",
-  "<leader>ci",
+  keys.term.open_ipython.desc,
   -- "<cmd>TermExec direction=vertical size=120 cmd='${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}ipython --TerminalInteractiveShell.autoindent=False'<cr>",
   "<cmd>TermExec direction=vertical size=120 cmd='ipython --TerminalInteractiveShell.autoindent=False'<cr>",
-  { desc = "Open IPython terminal" }
+  { desc = keys.term.open_ipython.desc }
 )
 vim.keymap.set(
   "n",
-  "<leader>ct",
+  keys.term.open_vertical.key,
   "<cmd>ToggleTerm direction=vertical size=120<cr>",
-  { desc = "Open vertical terminal" }
+  { desc = keys.term.open_vertical.desc }
 )
 vim.keymap.set(
   "n",
-  "<leader>cs",
+  keys.term.open_horizontal.key,
   "<cmd>ToggleTerm direction=horizontal size=40<cr>",
-  { desc = "Open horizontal terminal" }
+  { desc = keys.term.open_horizontal.desc }
 )
 
 vim.keymap.set(
   "n",
-  "<leader>cP",
+  keys.term.run_in_python.key,
   -- "<cmd>w<cr>:9TermExec direction=vertical size=120 cmd='${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}python %'<cr>",
   "<cmd>w<cr>:9TermExec direction=vertical size=120 cmd='python %'<cr>",
-  { desc = "Save and run file in python" }
+  { desc = keys.term.run_in_python.desc }
 )
-vim.keymap.set("n", "<leader>cc", "<cmd>ToggleTermSendCurrentLine<cr>j", { desc = "Send line to terminal" })
-vim.keymap.set("x", "<leader>cc", ":ToggleTermSendVisualSelectionCustom<CR>'>", { desc = "Send selection to terminal" })
-vim.keymap.set("n", "<leader>r", "<cmd>ToggleTermSendCurrentLine<cr>j", { desc = "Send line to terminal" })
-vim.keymap.set("x", "<leader>r", ":ToggleTermSendVisualSelectionCustom<CR>'>", { desc = "Send selection to terminal" })
+vim.keymap.set("n", "<leader>cc", "<cmd>ToggleTermSendCurrentLine<cr>j", { desc = keys.term.send_line.desc })
+vim.keymap.set("x", "<leader>cc", ":ToggleTermSendVisualSelectionCustom<CR>'>", { desc = keys.term.send_selection.desc })
+vim.keymap.set("n", keys.term.send_line.key, "<cmd>ToggleTermSendCurrentLine<cr>j", { desc = keys.term.send_line.desc })
+vim.keymap.set("x", keys.term.send_selection.key, ":ToggleTermSendVisualSelectionCustom<CR>'>", { desc = keys.term.send_selection.desc })
 -- vim.keymap.set("n", "<leader>tq", "<cmd>TermSelect<cr>1<cr>i<C-d><C-d>", { desc = "Quit terminal" })
 

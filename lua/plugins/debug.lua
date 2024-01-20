@@ -1,3 +1,5 @@
+local keys = require('core.keys')
+
 return {
   -- NOTE: Yes, you can install new plugins here!
   'mfussenegger/nvim-dap',
@@ -11,13 +13,13 @@ return {
     'jay-babu/mason-nvim-dap.nvim',
 
     -- Add your own debuggers here
-    'leoluz/nvim-dap-go',
+    -- 'leoluz/nvim-dap-go',
     {
       "mfussenegger/nvim-dap-python",
       -- stylua: ignore
       keys = {
-        { "<leader>dPt", function() require('dap-python').test_method() end, desc = "Debug Method", ft = "python" },
-        { "<leader>dPc", function() require('dap-python').test_class() end, desc = "Debug Class", ft = "python" },
+        { keys.debug.test_method.key, function() require('dap-python').test_method() end, desc = keys.debug.test_method.desc, ft = "python" },
+        { keys.debug.test_class.key, function() require('dap-python').test_class() end, desc = keys.debug.test_class.desc, ft = "python" },
       },
       config = function()
         -- local path = require("mason-registry").get_package("debugpy"):get_install_path()
@@ -43,50 +45,29 @@ return {
       -- online, please don't ask me how to install them :)
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
-        'delve',
+        -- 'delve',
       },
     }
 
     -- Basic debugging keymaps, feel free to change to your liking!
-    vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
-    vim.keymap.set('n', '<F1>', dap.step_into, { desc = 'Debug: Step Into' })
-    vim.keymap.set('n', '<F2>', dap.step_over, { desc = 'Debug: Step Over' })
-    vim.keymap.set('n', '<F3>', dap.step_out, { desc = 'Debug: Step Out' })
-    vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
-    vim.keymap.set('n', '<leader>B', function()
+    vim.keymap.set('n', keys.debug.start.key, dap.continue, { desc = keys.debug.start.desc })
+    vim.keymap.set('n', keys.debug.step_into.key, dap.step_into, { desc = keys.debug.step_into.desc })
+    vim.keymap.set('n', keys.debug.step_over.key, dap.step_over, { desc = keys.debug.step_over.desc })
+    vim.keymap.set('n', keys.debug.step_out.key, dap.step_out, { desc = keys.debug.step_out.desc })
+    vim.keymap.set('n', keys.debug.toggle_breakpoint.key, dap.toggle_breakpoint, { desc = keys.debug.toggle_breakpoint.desc })
+    vim.keymap.set('n', keys.debug.set_breakpoint.key, function()
       dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
-    end, { desc = 'Debug: Set Breakpoint' })
+    end, { desc = keys.debug.set_breakpoint.desc })
 
-    -- Dap UI setup
-    -- For more information, see |:help nvim-dap-ui|
-    dapui.setup {
-      -- Set icons to characters that are more likely to work in every terminal.
-      --    Feel free to remove or use ones that you like more! :)
-      --    Don't feel like these are good choices.
-      icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
-      controls = {
-        icons = {
-          pause = '⏸',
-          play = '▶',
-          step_into = '⏎',
-          step_over = '⏭',
-          step_out = '⏮',
-          step_back = 'b',
-          run_last = '▶▶',
-          terminate = '⏹',
-          disconnect = '⏏',
-        },
-      },
-    }
-
+    dapui.setup {}
     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-    vim.keymap.set('n', '<F7>', dapui.toggle, { desc = 'Debug: See last session result.' })
+    vim.keymap.set('n', keys.debug.last_result.key, dapui.toggle, { desc = keys.debug.last_result.desc })
 
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
     -- Install golang specific config
-    require('dap-go').setup()
+    -- require('dap-go').setup()
   end,
 }

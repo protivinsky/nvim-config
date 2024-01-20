@@ -1,3 +1,5 @@
+local keys = require("core.keys")
+
 return {
   -- file explorer
   {
@@ -12,25 +14,25 @@ return {
     },
     keys = {
       {
-        "<leader>e",
+        keys.explore.files.key,
         function()
           require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
         end,
-        desc = "Explorer NeoTree",
+        desc = keys.explore.files.desc,
       },
       {
-        "<leader>ge",
+        keys.explore.git.key,
         function()
           require("neo-tree.command").execute({ source = "git_status", toggle = true })
         end,
-        desc = "Git explorer",
+        desc = keys.explore.git.desc,
       },
       {
-        "<leader>be",
+        keys.explore.buffers.key,
         function()
           require("neo-tree.command").execute({ source = "buffers", toggle = true })
         end,
-        desc = "Buffer explorer",
+        desc = keys.explore.buffers.desc,
       },
     },
     deactivate = function()

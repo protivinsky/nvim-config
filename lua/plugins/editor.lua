@@ -1,3 +1,5 @@
+local keys = require("core.keys")
+
 return {
   -- Session management. This saves your session in the background,
   -- keeping track of open buffers, window arrangement, and more.
@@ -8,9 +10,21 @@ return {
     opts = { options = vim.opt.sessionoptions:get() },
     -- stylua: ignore
     keys = {
-      { "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },
-      { "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
-      { "<leader>qd", function() require("persistence").stop() end, desc = "Don't Save Current Session" },
+      {
+        keys.quit.restore_session.key,
+        function() require("persistence").load() end,
+        desc = keys.quit.restore_session.desc
+      },
+      {
+        keys.quit.restore_last_session.key,
+        function() require("persistence").load({ last = true }) end,
+        desc = keys.quit.restore_last_session.desc
+      },
+      {
+        keys.quit.not_store.key,
+        function() require("persistence").stop() end,
+        desc = keys.quit.not_store.desc
+      },
     },
   },
 
@@ -46,7 +60,11 @@ return {
     opts = { open_cmd = "noswapfile vnew" },
     -- stylua: ignore
     keys = {
-      { "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
+      {
+        keys.code.replace_spectre.key,
+        function() require("spectre").open() end,
+        desc = keys.code.replace_spectre.desc
+      },
     },
   },
 

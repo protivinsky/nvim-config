@@ -1,3 +1,4 @@
+local aerial_toggle = require("core.keys").code.aerial_toggle
 
 return {
   {
@@ -43,7 +44,7 @@ return {
       return opts
     end,
     keys = {
-      { "<leader>ca", "<cmd>AerialToggle<cr>", desc = "Aerial (Symbols)" },
+      { aerial_toggle.key, "<cmd>AerialToggle<cr>", desc = aerial_toggle.desc },
     },
   },
 }

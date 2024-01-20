@@ -1,3 +1,5 @@
+local keys = require("core.keys")
+
 return {
   {
     "aserowy/tmux.nvim",
@@ -60,15 +62,15 @@ return {
     "akinsho/bufferline.nvim",
     event = "VeryLazy",
     keys = {
-      { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin" },
-      { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },
-      { "<leader>bo", "<Cmd>BufferLineCloseOthers<CR>", desc = "Delete other buffers" },
-      { "<leader>br", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete buffers to the right" },
-      { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete buffers to the left" },
+      { keys.buffer.toggle_pin.key, "<Cmd>BufferLineTogglePin<CR>", desc = keys.buffer.toggle_pin.desc },
+      { keys.buffer.delete_non_pinned.key, "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = keys.buffer.delete_non_pinned.desc },
+      { keys.buffer.close_others.key, "<Cmd>BufferLineCloseOthers<CR>", desc = keys.buffer.close_others.desc },
+      { keys.buffer.close_right.key, "<Cmd>BufferLineCloseRight<CR>", desc = keys.buffer.close_right.desc },
+      { keys.buffer.close_left.key, "<Cmd>BufferLineCloseLeft<CR>", desc = keys.buffer.close_left.desc },
       { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev buffer" },
       { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
-      { "[b", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev buffer" },
-      { "]b", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
+      { keys.buffer.prev.key, "<cmd>BufferLineCyclePrev<cr>", desc = keys.buffer.prev.desc },
+      { keys.buffer.next.key, "<cmd>BufferLineCycleNext<cr>", desc = keys.buffer.next.desc },
     },
     opts = {
       options = {
