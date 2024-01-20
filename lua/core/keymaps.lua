@@ -29,15 +29,21 @@ map("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
 map("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
 -- buffers
-map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
-map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
-map("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
-map("n", "]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
-map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
-map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
+map("n", keys.buffer.prev.key, "<cmd>bprevious<cr>", { desc = keys.buffer.prev.desc })
+map("n", keys.buffer.next.key, "<cmd>bnext<cr>", { desc = keys.buffer.next.desc })
+map("n", keys.buffer.prev.key2, "<cmd>bprevious<cr>", { desc = keys.buffer.prev.desc })
+map("n", keys.buffer.next.key2, "<cmd>bnext<cr>", { desc = keys.buffer.next.desc })
+map("n", keys.buffer.switch.key, "<cmd>e #<cr>", { desc = keys.buffer.switch.desc })
+-- map("n", keys.buffer.switch.key2, "<cmd>e #<cr>", { desc = keys.buffer.switch.desc })
 
 -- Clear search with <esc>
 map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
+
+-- Press jk to escape from insert mode
+map("i", "jk", "<ESC>", { noremap = true, silent = true })
+-- Menu navigation
+map("c", "<C-j>", 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', { expr = true, noremap = true })
+map("c", "<C-k>", 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', { expr = true, noremap = true })
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next search result" })
@@ -57,6 +63,10 @@ map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
 
 --keywordprg
 map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
+-- how about these?
+map("n", "<leader>k", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
+map("n", "<leader>o", "<C-o>", { desc = "Prev position" })
+map("n", "<leader>i", "<C-i>", { desc = "Next position" })
 
 -- better indenting
 map("v", "<", "<gv")
@@ -88,7 +98,7 @@ map("n", keys.diag.next_warning.key, diagnostic_goto(true, "WARN"), { desc = key
 map("n", keys.diag.prev_warning.key, diagnostic_goto(false, "WARN"), { desc = keys.diag.prev_warning.desc })
 
 -- quit
-map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
+map("n", keys.quit.all.key, "<cmd>qa<cr>", { desc = keys.quit.all.desc })
 
 -- restore session
 -- map("n", "<leader>qr", require("persistence").load(), "Restore session")

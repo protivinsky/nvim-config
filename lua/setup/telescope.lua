@@ -83,6 +83,7 @@ vim.keymap.set("n", keys.find.config.key, function() builtin.find_files({ cwd = 
 vim.keymap.set("n", keys.find.buffers.key2, function() builtin.buffers({ sort_mru = true, sort_lastused = true, ignore_current_buffer = true}) end, { desc = keys.find.buffers.desc })
 vim.keymap.set('n', keys.find.oldfiles.key2, builtin.oldfiles, { desc = keys.find.oldfiles.desc })
 vim.keymap.set("n", keys.find.git_files.key, builtin.git_files, { desc = keys.find.git_files.desc })
+vim.keymap.set("n", keys.find.jumplist.key, builtin.jumplist, { desc = keys.find.jumplist.desc })
 
 -- git
 vim.keymap.set("n", "<leader>gc", builtin.git_commits, { desc = "commits" })

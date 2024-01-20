@@ -79,7 +79,7 @@ vim.keymap.set(
 )
 vim.keymap.set(
   "n",
-  keys.term.open_ipython.desc,
+  keys.term.open_ipython.key,
   -- "<cmd>TermExec direction=vertical size=120 cmd='${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}ipython --TerminalInteractiveShell.autoindent=False'<cr>",
   "<cmd>TermExec direction=vertical size=120 cmd='ipython --TerminalInteractiveShell.autoindent=False'<cr>",
   { desc = keys.term.open_ipython.desc }
@@ -104,8 +104,9 @@ vim.keymap.set(
   "<cmd>w<cr>:9TermExec direction=vertical size=120 cmd='python %'<cr>",
   { desc = keys.term.run_in_python.desc }
 )
-vim.keymap.set("n", "<leader>cc", "<cmd>ToggleTermSendCurrentLine<cr>j", { desc = keys.term.send_line.desc })
-vim.keymap.set("x", "<leader>cc", ":ToggleTermSendVisualSelectionCustom<CR>'>", { desc = keys.term.send_selection.desc })
+vim.keymap.set("i", keys.term.send_line.key2, "<cmd>ToggleTermSendCurrentLine<cr>", { desc = keys.term.send_line.desc })
+vim.keymap.set("n", keys.term.send_line.key2, "<cmd>ToggleTermSendCurrentLine<cr>j", { desc = keys.term.send_line.desc })
+vim.keymap.set("x", keys.term.send_selection.key2, ":ToggleTermSendVisualSelectionCustom<CR>'>", { desc = keys.term.send_selection.desc })
 vim.keymap.set("n", keys.term.send_line.key, "<cmd>ToggleTermSendCurrentLine<cr>j", { desc = keys.term.send_line.desc })
 vim.keymap.set("x", keys.term.send_selection.key, ":ToggleTermSendVisualSelectionCustom<CR>'>", { desc = keys.term.send_selection.desc })
 -- vim.keymap.set("n", "<leader>tq", "<cmd>TermSelect<cr>1<cr>i<C-d><C-d>", { desc = "Quit terminal" })

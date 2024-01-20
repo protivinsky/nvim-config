@@ -56,6 +56,10 @@ return {
       window = {
         mappings = {
           ["<space>"] = "none",
+          ["l"] = "open",
+          ["L"] = "focus_preview",
+          ["h"] = "close_node",
+          ["Z"] = "expand_all_nodes",
         },
       },
       default_component_configs = {

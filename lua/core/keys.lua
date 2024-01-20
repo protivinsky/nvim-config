@@ -6,9 +6,10 @@ M.buffer.delete_non_pinned = { key = "<leader>bP", desc = "Delete non-pinned" }
 M.buffer.close_others = { key = "<leader>bo", desc = "Delete others" }
 M.buffer.close_right = { key = "<leader>br", desc = "Delete to the right" }
 M.buffer.close_left = { key = "<leader>bl", desc = "Delete to the left" }
-M.buffer.prev = { key = "[b", desc = "Prev buffer" }
-M.buffer.next = { key = "]b", desc = "Next buffer" }
-
+M.buffer.prev = { key = "[b", key2 = "<S-h>", desc = "Prev buffer" }
+M.buffer.next = { key = "]b", key2 = "<S-l>", desc = "Next buffer" }
+-- M.buffer.switch = { key = "<leader>bb", key2 = "<leader>`", desc = "Switch to other buffer" }
+M.buffer.switch = { key = "<leader>,", desc = "Switch to other buffer" }
 
 
 M.code = {}
@@ -86,6 +87,8 @@ M.location_list = { key = "<leader>xl", desc = "Location list" }
 M.quickfix_list = { key = "<leader>xq", desc = "Quickfix list" }
 M.quickfix_prev = { key = "[q", desc = "Previous quickfix" }
 M.quickfix_next = { key = "]q", desc = "Next quickfix" }
+M.jumplist_prev = { key = "[j", desc = "Previous jumplist" }
+M.jumplist_next = { key = "]j", desc = "Next jumplist" }
 
 M.diag = {}
 M.diag.line = { key = "<leader>cd", desc = "Line diagnostics" }
@@ -126,16 +129,17 @@ M.term.open_vertical = { key = "<leader>ct", desc = "Open vertical terminal" }
 M.term.open_python = { key = "<leader>cp", desc = "Open python terminal" }
 M.term.open_ipython = { key = "<leader>ci", desc = "Open ipython terminal" }
 M.term.run_in_python = { key = "<leader>cP", desc = "Save and run in python" }
-M.term.send_line = { key = "<leader>r", desc = "Send line to terminal" }
-M.term.send_selection = { key = "<leader>r", desc = "Send selection to terminal" }
+M.term.send_line = { key = "<leader>r", key2 = "<C-r>", desc = "Send line to terminal" }
+M.term.send_selection = { key = "<leader>r", key2 = "<C-r>", desc = "Send selection to terminal" }
 
 -- telescope
 M.find = {}
-M.find.buffers = { key = "<leader>,", key2 = "<leader>fb", desc = "Buffers" }
+M.find.buffers = { key = "<leader>bb", key2 = "<leader>fb", desc = "Buffers" }
 M.find.oldfiles = { key = "<leader>?", key2 = "<leader>fr", desc = "Recently opened files" }
 M.find.files = { key = "<leader><space>", key2 = "<leader>ff", desc = "Find files" }
 M.find.config = { key = "<leader>fc", desc = "Find config files" }
 M.find.git_files = { key = "<leader>fg", desc = "Find git files" }
+M.find.jumplist = { key = "<leader>fj", desc = "Jumplist" }
 
 M.search = {}
 M.search.buffer = { key = "<leader>/", key2 = "<leader>sb", desc = "Search buffer" }
