@@ -27,6 +27,8 @@ map("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
 map("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
 map("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
 map("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
+map("v", "J", ":m '>+1<cr>gv=gv", { desc = "Move down" })
+map("v", "K", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
 -- buffers
 map("n", keys.buffer.prev.key, "<cmd>bprevious<cr>", { desc = keys.buffer.prev.desc })
@@ -34,6 +36,7 @@ map("n", keys.buffer.next.key, "<cmd>bnext<cr>", { desc = keys.buffer.next.desc 
 map("n", keys.buffer.prev.key2, "<cmd>bprevious<cr>", { desc = keys.buffer.prev.desc })
 map("n", keys.buffer.next.key2, "<cmd>bnext<cr>", { desc = keys.buffer.next.desc })
 map("n", keys.buffer.switch.key, "<cmd>e #<cr>", { desc = keys.buffer.switch.desc })
+map("n", keys.buffer.delete.key, "<cmd>bp|bd #<cr>", { desc = keys.buffer.delete.desc })
 -- map("n", keys.buffer.switch.key2, "<cmd>e #<cr>", { desc = keys.buffer.switch.desc })
 
 -- Clear search with <esc>
@@ -52,6 +55,13 @@ map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result
 map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev search result" })
 map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+
+-- stay in the center
+map("n", "<C-d>", "<C-d>zz")
+map("n", "<C-u>", "<C-u>zz")
+
+-- fix pasting over visual selection
+map("v", "p", '"_dP')
 
 -- Add undo break-points
 map("i", ",", ",<c-g>u")

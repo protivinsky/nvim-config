@@ -1,6 +1,7 @@
 M = {}
 
 M.buffer = {}
+M.buffer.delete = { key = "<leader>bd", desc = "Delete buffer" }
 M.buffer.toggle_pin = { key = "<leader>bp", desc = "Toggle pin" }
 M.buffer.delete_non_pinned = { key = "<leader>bP", desc = "Delete non-pinned" }
 M.buffer.close_others = { key = "<leader>bo", desc = "Delete others" }
