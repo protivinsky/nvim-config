@@ -27,8 +27,6 @@ map("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
 map("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
 map("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
 map("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
-map("v", "J", ":m '>+1<cr>gv=gv", { desc = "Move down" })
-map("v", "K", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
 -- buffers
 map("n", keys.buffer.prev.key, "<cmd>bprevious<cr>", { desc = keys.buffer.prev.desc })

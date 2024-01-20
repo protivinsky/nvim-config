@@ -39,7 +39,7 @@ M.debug.start = { key = "<leader>dd",  desc = "Debug: Start/continue" }
 M.debug.step_into = { key = "<leader>di", desc = "Debug: Step into" }
 M.debug.step_out = { key = "<leader>do", desc = "Debug: Step out" }
 M.debug.step_over = { key = "<leader>dv", desc = "Debug: Step over" }
-M.debug.last_result = { key = "<leader>dl", desc = "Debug: See last result" }
+M.debug.toggle_ui = { key = "<leader>dt", desc = "Debug: Toggle UI" }
 M.debug.test_method = { key = "<leader>dm", desc = "Debug: Test method" }
 M.debug.test_class = { key = "<leader>dc", desc = "Debug: Test class" }
 
