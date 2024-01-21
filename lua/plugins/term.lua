@@ -2,6 +2,9 @@ return {
   {
     "akinsho/toggleterm.nvim",
     version = "*",
-    config = true,
+    opts = {
+      winbar = { enabled = true },
+    },
+    config = true
   }
 }

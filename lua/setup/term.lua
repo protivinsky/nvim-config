@@ -73,8 +73,8 @@ end, { range = true, nargs = "?" })
 vim.keymap.set(
   "n",
   keys.term.open_python.key,
-  -- "<cmd>TermExec direction=vertical size=120 cmd='${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}python'<cr>",
-  "<cmd>TermExec direction=vertical size=120 cmd='python'<cr>",
+  "<cmd>TermExec direction=vertical size=120 cmd='${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}python'<cr>",
+  -- "<cmd>TermExec direction=vertical size=120 cmd='python'<cr>",
   { desc = keys.term.open_python.desc }
 )
 vim.keymap.set(

@@ -138,8 +138,8 @@ M.term.open_vertical = { key = "<leader>ct", desc = "Open vertical terminal" }
 M.term.open_python = { key = "<leader>cp", desc = "Open python terminal" }
 M.term.open_ipython = { key = "<leader>ci", desc = "Open ipython terminal" }
 M.term.run_in_python = { key = "<leader>cP", desc = "Save and run in python" }
-M.term.send_line = { key = "<leader>r", key2 = "<C-r>", desc = "Send line to terminal" }
-M.term.send_selection = { key = "<leader>r", key2 = "<C-r>", desc = "Send selection to terminal" }
+M.term.send_line = { key = "<leader>r", key2 = "<A-r>", desc = "Send line to terminal" }
+M.term.send_selection = { key = "<leader>r", key2 = "<A-r>", desc = "Send selection to terminal" }
 
 -- telescope
 M.find = {}
