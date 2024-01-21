@@ -8,6 +8,13 @@ map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent =
 map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 
+-- TMUX <-> VIM NAVIGATION
+local tmux = require("tmux")
+vim.keymap.set("n", "<C-k>", tmux.move_top, {})
+vim.keymap.set("n", "<C-j>", tmux.move_bottom, {})
+vim.keymap.set("n", "<C-h>", tmux.move_left, {})
+vim.keymap.set("n", "<C-l>", tmux.move_right, {})
+
 -- Move to window using the <ctrl> hjkl keys
 map("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
 map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = true })
@@ -94,6 +101,9 @@ map("n", keys.quickfix_next.key, vim.cmd.cnext, { desc = keys.quickfix_next.desc
 map("n", keys.git.fugitive.key, "<cmd>G<cr>", { desc = keys.git.fugitive.desc })
 map("n", keys.git.blame.key, "<cmd>Git blame<cr>", { desc = keys.git.blame.desc })
 
+map("n", keys.diff.this.key, "<cmd>diffthis<cr>", { desc = keys.diff.this.desc })
+map("n", keys.diff.off.key, "<cmd>diffoff!<cr>", { desc = keys.diff.off.desc })
+
 -- diagnostic
 local diagnostic_goto = function(next, severity)
   local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
@@ -148,11 +158,4 @@ map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
 map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
-
--- TMUX <-> VIM NAVIGATION
-local tmux = require("tmux")
-vim.keymap.set("n", "<C-k>", tmux.move_top, {})
-vim.keymap.set("n", "<C-j>", tmux.move_bottom, {})
-vim.keymap.set("n", "<C-h>", tmux.move_left, {})
-vim.keymap.set("n", "<C-l>", tmux.move_right, {})
 

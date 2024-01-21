@@ -32,6 +32,9 @@ M.code.next_class_end = { key = "]C" }
 M.code.prev_class_start = { key = "[c" }
 M.code.prev_class_end = { key = "[C" }
 
+M.diff = {}
+M.diff.this = { key = "<leader>dt", desc = "Diff this" }
+M.diff.off = { key = "<leader>dT", desc = "Diff off" }
 M.debug = {}
 M.debug.toggle_breakpoint = { key = "<leader>b", key2 = "<leader>db", desc = "Debug: Toggle breakpoint" }
 M.debug.set_breakpoint = { key = "<leader>B", key2 = "<leader>dB", desc = "Debug: Set breakpoint" }
@@ -39,7 +42,7 @@ M.debug.start = { key = "<leader>dd",  desc = "Debug: Start/continue" }
 M.debug.step_into = { key = "<leader>di", desc = "Debug: Step into" }
 M.debug.step_out = { key = "<leader>do", desc = "Debug: Step out" }
 M.debug.step_over = { key = "<leader>dv", desc = "Debug: Step over" }
-M.debug.toggle_ui = { key = "<leader>dt", desc = "Debug: Toggle UI" }
+M.debug.toggle_ui = { key = "<leader>du", desc = "Debug: Toggle UI" }
 M.debug.test_method = { key = "<leader>dm", desc = "Debug: Test method" }
 M.debug.test_class = { key = "<leader>dc", desc = "Debug: Test class" }
 
