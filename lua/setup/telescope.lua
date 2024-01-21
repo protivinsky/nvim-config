@@ -121,6 +121,7 @@ vim.keymap.set("n", keys.search.colorscheme.key, function() builtin.colorscheme(
 
 vim.keymap.set("n", keys.lsp.doc_symbols.key, builtin.lsp_document_symbols, { desc = keys.lsp.doc_symbols.desc })
 vim.keymap.set("n", keys.lsp.ws_symbols.key, builtin.lsp_dynamic_workspace_symbols, { desc = keys.lsp.ws_symbols.desc })
+vim.keymap.set("n", keys.quit.search_sessions.key, function () require("auto-session.session-lens").search_session() end, { desc = keys.quit.search_sessions.desc })
 
 -- vim.keymap.set(
 --   "n",

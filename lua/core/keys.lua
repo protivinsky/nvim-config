@@ -110,10 +110,9 @@ M.diag.prev_warning = { key = "[w", desc = "Prev warning" }
 M.quit = {}
 M.quit.all = { key = "<leader>qq", desc = "Quit all" }
 M.quit.window = { key = "<leader>qw", desc = "Quit window" }
--- persistance
-M.quit.restore_session = { key = "<leader>qs", desc = "Restore session" }
-M.quit.restore_last_session = { key = "<leader>ql", desc = "Restore last session" }
-M.quit.not_store = { key = "<leader>qd", desc = "Don't save current session" }
+M.quit.search_sessions = { key = "<leader>qs", desc = "Search sessions" }
+-- M.quit.restore_last_session = { key = "<leader>ql", desc = "Restore last session" }
+-- M.quit.not_store = { key = "<leader>qd", desc = "Don't save current session" }
 
 M.explore = {}
 M.explore.files = { key = "<leader>e", desc = "Explore files" }

@@ -1,32 +1,41 @@
 local keys = require("core.keys")
 
 return {
-  -- Session management. This saves your session in the background,
-  -- keeping track of open buffers, window arrangement, and more.
-  -- You can restore sessions when returning through the dashboard.
   {
-    "folke/persistence.nvim",
-    event = "BufReadPre",
-    opts = { options = vim.opt.sessionoptions:get() },
-    -- stylua: ignore
-    keys = {
-      {
-        keys.quit.restore_session.key,
-        function() require("persistence").load() end,
-        desc = keys.quit.restore_session.desc
-      },
-      {
-        keys.quit.restore_last_session.key,
-        function() require("persistence").load({ last = true }) end,
-        desc = keys.quit.restore_last_session.desc
-      },
-      {
-        keys.quit.not_store.key,
-        function() require("persistence").stop() end,
-        desc = keys.quit.not_store.desc
-      },
+    "rmagatti/auto-session",
+    opts = {
+      log_level = "error",
+      auto_session_supress_dirs = { "~/" },
     },
   },
+
+
+  -- -- Session management. This saves your session in the background,
+  -- -- keeping track of open buffers, window arrangement, and more.
+  -- -- You can restore sessions when returning through the dashboard.
+  -- {
+  --   "folke/persistence.nvim",
+  --   event = "BufReadPre",
+  --   opts = { options = vim.opt.sessionoptions:get() },
+  --   -- stylua: ignore
+  --   keys = {
+  --     {
+  --       keys.quit.restore_session.key,
+  --       function() require("persistence").load() end,
+  --       desc = keys.quit.restore_session.desc
+  --     },
+  --     {
+  --       keys.quit.restore_last_session.key,
+  --       function() require("persistence").load({ last = true }) end,
+  --       desc = keys.quit.restore_last_session.desc
+  --     },
+  --     {
+  --       keys.quit.not_store.key,
+  --       function() require("persistence").stop() end,
+  --       desc = keys.quit.not_store.desc
+  --     },
+  --   },
+  -- },
 
   -- window picker, handy for file explorer
   {
