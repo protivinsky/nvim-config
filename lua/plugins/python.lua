@@ -32,6 +32,8 @@ return {
           runner = "pytest",
         })
       }
+      require("neotest").setup(opts)
+      -- require("neotest-python").setup(opts)
     end,
     -- config = function(_, opts)
     --   local neotest_ns = vim.api.nvim_create_namespace("neotest")
@@ -64,12 +66,6 @@ return {
     'linux-cultist/venv-selector.nvim',
     dependencies = { 'neovim/nvim-lspconfig', 'nvim-telescope/telescope.nvim', 'mfussenegger/nvim-dap-python' },
     opts = {
-      name = {
-        "venv",
-        ".venv",
-        "env",
-        ".env",
-      },
       dap_enabled = true,
     },
     event = 'VeryLazy', -- Optional: needed only if you want to type `:VenvSelect` without a keymapping

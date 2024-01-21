@@ -21,7 +21,7 @@ M.code.replace_spectre = { key = "<leader>sr", desc = "Replace in files (Spectre
 -- venv-selector
 M.code.venv_select = { key = "<leader>cv", desc = "Select virtual env" }
 M.code.venv_cached = { key = "<leader>cV", desc = "Select cached env" }
-M.code.venv_info = { key = "<leader>cV", desc = "Select cached env" }
+M.code.venv_info = { key = "<leader>cI", desc = "Current virtual env" }
 -- treesitter
 M.code.next_function_start = { key = "]f" }
 M.code.next_function_end = { key = "]F" }
@@ -72,8 +72,8 @@ M.lsp.hover = { key = "gh", desc = "Hover documentation" }
 M.lsp.declaration = { key = "gD", desc = "Declaration" }
 M.lsp.type_def = { key = "<leader>D", desc = "Type definition" }
 -- alternatively <leader>ss, <leader>sS ? or <leader>ds, <leader>ws ?
-M.lsp.doc_symbols = { key = "<leader>ss", desc = "Document symbols" }
-M.lsp.ws_symbols = { key = "<leader>sS", desc = "Workspace symbols" }
+M.lsp.doc_symbols = { key = "<leader>ld", desc = "Document symbols" }
+M.lsp.ws_symbols = { key = "<leader>lw", desc = "Workspace symbols" }
 M.lsp.ws_add_folder = { key = "<leader>wa", desc = "Workspace add folder" }
 M.lsp.ws_remove_folder = { key = "<leader>wr", desc = "Workspace remove folder" }
 M.lsp.ws_list_folders = { key = "<leader>wl", desc = "Workspace list folders" }
