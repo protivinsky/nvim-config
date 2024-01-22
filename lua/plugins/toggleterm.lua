@@ -8,6 +8,7 @@ local python_cmd = "${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}python"
 local ipython_cmd = "${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}ipython --TerminalInteractiveShell.autoindent=False"
 
 local function custom_send_lines_to_terminal(selection_type, trim_spaces, cmd_data)
+  local toggleterm = require("toggleterm")
   local utils = require("toggleterm.utils")
   local id = tonumber(cmd_data.args) or 1
   trim_spaces = trim_spaces == nil or trim_spaces
