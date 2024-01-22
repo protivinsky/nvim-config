@@ -1,11 +1,11 @@
-local aerial_toggle = require("core.keys").code.aerial_toggle
+local aerial_toggle = require("user.keys").code.aerial_toggle
 
 return {
   {
     "stevearc/aerial.nvim",
     event = "VeryLazy",
     opts = function()
-      local icons = vim.deepcopy(require("core.util").icons.kinds)
+      local icons = vim.deepcopy(require("user.util").icons.kinds)
 
       -- HACK: fix lua's weird choice for `Package` for control
       -- structures like if/else/for/etc.

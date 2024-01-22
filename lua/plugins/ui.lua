@@ -1,4 +1,4 @@
-local keys = require("core.keys")
+local keys = require("user.keys")
 
 local pretty_path = function()
   local path = vim.fn.expand "%:p"
@@ -105,7 +105,7 @@ return {
         diagnostics = "nvim_lsp",
         always_show_bufferline = false,
         diagnostics_indicator = function(_, _, diag)
-          local icons = require("core.util").icons.diagnostics
+          local icons = require("user.util").icons.diagnostics
           local ret = (diag.error and icons.Error .. diag.error .. " " or "")
             .. (diag.warning and icons.Warn .. diag.warning or "")
           return vim.trim(ret)

@@ -1,6 +1,8 @@
-local keys = require("core.keys")
+local keys = require("user.keys")
 
 -- TODO: Figure out how to do this better, ideally on venv selector plugin
+-- Also, I might want to provide some user commands for lazygit, btop etc
+-- see https://github.com/LunarVim/Neovim-from-scratch/blob/master/lua/user/toggleterm.lua
 --
 -- local python_cmd = "python"
 local python_cmd = "${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}python"
@@ -8,6 +10,8 @@ local python_cmd = "${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}python"
 local ipython_cmd = "${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}ipython --TerminalInteractiveShell.autoindent=False"
 
 local function custom_send_lines_to_terminal(selection_type, trim_spaces, cmd_data)
+  -- TODO: There is likely a bug - with regular python, it might require empty lines after decrease
+  -- in indentation... Though everything is fine in ipython.
   local toggleterm = require("toggleterm")
   local utils = require("toggleterm.utils")
   local id = tonumber(cmd_data.args) or 1

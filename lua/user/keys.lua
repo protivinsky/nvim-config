@@ -185,6 +185,7 @@ M.search.commands = { key = "<leader>sC", desc = "Commands" }
 M.search.doc_diag = { key = "<leader>sd", desc = "Document diagnostics" }
 M.search.ws_diag = { key = "<leader>sD", desc = "Workspace diagnostics" }
 M.search.live_grep = { key = "<leader>sg", desc = "Live grep" }
+M.search.live_grep_open = { key = "<leader>sG", desc = "Live grep in open files" }
 M.search.help = { key = "<leader>sh", desc = "Help pages" }
 M.search.highlights = { key = "<leader>sH", desc = "Search highlight groups" }
 M.search.keymaps = { key = "<leader>sk", desc = "Key maps" }

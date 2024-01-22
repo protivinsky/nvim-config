@@ -95,7 +95,7 @@ return {
         }),
         formatting = {
           format = function(_, item)
-            local icons = require("core.util").icons.kinds
+            local icons = require("user.util").icons.kinds
             if icons[item.kind] then
               item.kind = icons[item.kind] .. item.kind
             end

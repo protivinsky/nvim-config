@@ -1,4 +1,4 @@
-local keys = require("core.keys")
+local keys = require("user.keys")
 
 return {
   -- Treesitter is a new parser generator tool that we can

@@ -5,7 +5,7 @@ if not status_cmp_ok then
   return
 end
 
-local keys = require("core.keys")
+local keys = require("user.keys")
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true

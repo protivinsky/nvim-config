@@ -39,13 +39,13 @@ local opts = {}
 
 for _, server in pairs(servers) do
   opts = {
-    on_attach = require("setup.lsp.handlers").on_attach,
-    capabilities = require("setup.lsp.handlers").capabilities,
+    on_attach = require("lsp.handlers").on_attach,
+    capabilities = require("lsp.handlers").capabilities,
   }
 
   server = vim.split(server, "@")[1]
 
-  local require_ok, conf_opts = pcall(require, "setup.lsp.servers." .. server)
+  local require_ok, conf_opts = pcall(require, "lsp.servers." .. server)
   if require_ok then
     opts = vim.tbl_deep_extend("force", conf_opts, opts)
   end
@@ -53,5 +53,5 @@ for _, server in pairs(servers) do
   lspconfig[server].setup(opts)
 end
 
-require("setup.lsp.handlers").setup()
+require("lsp.handlers").setup()
 

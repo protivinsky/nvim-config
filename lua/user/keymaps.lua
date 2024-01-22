@@ -1,6 +1,6 @@
 -- taken from https://raw.githubusercontent.com/LazyVim/LazyVim/main/lua/lazyvim/config/keymaps.lua
 local map = vim.keymap.set
-local keys = require("core.keys")
+local keys = require("user.keys")
 
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })

@@ -1,4 +1,4 @@
-local keys = require('core.keys')
+local keys = require('user.keys')
 
 return {
   -- NOTE: Yes, you can install new plugins here!
