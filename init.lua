@@ -9,5 +9,4 @@ require("core.autocmd")
 require("setup.telescope")
 require("setup.lsp.mason")
 require("setup.lsp.handlers")
-require("setup.term")
 
