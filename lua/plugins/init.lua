@@ -5,6 +5,7 @@ return {
   "echasnovski/mini.bufremove",   -- keep window layout after deleting a buffer
   "nvim-lua/plenary.nvim",        -- handy lua functions other plugins use
   "RRethy/vim-illuminate",
+  "sindrets/diffview.nvim",
 
   -- some other plugins require icons
   { "nvim-tree/nvim-web-devicons", lazy = true },
