@@ -1,6 +1,5 @@
 return {
   "folke/neodev.nvim",            -- completion etc for nvim lua API
-  "folke/which-key.nvim",         -- popup with keympas
   "tpope/vim-sleuth",             -- automatic buffer indentation
   "echasnovski/mini.bufremove",   -- keep window layout after deleting a buffer
   "nvim-lua/plenary.nvim",        -- handy lua functions other plugins use

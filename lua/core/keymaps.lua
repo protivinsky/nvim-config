@@ -104,6 +104,8 @@ map("n", keys.git.blame.key, "<cmd>Git blame<cr>", { desc = keys.git.blame.desc 
 
 map("n", keys.diff.this.key, "<cmd>diffthis<cr>", { desc = keys.diff.this.desc })
 map("n", keys.diff.off.key, "<cmd>diffoff!<cr>", { desc = keys.diff.off.desc })
+map("n", keys.diff.get.key, "<cmd>diffget<cr>", { desc = keys.diff.get.desc })
+map("n", keys.diff.put.key, "<cmd>diffput<cr>", { desc = keys.diff.put.desc })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)

@@ -1,5 +1,23 @@
 M = {}
 
+-- which-key groups
+M.which = {}
+M.which.buffer = { key = "<leader>b", desc = 'buffers' }
+M.which.code = { key = "<leader>c", desc = 'code' }
+M.which.diffdebug = { key = "<leader>d", desc = 'diff / debug' }
+M.which.find = { key = "<leader>f", desc = "find" }
+M.which.git = { key = "<leader>g", desc = "git" }
+M.which.hunks = { key = "<leader>h", desc = "git / hunks" }
+M.which.lsp = { key = "<leader>l", desc = "lsp" }
+M.which.quitsess = { key = "<leader>q", desc = "quit / sessions" }
+M.which.search = { key = "<leader>s", desc = "search" }
+M.which.test = { key = "<leader>t", desc = "test" }
+M.which.ui = { key = "<leader>u", desc = "ui" }
+M.which.window = { key = "<leader>w", desc = "windows" }
+M.which.trouble = { key = "<leader>x", desc = "trouble" }
+M.which.tab = { key = "<leader><tab>", desc = "tabs" }
+
+
 M.buffer = {}
 M.buffer.delete = { key = "<leader>bd", desc = "Delete buffer" }
 M.buffer.toggle_pin = { key = "<leader>bp", desc = "Toggle pin" }
@@ -35,6 +53,8 @@ M.code.prev_class_end = { key = "[C" }
 M.diff = {}
 M.diff.this = { key = "<leader>dt", desc = "Diff this" }
 M.diff.off = { key = "<leader>dT", desc = "Diff off" }
+M.diff.get = { key = "<leader>dg", desc = "Diff get" }
+M.diff.put = { key = "<leader>dp", desc = "Diff put" }
 M.debug = {}
 M.debug.toggle_breakpoint = { key = "<leader>b", key2 = "<leader>db", desc = "Debug: Toggle breakpoint" }
 M.debug.set_breakpoint = { key = "<leader>B", key2 = "<leader>dB", desc = "Debug: Set breakpoint" }
