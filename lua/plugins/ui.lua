@@ -30,7 +30,7 @@ return {
     version = false,
     lazy = false,
     config = function()
-      return require("tmux").setup()
+      require("tmux").setup()
     end,
   },
 
@@ -38,7 +38,9 @@ return {
     -- Theme inspired by Atom
     "navarasu/onedark.nvim",
     priority = 1000,
-    config = function()
+    opts = { style = "warmer" },
+    config = function(_, opts)
+      require("onedark").setup(opts)
       vim.cmd.colorscheme "onedark"
     end,
   },

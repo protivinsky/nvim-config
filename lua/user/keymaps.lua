@@ -162,3 +162,31 @@ map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
+-- GPT says this creates a scratch file
+local function create_scratch_file()
+    -- Create .scratch directory if it doesn't exist
+    -- local scratch_dir = vim.fn.getcwd() .. "/.scratch"
+    local scratch_dir = vim.fn.getenv("HOME") .. "/.scratch"
+    if vim.fn.isdirectory(scratch_dir) == 0 then
+        vim.fn.mkdir(scratch_dir)
+    end
+
+    -- Determine the file extension from the current buffer's name
+    local current_file = vim.fn.expand("%:t")
+    local ext = "txt"
+    if current_file:match("%.") then
+        ext = current_file:match("^.+(%..+)$"):sub(2)
+    end
+
+    -- Create a file name with a timestamp
+    local timestamp = os.date("%Y%m%d_%H%M%S")
+    local file_name = scratch_dir .. "/" .. timestamp .. "." .. ext
+
+    -- Create and open the new file
+    vim.cmd("edit " .. file_name)
+end
+
+map("n", "<leader>fs", create_scratch_file, { desc = "Create scratch file" })
+
+
+
