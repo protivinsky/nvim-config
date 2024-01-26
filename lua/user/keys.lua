@@ -130,6 +130,10 @@ M.test.toggle_output_panel = { key = "<leader>tO", desc = "Toggle output panel" 
 M.test.stop = { key = "<leader>tS", desc = "Stop" }
 M.test.debug_nearest = { key = "<leader>td", desc = "Debug nearest" }
 
+-- overseer ... should I have a group for it?
+M.task = {}
+M.task.run = { key = "<leader>ta", desc = "Run task" }
+
 -- toggleterm
 M.term = {}
 M.term.open_horizontal = { key = "<leader>cs", desc = "Open horizontal terminal" }

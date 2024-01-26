@@ -17,6 +17,16 @@ return {
   -- Add indentation guides even on blank lines, see `:help ibl`
   { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {}  },
 
+  {
+    'stevearc/overseer.nvim',
+    keys = {
+      { keys.task.run.key, "<cmd>OverseerRun<cr>", desc = keys.task.run.desc }
+    },
+    opts = {
+      strategy = { "toggleterm", direction = "horizontal" },
+    },
+  },
+
   -- buffer remove
   {
     "echasnovski/mini.bufremove",
