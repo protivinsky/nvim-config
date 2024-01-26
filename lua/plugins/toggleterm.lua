@@ -96,7 +96,7 @@ return {
       {
         keys.term.run_in_python.key,
         "<cmd>w<cr>:9TermExec direction=vertical size=120 cmd='" .. python_cmd .. " %'<cr>",
-        keys.term.run_in_python.desc,
+        desc = keys.term.run_in_python.desc,
       },
 
       -- lazygit
