@@ -93,6 +93,11 @@ return {
       -- open python terminal
       { keys.term.open_python.key, "<cmd>TermExec direction=vertical size=120 cmd='" .. python_cmd .. "'<cr>", desc = keys.term.open_python.desc },
       { keys.term.open_ipython.key, "<cmd>TermExec direction=vertical size=120 cmd='" .. ipython_cmd .. "'<cr>", desc = keys.term.open_ipython.desc },
+      {
+        keys.term.run_in_python.key,
+        "<cmd>w<cr>:9TermExec direction=vertical size=120 cmd='" .. python .. " %'<cr>",
+        keys.term.run_in_python.desc,
+      },
 
       -- lazygit
       { keys.git.lazygit.key, "<cmd>TermLazygit<cr>", desc = keys.git.lazygit.desc },
