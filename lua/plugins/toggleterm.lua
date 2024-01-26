@@ -95,7 +95,7 @@ return {
       { keys.term.open_ipython.key, "<cmd>TermExec direction=vertical size=120 cmd='" .. ipython_cmd .. "'<cr>", desc = keys.term.open_ipython.desc },
       {
         keys.term.run_in_python.key,
-        "<cmd>w<cr>:9TermExec direction=vertical size=120 cmd='" .. python .. " %'<cr>",
+        "<cmd>w<cr>:9TermExec direction=vertical size=120 cmd='" .. python_cmd .. " %'<cr>",
         keys.term.run_in_python.desc,
       },
 
