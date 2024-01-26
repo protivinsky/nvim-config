@@ -41,25 +41,25 @@ return {
         end
 
         -- Navigation
-        map({ 'n', 'v' }, ']c', function()
+        map({ 'n', 'v' }, keys.loc.next_hunk.key, function()
           if vim.wo.diff then
-            return ']c'
+            return keys.loc.next_hunk.key
           end
           vim.schedule(function()
             gs.next_hunk()
           end)
           return '<Ignore>'
-        end, { expr = true, desc = 'Jump to next hunk' })
+        end, { expr = true, desc = keys.loc.next_hunk.desc })
 
-        map({ 'n', 'v' }, '[c', function()
+        map({ 'n', 'v' }, keys.loc.prev_hunk.key, function()
           if vim.wo.diff then
-            return '[c'
+            return keys.loc.prev_hunk.key
           end
           vim.schedule(function()
             gs.prev_hunk()
           end)
           return '<Ignore>'
-        end, { expr = true, desc = 'Jump to previous hunk' })
+        end, { expr = true, desc = keys.loc.prev_hunk.desc })
 
         -- Actions
         -- visual mode

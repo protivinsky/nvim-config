@@ -95,8 +95,8 @@ map("n", keys.new_file.key, "<cmd>enew<cr>", { desc = keys.new_file.desc })
 map("n", keys.location_list.key, "<cmd>lopen<cr>", { desc = keys.location_list.desc })
 map("n", keys.quickfix_list.key, "<cmd>copen<cr>", { desc = keys.quickfix_list.desc })
 
-map("n", keys.quickfix_prev.key, vim.cmd.cprev, { desc = keys.quickfix_prev.desc })
-map("n", keys.quickfix_next.key, vim.cmd.cnext, { desc = keys.quickfix_next.desc })
+map("n", keys.trouble.prev.key, vim.cmd.cprev, { desc = keys.trouble.prev.desc })
+map("n", keys.trouble.next.key, vim.cmd.cnext, { desc = keys.trouble.next.desc })
 
 -- git
 map("n", keys.git.fugitive.key, "<cmd>G<cr>", { desc = keys.git.fugitive.desc })

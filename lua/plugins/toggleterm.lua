@@ -94,6 +94,9 @@ return {
       { keys.term.open_python.key, "<cmd>TermExec direction=vertical size=120 cmd='" .. python_cmd .. "'<cr>", desc = keys.term.open_python.desc },
       { keys.term.open_ipython.key, "<cmd>TermExec direction=vertical size=120 cmd='" .. ipython_cmd .. "'<cr>", desc = keys.term.open_ipython.desc },
 
+      -- lazygit
+      { keys.git.lazygit.key, "<cmd>TermLazygit<cr>", desc = keys.git.lazygit.desc },
+
       -- send lines etc to terminal
       { keys.term.send_line.key, "<cmd>ToggleTermSendCurrentLine<cr>j", desc = keys.term.send_line.desc },
       { keys.term.send_line.key2, "<cmd>ToggleTermSendCurrentLine<cr>j", desc = keys.term.send_line.desc },
@@ -103,11 +106,16 @@ return {
     },
     config = function(_, opts)
 
+      require("toggleterm").setup(opts)
+
       vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionCustom", function(args)
         custom_send_lines_to_terminal("visual_selection", false, args)
       end, { range = true, nargs = "?" })
 
-      require("toggleterm").setup(opts)
+      local Terminal = require("toggleterm.terminal").Terminal
+      local lazygit = Terminal:new({ cmd = "lazygit", hidden = true })
+
+      vim.api.nvim_create_user_command("TermLazygit", function() lazygit:toggle() end, {})
 
     end
   }

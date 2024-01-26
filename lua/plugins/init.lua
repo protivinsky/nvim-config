@@ -1,3 +1,5 @@
+local keys = require("user.keys")
+
 return {
   "folke/neodev.nvim",            -- completion etc for nvim lua API
   "tpope/vim-sleuth",             -- automatic buffer indentation
@@ -21,7 +23,7 @@ return {
 
     keys = {
       {
-        "<leader>bd",
+        keys.buffer.delete.key,
         function()
           local bd = require("mini.bufremove").delete
           if vim.bo.modified then
@@ -36,10 +38,14 @@ return {
             bd(0)
           end
         end,
-        desc = "Delete Buffer",
+        desc = keys.buffer.delete.desc,
       },
       -- stylua: ignore
-      { "<leader>bD", function() require("mini.bufremove").delete(0, true) end, desc = "Delete Buffer (Force)" },
+      {
+        keys.buffer.force_delete.key,
+        function() require("mini.bufremove").delete(0, true) end,
+        desc = keys.buffer.force_delete.desc,
+      },
     },
   },
 
@@ -49,12 +55,12 @@ return {
     cmd = { "TroubleToggle", "Trouble" },
     opts = { use_diagnostic_signs = true },
     keys = {
-      { "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics (Trouble)" },
-      { "<leader>xX", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics (Trouble)" },
-      { "<leader>xL", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
-      { "<leader>xQ", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
+      { keys.trouble.doc_diag.key, "<cmd>TroubleToggle document_diagnostics<cr>", desc = keys.trouble.doc_diag.desc },
+      { keys.trouble.ws_diag.key, "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = keys.trouble.ws_diag.desc },
+      { keys.trouble.loclist.key, "<cmd>TroubleToggle loclist<cr>", desc = keys.trouble.loclist.desc },
+      { keys.trouble.quickfix.key, "<cmd>TroubleToggle quickfix<cr>", desc = keys.trouble.quickfix.desc },
       {
-        "[q",
+        keys.trouble.prev.key,
         function()
           if require("trouble").is_open() then
             require("trouble").previous({ skip_groups = true, jump = true })
@@ -65,10 +71,10 @@ return {
             end
           end
         end,
-        desc = "Previous trouble/quickfix item",
+        desc = keys.trouble.prev.desc,
       },
       {
-        "]q",
+        keys.trouble.next.key,
         function()
           if require("trouble").is_open() then
             require("trouble").next({ skip_groups = true, jump = true })
@@ -79,7 +85,7 @@ return {
             end
           end
         end,
-        desc = "Next trouble/quickfix item",
+        desc = keys.trouble.next.desc,
       },
     },
   },
@@ -93,12 +99,12 @@ return {
     config = true,
     -- stylua: ignore
     keys = {
-      { "]t", function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
-      { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
-      { "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
-      { "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
-      { "<leader>st", "<cmd>TodoTelescope<cr>", desc = "Todo" },
-      { "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
+      { keys.loc.next_todo.key, function() require("todo-comments").jump_next() end, desc = keys.loc.next_todo.desc },
+      { keys.loc.prev_todo.key, function() require("todo-comments").jump_prev() end, desc = keys.loc.prev_todo.desc },
+      { keys.trouble.todo.key, "<cmd>TodoTrouble<cr>", desc = keys.trouble.todo.desc },
+      { keys.trouble.todo_fix_fixme.key, "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = keys.trouble.todo_fix_fixme.desc },
+      { keys.search.todo.key, "<cmd>TodoTelescope<cr>", desc = keys.search.todo.desc },
+      { keys.search.todo_fix_fixme.key, "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = keys.search.todo_fix_fixme.desc },
     },
   },
   -- OTHER PLUGINS

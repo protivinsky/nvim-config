@@ -20,13 +20,12 @@ M.which.tab = { key = "<leader><tab>", desc = "tabs" }
 
 M.buffer = {}
 M.buffer.delete = { key = "<leader>bd", desc = "Delete buffer" }
+M.buffer.force_delete = { key = "<leader>bD", desc = "Force delete" }
 M.buffer.toggle_pin = { key = "<leader>bp", desc = "Toggle pin" }
 M.buffer.delete_non_pinned = { key = "<leader>bP", desc = "Delete non-pinned" }
 M.buffer.close_others = { key = "<leader>bo", desc = "Delete others" }
 M.buffer.close_right = { key = "<leader>br", desc = "Delete to the right" }
 M.buffer.close_left = { key = "<leader>bl", desc = "Delete to the left" }
-M.buffer.prev = { key = "[b", key2 = "<S-h>", desc = "Prev buffer" }
-M.buffer.next = { key = "]b", key2 = "<S-l>", desc = "Next buffer" }
 -- M.buffer.switch = { key = "<leader>bb", key2 = "<leader>`", desc = "Switch to other buffer" }
 M.buffer.switch = { key = "<leader>,", desc = "Switch to other buffer" }
 
@@ -40,15 +39,6 @@ M.code.replace_spectre = { key = "<leader>sr", desc = "Replace in files (Spectre
 M.code.venv_select = { key = "<leader>cv", desc = "Select virtual env" }
 M.code.venv_cached = { key = "<leader>cV", desc = "Select cached env" }
 M.code.venv_info = { key = "<leader>cI", desc = "Current virtual env" }
--- treesitter
-M.code.next_function_start = { key = "]f" }
-M.code.next_function_end = { key = "]F" }
-M.code.prev_function_start = { key = "[f" }
-M.code.prev_function_end = { key = "[F" }
-M.code.next_class_start = { key = "]c" }
-M.code.next_class_end = { key = "]C" }
-M.code.prev_class_start = { key = "[c" }
-M.code.prev_class_end = { key = "[C" }
 
 M.diff = {}
 M.diff.this = { key = "<leader>dt", desc = "Diff this" }
@@ -73,6 +63,7 @@ M.git.commits = { key = "<leader>gc", desc = "git commits" }
 M.git.status = { key = "<leader>gs", desc = "git status" }
 M.git.stash = { key = "<leader>gS", desc = "git stash" }
 M.git.fugitive = { key = "<leader>gg", desc = "git fugitive" }
+M.git.lazygit = { key = "<leader>gl", desc = "lazygit" }
 
 M.git.stage_hunk = { key = "<leader>hs", desc = "git stage hunk" }
 M.git.reset_hunk = { key = "<leader>hr", desc = "git reset hunk" }
@@ -113,22 +104,8 @@ M.lsp.diag_list = { key = "<leader>lq", desc = "Diagnostic list" }
 M.ui = {}
 M.ui.show_pos = { key = "<leader>ui", desc = "Inspect position" }
 
-M.new_file = { key = "<leader>fn", desc = "New file" }
-M.location_list = { key = "<leader>xl", desc = "Location list" }
-M.quickfix_list = { key = "<leader>xq", desc = "Quickfix list" }
-M.quickfix_prev = { key = "[q", desc = "Previous quickfix" }
-M.quickfix_next = { key = "]q", desc = "Next quickfix" }
-M.jumplist_prev = { key = "[j", desc = "Previous jumplist" }
-M.jumplist_next = { key = "]j", desc = "Next jumplist" }
-
 M.diag = {}
 M.diag.line = { key = "<leader>cd", desc = "Line diagnostics" }
-M.diag.next_diag = { key = "]d", desc = "Next diagnostic" }
-M.diag.prev_diag = { key = "[d", desc = "Prev diagnostic" }
-M.diag.next_error = { key = "]e", desc = "Next error" }
-M.diag.prev_error = { key = "[e", desc = "Prev error" }
-M.diag.next_warning = { key = "]w", desc = "Next warning" }
-M.diag.prev_warning = { key = "[w", desc = "Prev warning" }
 
 M.quit = {}
 M.quit.all = { key = "<leader>qq", desc = "Quit all" }
@@ -176,6 +153,8 @@ M.find.builtin = { key = "<leader>fB", desc = "Built-in pickers" }
 M.find.reloader = { key = "<leader>fR", desc = "Reload lua module" }
 M.find.planets = { key = "<leader>fP", desc = "Planets" }
 
+M.new_file = { key = "<leader>fn", desc = "New file" }
+
 M.search = {}
 M.search.buffer = { key = "<leader>/", key2 = "<leader>sb", desc = "Search buffer" }
 M.search.registers = { key = "<leader>s\"", desc = "Registers" }
@@ -197,6 +176,51 @@ M.search.word_root = { key = "<leader>sw", desc = "Word (root dir)" }
 M.search.grep_string = { key = "<leader>ss", desc = "Grep string" }
 M.search.word_cwd = { key = "<leader>sW", desc = "Word (cwd)" }
 M.search.colorscheme = { key = "<leader>uC", desc = "Colorscheme with preview" }
+M.search.todo = { key = "<leader>st", desc = "Todo" }
+M.search.todo_fix_fixme = { key = "<leader>sT", desc = "Todo / fix / fixme" }
+
+M.trouble = {}
+M.trouble.doc_diag = { key = "<leader>xx", desc = "Document diagnostics (Trouble)" }
+M.trouble.ws_diag = { key = "<leader>xX", desc = "Workspace diagnostics (Trouble)" }
+M.trouble.loclist = { key = "<leader>xL", desc = "Location list (Trouble)" }
+M.trouble.quickfix = { key = "<leader>xQ", desc = "Quickfix list (Trouble)" }
+M.trouble.todo = { key = "<leader>xt", desc = "Todo (Trouble)" }
+M.trouble.todo_fix_fixme = { key = "<leader>xT", desc = "Todo / fix / fixme (Trouble)" }
+
+M.location_list = { key = "<leader>xl", desc = "Location list" }
+M.quickfix_list = { key = "<leader>xq", desc = "Quickfix list" }
+
+-- next
+M.loc = {}
+M.buffer.prev = { key = "[b", key2 = "<S-h>", desc = "Prev buffer" }
+M.buffer.next = { key = "]b", key2 = "<S-l>", desc = "Next buffer" }
+M.diag.next_diag = { key = "]d", desc = "Next diagnostic" }
+M.diag.prev_diag = { key = "[d", desc = "Prev diagnostic" }
+M.diag.next_error = { key = "]e", desc = "Next error" }
+M.diag.prev_error = { key = "[e", desc = "Prev error" }
+M.diag.next_warning = { key = "]w", desc = "Next warning" }
+M.diag.prev_warning = { key = "[w", desc = "Prev warning" }
+-- M.quickfix_prev = { key = "[q", desc = "Previous quickfix" }
+-- M.quickfix_next = { key = "]q", desc = "Next quickfix" }
+M.trouble.prev = { key = "[q", desc = "Previous trouble/quickfix" }
+M.trouble.next = { key = "]q", desc = "Next trouble/quickfix" }
+M.jumplist_prev = { key = "[j", desc = "Previous jumplist" }
+M.jumplist_next = { key = "]j", desc = "Next jumplist" }
+M.loc.next_todo = { key = "]t", desc = "Next todo comment" }
+M.loc.prev_todo = { key = "[t", desc = "Previous todo comment" }
+-- the following are default mappings in diff mode, gitsigns extends them
+M.loc.next_hunk = { key = "]c", desc = "Next diff/hunk" }
+M.loc.prev_hunk = { key = "[c", desc = "Prev diff/hunk" }
+-- treesitter
+M.code.next_function_start = { key = "]f" }
+M.code.next_function_end = { key = "]F" }
+M.code.prev_function_start = { key = "[f" }
+M.code.prev_function_end = { key = "[F" }
+M.code.next_class_start = { key = "]k" }
+M.code.next_class_end = { key = "]K" }
+M.code.prev_class_start = { key = "[k" }
+M.code.prev_class_end = { key = "[K" }
+
 
 
 return M
