@@ -46,8 +46,8 @@ M.diff.off = { key = "<leader>dT", desc = "Diff off" }
 M.diff.get = { key = "<leader>dg", desc = "Diff get" }
 M.diff.put = { key = "<leader>dp", desc = "Diff put" }
 M.debug = {}
-M.debug.toggle_breakpoint = { key = "<leader>b", key2 = "<leader>db", desc = "Debug: Toggle breakpoint" }
-M.debug.set_breakpoint = { key = "<leader>B", key2 = "<leader>dB", desc = "Debug: Set breakpoint" }
+M.debug.toggle_breakpoint = { key = "<leader>db", desc = "Debug: Toggle breakpoint" }
+M.debug.set_breakpoint = { key = "<leader>dB", desc = "Debug: Set breakpoint" }
 M.debug.start = { key = "<leader>dd",  desc = "Debug: Start/continue" }
 M.debug.step_into = { key = "<leader>di", desc = "Debug: Step into" }
 M.debug.step_out = { key = "<leader>do", desc = "Debug: Step out" }
