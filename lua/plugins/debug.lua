@@ -1,19 +1,30 @@
 local keys = require('user.keys')
 
 return {
-  -- NOTE: Yes, you can install new plugins here!
   'mfussenegger/nvim-dap',
-  -- NOTE: And you can specify dependencies as well
   dependencies = {
     -- Creates a beautiful debugger UI
     'rcarriga/nvim-dap-ui',
 
     -- Installs the debug adapters for you
     'williamboman/mason.nvim',
-    'jay-babu/mason-nvim-dap.nvim',
-
-    -- Add your own debuggers here
-    -- 'leoluz/nvim-dap-go',
+    -- mason.nvim integration
+    {
+      "jay-babu/mason-nvim-dap.nvim",
+      dependencies = "mason.nvim",
+      cmd = { "DapInstall", "DapUninstall" },
+      -- opts = {
+      --   -- Makes a best effort to setup the various debuggers with
+      --   -- reasonable debug configurations
+      --   automatic_installation = true,
+      --   -- You'll need to check that you have the required things installed
+      --   -- online, please don't ask me how to install them :)
+      --   ensure_installed = {
+      --     -- Update this to ensure that you have the debuggers for the langs you want
+      --     "debugpy",
+      --   },
+      -- },
+    },
     {
       "mfussenegger/nvim-dap-python",
       -- stylua: ignore
@@ -21,32 +32,17 @@ return {
         { keys.debug.test_method.key, function() require('dap-python').test_method() end, desc = keys.debug.test_method.desc, ft = "python" },
         { keys.debug.test_class.key, function() require('dap-python').test_class() end, desc = keys.debug.test_class.desc, ft = "python" },
       },
-      config = function()
-        -- local path = require("mason-registry").get_package("debugpy"):get_install_path()
-        -- require("dap-python").setup(path .. "/venv/bin/python")
-        require("dap-python").setup("python")
-      end,
     },
   },
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
 
+    require("mason").setup()
     require('mason-nvim-dap').setup {
-      -- Makes a best effort to setup the various debuggers with
-      -- reasonable debug configurations
-      automatic_setup = true,
-
-      -- You can provide additional configuration to the handlers,
-      -- see mason-nvim-dap README for more information
+      automatic_installation = true,
       handlers = {},
-
-      -- You'll need to check that you have the required things installed
-      -- online, please don't ask me how to install them :)
-      ensure_installed = {
-        -- Update this to ensure that you have the debuggers for the langs you want
-        -- 'delve',
-      },
+      ensure_installed = { "debugpy" },
     }
 
     -- Basic debugging keymaps, feel free to change to your liking!
@@ -69,5 +65,7 @@ return {
 
     -- Install golang specific config
     -- require('dap-go').setup()
+    local path = require("mason-registry").get_package("debugpy"):get_install_path()
+    require("dap-python").setup(path .. "/venv/bin/python")
   end,
 }
