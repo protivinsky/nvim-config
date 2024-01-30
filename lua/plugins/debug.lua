@@ -3,8 +3,32 @@ local keys = require('user.keys')
 return {
   'mfussenegger/nvim-dap',
   dependencies = {
-    -- Creates a beautiful debugger UI
-    'rcarriga/nvim-dap-ui',
+    -- fancy UI for the debugger
+    {
+      "rcarriga/nvim-dap-ui",
+      -- stylua: ignore
+      keys = {
+        -- { "<leader>du", function() require("dapui").toggle({ }) end, desc = "Dap UI" },
+        { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
+      },
+      -- opts = {},
+      -- config = function(_, opts)
+      --   -- setup dap config by VsCode launch.json file
+      --   -- require("dap.ext.vscode").load_launchjs()
+      --   local dap = require("dap")
+      --   local dapui = require("dapui")
+      --   dapui.setup(opts)
+      --   dap.listeners.after.event_initialized["dapui_config"] = function()
+      --     dapui.open({})
+      --   end
+      --   dap.listeners.before.event_terminated["dapui_config"] = function()
+      --     dapui.close({})
+      --   end
+      --   dap.listeners.before.event_exited["dapui_config"] = function()
+      --     dapui.close({})
+      --   end
+      -- end,
+    },
 
     -- Installs the debug adapters for you
     'williamboman/mason.nvim',
@@ -24,6 +48,11 @@ return {
       --     "debugpy",
       --   },
       -- },
+    },
+    -- virtual text for the debugger
+    {
+      "theHamsta/nvim-dap-virtual-text",
+      opts = {},
     },
     {
       "mfussenegger/nvim-dap-python",
@@ -62,6 +91,16 @@ return {
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
+
+    vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
+
+    for name, sign in pairs(require("user.util").icons.dap) do
+      sign = type(sign) == "table" and sign or { sign }
+      vim.fn.sign_define(
+        "Dap" .. name,
+        { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] }
+      )
+    end
 
     -- Install golang specific config
     -- require('dap-go').setup()
