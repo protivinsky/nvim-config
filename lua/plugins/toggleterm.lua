@@ -9,6 +9,43 @@ local python_cmd = "${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}python"
 -- local ipython_cmd = "ipython --TerminalInteractiveShell.autoindent=False"
 local ipython_cmd = "${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}ipython --TerminalInteractiveShell.autoindent=False"
 
+local function fix_lines_for_python(lines)
+  -- remove whitespaces at the beginning of the whole block
+  -- remove empty lines
+  local lines2 = {}
+  local first_offset = nil
+
+  for _, line in ipairs(lines) do
+    if not string.match(line, "^%s*$") then
+      if first_offset == nil then
+        first_offset = #(string.match(line, "^ *"))
+      end
+      local norm_line = string.gsub(line, " ", "", first_offset)
+      table.insert(lines2, norm_line)
+    end
+  end
+ 
+  -- insert empty lines to make python REPL happy
+  local current_offset = 0
+  local next_offset = nil
+  local lines3 = {}
+
+  for i, line in ipairs(lines2) do
+    table.insert(lines3, line)
+    if i < #lines2 then
+      next_offset = #(string.match(lines2[i+1], "^ *"))
+      if next_offset < current_offset then
+        table.insert(lines3, string.rep(" ", next_offset))
+      end
+      current_offset = next_offset
+    else
+      table.insert(lines3, "")
+    end
+  end
+
+  return lines3
+end
+
 local function custom_send_lines_to_terminal(selection_type, trim_spaces, cmd_data)
   -- TODO: There is likely a bug - with regular python, it might require empty lines after decrease
   -- in indentation... Though everything is fine in ipython.
@@ -45,23 +82,18 @@ local function custom_send_lines_to_terminal(selection_type, trim_spaces, cmd_da
     return
   end
 
-  local startingSpaces = nil
-  -- local newLines = {}
-  for _, line in ipairs(lines) do
-    local l = trim_spaces and line:gsub("^%s+", ""):gsub("%s+$", "") or line
-    -- FIX FOR PYTHON INDENT TO WORK CORRECTLY
-    if not string.match(l, "^%s*$") then
-      if startingSpaces == nil then
-        _, startingSpaces = string.find(l, "^ *")
-      end
-      local l_norm = string.gsub(l, " ", "", startingSpaces)
-      -- table.insert(newLines, l_norm)
-      toggleterm.exec(l_norm, id)
+  if trim_spaces then
+    for _, line in ipairs(lines) do
+      local l = line:gsub("^%s+", ""):gsub("%s+$", "")
+      toggleterm.exec(l, id)
     end
-    -- print(l)
+  else
+    local fixed_lines = fix_lines_for_python(lines)
+    for _, l in ipairs(fixed_lines) do
+      toggleterm.exec(l, id)
+    end
   end
-  -- toggleterm.exec("%cpaste\n" .. table.concat(newLines, "\n") .. "\n--\n")
-  toggleterm.exec("", id)
+  -- toggleterm.exec("", id)
 
   -- Jump back with the cursor where we were at the beginning of the selection
   vim.api.nvim_set_current_win(current_window)
