@@ -1,0 +1,17 @@
+local keys = require("user.keys")
+
+return {
+  'linux-cultist/venv-selector.nvim',
+  dependencies = { 'neovim/nvim-lspconfig', 'nvim-telescope/telescope.nvim', 'mfussenegger/nvim-dap-python' },
+  opts = {
+    dap_enabled = true,
+  },
+  event = 'VeryLazy', -- Optional: needed only if you want to type `:VenvSelect` without a keymapping
+  keys = {
+    -- Keymap to open VenvSelector to pick a venv.
+    { keys.code.venv_select.key, '<cmd>VenvSelect<cr>' , desc = keys.code.venv_select.desc },
+    -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
+    { keys.code.venv_cached.key, '<cmd>VenvSelectCached<cr>' , desc = keys.code.venv_cached.desc },
+    { keys.code.venv_info.key, "<cmd>VenvSelectCurrent<cr>", desc = keys.code.venv_info.desc },
+  },
+}

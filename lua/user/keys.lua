@@ -129,6 +129,7 @@ M.test.show_output = { key = "<leader>to", desc = "Show output" }
 M.test.toggle_output_panel = { key = "<leader>tO", desc = "Toggle output panel" }
 M.test.stop = { key = "<leader>tS", desc = "Stop" }
 M.test.debug_nearest = { key = "<leader>td", desc = "Debug nearest" }
+M.test.attach_nearest = { key = "<leader>tA", desc = "Attach nearest" }
 
 -- overseer ... should I have a group for it?
 M.task = {}

@@ -102,11 +102,11 @@ return {
             return item
           end,
         },
-        experimental = {
-          ghost_text = {
-            hl_group = "CmpGhostText",
-          },
-        },
+        -- experimental = {
+        --   ghost_text = {
+        --     hl_group = "CmpGhostText",
+        --   },
+        -- },
         sorting = def_sorting,
       }
     end,
@@ -118,28 +118,22 @@ return {
       local cmp = require("cmp")
       cmp.setup(opts)
       -- `/` cmdline setup.
-      cmp.setup.cmdline('/', {
+      cmp.setup.cmdline({ "/", "?" }, {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
-          { name = 'buffer' }
+          { name = "buffer" }
         }
       })
 
       -- `:` cmdline setup.
-      cmp.setup.cmdline(':', {
+      cmp.setup.cmdline(":", {
         mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { 
-            name = 'path',
-          }
-        }, {
-          {
-            name = 'cmdline',
-            option = {
-              ignore_cmds = { 'Man', '!', 'TermExec' }
-            }
-          }
-        })
+        sources = cmp.config.sources({ {
+            name = "path"
+        } }, { {
+            name = "cmdline",
+            option = { ignore_cmds = { "Man", "!", "TermExec" } }
+        } })
       })
     end,
   },
@@ -153,68 +147,8 @@ return {
       panel = { enabled = false },
       suggestion = { enabled = false },
       on_status_update = function() require("lualine").refresh() end,
-    }
-  },
-  {
-    "zbirenbaum/copilot-cmp",
-    config = function()
-        require("copilot_cmp").setup()
-    end,
+    },
+    dependencies = { "zbirenbaum/copilot-cmp" },
   },
 }
-
--- config for cmp mapping from from-scratch by Chris@Machine
-
--- local check_backspace = function()
---   local col = vim.fn.col(".") - 1
---   return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
--- end
---
--- mapping = {
---   ["<c-k>"] = cmp.mapping.select_prev_item(),
---   ["<c-j>"] = cmp.mapping.select_next_item(),
---   ["<c-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
---   ["<c-f>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
---   ["<c-space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
---   ["<c-y>"] = cmp.config.disable, -- specify `cmp.config.disable` if you want to remove the default `<c-y>` mapping.
---   ["<c-e>"] = cmp.mapping({
---     i = cmp.mapping.abort(),
---     c = cmp.mapping.close(),
---   }),
---   -- accept currently selected item. if none selected, `select` first item.
---   -- set `select` to `false` to only confirm explicitly selected items.
---   ["<cr>"] = cmp.mapping.confirm({ select = false }),
---   -- i hate the default behavior of tab and cr
---   ["tab"] = nil,
---   ["<c-tab>"] = cmp.mapping(function(fallback)
---     if cmp.visible() then
---       cmp.select_next_item()
---     elseif require("copilot.suggestion").is_visible() then
---       require("copilot.suggestion").accept()
---     -- elseif luasnip.expandable() then
---     --   luasnip.expand()
---     -- elseif luasnip.expand_or_jumpable() then
---     --   luasnip.expand_or_jump()
---     elseif check_backspace() then
---       fallback()
---     else
---       fallback()
---     end
---   end, {
---     "i",
---     "s",
---   }),
---   ["<s-tab>"] = cmp.mapping(function(fallback)
---     if cmp.visible() then
---       cmp.select_prev_item()
---     -- elseif luasnip.jumpable(-1) then
---     --   luasnip.jump(-1)
---     else
---       fallback()
---     end
---   end, {
---     "i",
---     "s",
---   }),
--- },
 
