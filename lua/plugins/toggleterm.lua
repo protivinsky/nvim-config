@@ -5,9 +5,14 @@ local keys = require("user.keys")
 -- see https://github.com/LunarVim/Neovim-from-scratch/blob/master/lua/user/toggleterm.lua
 --
 -- local python_cmd = "python"
-local python_cmd = "${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}python"
 -- local ipython_cmd = "ipython --TerminalInteractiveShell.autoindent=False"
-local ipython_cmd = "${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}ipython --TerminalInteractiveShell.autoindent=False"
+-- local python_cmd = "${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}python"
+-- local ipython_cmd = "${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}ipython --TerminalInteractiveShell.autoindent=False"
+
+local python_path = function() return require("venv-selector").get_active_path() or "python" end
+local python_or_ipython = "python"
+-- local python_repl = nil
+-- local python_shell = nil
 
 local function fix_lines_for_python(lines)
   -- remove whitespaces at the beginning of the whole block
@@ -24,7 +29,11 @@ local function fix_lines_for_python(lines)
       table.insert(lines2, norm_line)
     end
   end
- 
+
+  if python_or_ipython == "ipython" then
+    return lines2
+  end
+
   -- insert empty lines to make python REPL happy
   local current_offset = 0
   local next_offset = nil
@@ -123,11 +132,30 @@ return {
       { keys.term.open_horizontal.key, "<cmd>ToggleTerm direction=horizontal size=40<cr>", desc = keys.term.open_horizontal.desc },
 
       -- open python terminal
-      { keys.term.open_python.key, "<cmd>TermExec direction=vertical size=120 cmd='" .. python_cmd .. "'<cr>", desc = keys.term.open_python.desc },
-      { keys.term.open_ipython.key, "<cmd>TermExec direction=vertical size=120 cmd='" .. ipython_cmd .. "'<cr>", desc = keys.term.open_ipython.desc },
+      {
+        keys.term.open_python.key,
+        function()
+          python_or_ipython = "python"
+          require("toggleterm").exec_command("cmd='" .. python_path() .. "' direction=vertical size=120")
+        end,
+        desc = keys.term.open_python.desc
+      },
+      {
+        keys.term.open_ipython.key,
+        function()
+          python_or_ipython = "ipython"
+          require("toggleterm").exec_command(
+            "cmd='" .. python_path() .. " -m IPython --TerminalInteractiveShell.autoindent=False' direction=vertical size=120"
+          )
+        end,
+        desc = keys.term.open_ipython.desc
+      },
       {
         keys.term.run_in_python.key,
-        "<cmd>w<cr>:9TermExec direction=vertical size=120 cmd='" .. python_cmd .. " %'<cr>",
+        function()
+          vim.cmd("write")
+          require("toggleterm").exec_command("cmd='" .. python_path() .. " %' direction=vertical size=120")
+        end,
         desc = keys.term.run_in_python.desc,
       },
 

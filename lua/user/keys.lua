@@ -45,14 +45,27 @@ M.diff.this = { key = "<leader>dt", desc = "Diff this" }
 M.diff.off = { key = "<leader>dT", desc = "Diff off" }
 M.diff.get = { key = "<leader>dg", desc = "Diff get" }
 M.diff.put = { key = "<leader>dp", desc = "Diff put" }
+
 M.debug = {}
 M.debug.toggle_breakpoint = { key = "<leader>db", desc = "Debug: Toggle breakpoint" }
 M.debug.set_breakpoint = { key = "<leader>dB", desc = "Debug: Set breakpoint" }
 M.debug.start = { key = "<leader>dd",  desc = "Debug: Start/continue" }
+M.debug.run_to_cursor = { key = "<leader>dD",  desc = "Debug: Run to cursor" }
+M.debug.run_with_args = { key = "<leader>da",  desc = "Debug: Run with args" }
+M.debug.goto_ = { key = "<leader>dG",  desc = "Debug: Go to" }
 M.debug.step_into = { key = "<leader>di", desc = "Debug: Step into" }
 M.debug.step_out = { key = "<leader>do", desc = "Debug: Step out" }
-M.debug.step_over = { key = "<leader>dv", desc = "Debug: Step over" }
+M.debug.step_over = { key = "<leader>dO", desc = "Debug: Step over" }
+M.debug.up = { key = "<leader>dk", desc = "Debug: Up" }
+M.debug.down = { key = "<leader>dj", desc = "Debug: Down" }
+M.debug.run_last = { key = "<leader>dl", desc = "Debug: Run last" }
+M.debug.pause = { key = "<leader>dP", desc = "Debug: Pause" }
+M.debug.session = { key = "<leader>ds", desc = "Debug: Session" }
+M.debug.terminate = { key = "<leader>dq", desc = "Debug: Terminate" }
+M.debug.widgets = { key = "<leader>dw", desc = "Debug: Widgets" }
+M.debug.toggle_repl = { key = "<leader>dr", desc = "Debug: Toggle REPL" }
 M.debug.toggle_ui = { key = "<leader>du", desc = "Debug: Toggle UI" }
+M.debug.eval = { key = "<leader>de",  desc = "Debug: Eval" }
 M.debug.test_method = { key = "<leader>dm", desc = "Debug: Test method" }
 M.debug.test_class = { key = "<leader>dc", desc = "Debug: Test class" }
 
