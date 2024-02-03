@@ -12,7 +12,15 @@ return {
   { "nvim-tree/nvim-web-devicons", lazy = true },
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  {
+    'numToStr/Comment.nvim',
+    event = "VeryLazy",
+    config = function()
+      require("Comment").setup()
+      local ft = require("Comment.ft")
+      ft.set("openscad", { "//%s", "/*%s*/" })
+    end
+  },
 
   -- Add indentation guides even on blank lines, see `:help ibl`
   { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {}  },

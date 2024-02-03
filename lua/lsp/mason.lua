@@ -12,6 +12,7 @@ local servers = {
   "pyright",
   "bashls",
   "jsonls",
+  "openscad_lsp",
   -- "yamlls",
   -- "sumneko_lua",
 }
