@@ -51,6 +51,8 @@ local function lsp_keymaps(bufnr)
   nmap(keys.lsp.rename.key, vim.lsp.buf.rename, keys.lsp.rename.desc)
   nmap(keys.lsp.sig_help.key, vim.lsp.buf.signature_help, keys.lsp.sig_help.desc)
   nmap(keys.lsp.diag_list.key, vim.diagnostic.setloclist, keys.lsp.diag_list.desc)
+  -- TODO: make this filetype dependent - set it up only for clangd LSP server
+  nmap("<leader>cR", "<cmd>ClangdSwitchSourceHeader<cr>", "Switch Source/Header (C/C++)")
 end
 
 local on_attach = function(client, bufnr)
@@ -106,9 +108,6 @@ return {
           },
         },
         clangd = {
-          keys = {
-            { "<leader>cR", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
-          },
           root_dir = function(fname)
             return require("lspconfig.util").root_pattern(
               "Makefile",
