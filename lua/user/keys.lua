@@ -27,7 +27,7 @@ M.buffer.close_others = { key = "<leader>bo", desc = "Delete others" }
 M.buffer.close_right = { key = "<leader>br", desc = "Delete to the right" }
 M.buffer.close_left = { key = "<leader>bl", desc = "Delete to the left" }
 -- M.buffer.switch = { key = "<leader>bb", key2 = "<leader>`", desc = "Switch to other buffer" }
-M.buffer.switch = { key = "<leader>,", desc = "Switch to other buffer" }
+M.buffer.switch = { key = "<leader>bb", desc = "Switch to other buffer" }
 
 
 M.code = {}
@@ -160,7 +160,7 @@ M.term.send_selection = { key = "<leader>r", key2 = "<A-r>", desc = "Send select
 
 -- telescope
 M.find = {}
-M.find.buffers = { key = "<leader>bb", key2 = "<leader>fb", desc = "Buffers" }
+M.find.buffers = { key = "<leader>,", key2 = "<leader>fb", desc = "Buffers" }
 M.find.oldfiles = { key = "<leader>?", key2 = "<leader>fr", desc = "Recently opened files" }
 M.find.files = { key = "<leader><space>", key2 = "<leader>ff", desc = "Find files" }
 M.find.config = { key = "<leader>fc", desc = "Find config files" }

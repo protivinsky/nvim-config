@@ -55,7 +55,7 @@ return {
       },
     },
     keys = {
-      { keys.find.buffers.key, function() require("telescope.builtin").buffers({ sort_mru = true, sort_lastused = true, ignore_current_buffer = true}) end, desc = keys.find.buffers.desc },
+      { keys.find.buffers.key, function() require("telescope.builtin").buffers({ sort_mru = true, sort_lastused = true }) end, desc = keys.find.buffers.desc },
       { keys.search.buffer.key, "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = keys.search.buffer.key },
       { keys.find.oldfiles.key, "<cmd>Telescope oldfiles<cr>", desc = keys.find.oldfiles.desc },
       { keys.search.command_history.key, "<cmd>Telescope command_history<cr>", desc = keys.search.command_history.desc },
