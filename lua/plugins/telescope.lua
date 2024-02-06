@@ -138,11 +138,11 @@ return {
       "nvim-lua/plenary.nvim", -- only needed because it's a dependency of telescope
     },
     opts = {
-      -- mappings = {
-      --   i = {
-      --     ["<CR>"] = { action = require("toggleterm-manager").actions.toggle_term, exit_on_action = true },
-      --   }
-      -- },
+      mappings = {
+        i = {
+          ["<CR>"] = { exit_on_action = true },
+        }
+      },
     },
   }
 }
