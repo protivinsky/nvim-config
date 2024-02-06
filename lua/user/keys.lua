@@ -150,10 +150,11 @@ M.task.run = { key = "<leader>ta", desc = "Run task" }
 
 -- toggleterm
 M.term = {}
-M.term.open_horizontal = { key = "<leader>cs", desc = "Open horizontal terminal" }
-M.term.open_vertical = { key = "<leader>ct", desc = "Open vertical terminal" }
-M.term.open_python = { key = "<leader>cp", desc = "Open python terminal" }
-M.term.open_ipython = { key = "<leader>ci", desc = "Open ipython terminal" }
+M.term.new_horizontal = { key = "<leader>cs", desc = "New horizontal terminal" }
+M.term.new_vertical = { key = "<leader>ct", desc = "New vertical terminal" }
+M.term.new_float = { key = "<leader>cf", desc = "New float terminal" }
+M.term.start_python = { key = "<leader>cp", desc = "Start python terminal" }
+M.term.start_ipython = { key = "<leader>ci", desc = "Start ipython terminal" }
 M.term.run_in_python = { key = "<leader>cP", desc = "Save and run in python" }
 M.term.send_line = { key = "<leader>r", key2 = "<A-r>", desc = "Send line to terminal" }
 M.term.send_selection = { key = "<leader>r", key2 = "<A-r>", desc = "Send selection to terminal" }
@@ -166,6 +167,7 @@ M.find.files = { key = "<leader><space>", key2 = "<leader>ff", desc = "Find file
 M.find.config = { key = "<leader>fc", desc = "Find config files" }
 M.find.git_files = { key = "<leader>fg", desc = "Find git files" }
 M.find.jumplist = { key = "<leader>fj", desc = "Jumplist" }
+M.find.terminal = { key = "<leader>ft", desc = "Terminal" }
 M.find.treesitter = { key = "<leader>fT", desc = "Treesitter" }
 M.find.builtin = { key = "<leader>fB", desc = "Built-in pickers" }
 M.find.reloader = { key = "<leader>fR", desc = "Reload lua module" }

@@ -109,6 +109,15 @@ local function custom_send_lines_to_terminal(selection_type, trim_spaces, cmd_da
   vim.api.nvim_win_set_cursor(current_window, { start_line, start_col })
 end
 
+local function last_terminal_id()
+  local is_open, term_wins = require("toggleterm.ui").find_open_windows()
+  if is_open then return term_wins[1].term_id end
+  local toggled_id = require("toggleterm.terminal").get_toggled_id()
+  if toggled_id then return toggled_id end
+  local last_focused = require("toggleterm.terminal").get_last_focused()
+  return last_focused and last_focused.id or 1
+end
+
 
 return {
   {
@@ -128,33 +137,55 @@ return {
     },
     keys = {
       -- open terminal
-      { keys.term.open_vertical.key, "<cmd>ToggleTerm direction=vertical size=120<cr>", desc = keys.term.open_vertical.desc },
-      { keys.term.open_horizontal.key, "<cmd>ToggleTerm direction=horizontal size=40<cr>", desc = keys.term.open_horizontal.desc },
+      -- { keys.term.open_vertical.key, "<cmd>ToggleTerm direction=vertical size=120<cr>", desc = keys.term.open_vertical.desc },
+      -- { keys.term.open_horizontal.key, "<cmd>ToggleTerm direction=horizontal size=40<cr>", desc = keys.term.open_horizontal.desc },
+      {
+        keys.term.new_vertical.key,
+        function()
+          require("toggleterm.terminal").Terminal:new({ direction = "vertical" }):toggle(120)
+        end,
+        desc = keys.term.new_vertical.desc
+      },
+      {
+        keys.term.new_horizontal.key,
+        function()
+          require("toggleterm.terminal").Terminal:new({ direction = "horizontal" }):toggle(20)
+        end,
+        desc = keys.term.new_horizontal.desc
+      },
+      {
+        keys.term.new_float.key,
+        function()
+          require("toggleterm.terminal").Terminal:new({ direction = "float" }):toggle()
+        end,
+        desc = keys.term.new_float.desc
+      },
 
       -- open python terminal
       {
-        keys.term.open_python.key,
+        keys.term.start_python.key,
         function()
           python_or_ipython = "python"
-          require("toggleterm").exec_command("cmd='" .. python_path() .. "' direction=vertical size=120")
+          require("toggleterm").exec_command("cmd='" .. python_path() .. "'", last_terminal_id())
         end,
-        desc = keys.term.open_python.desc
+        desc = keys.term.start_python.desc
       },
       {
-        keys.term.open_ipython.key,
+        keys.term.start_ipython.key,
         function()
           python_or_ipython = "ipython"
           require("toggleterm").exec_command(
-            "cmd='" .. python_path() .. " -m IPython --TerminalInteractiveShell.autoindent=False' direction=vertical size=120"
+            "cmd='" .. python_path() .. " -m IPython --TerminalInteractiveShell.autoindent=False'",
+            last_terminal_id()
           )
         end,
-        desc = keys.term.open_ipython.desc
+        desc = keys.term.start_ipython.desc
       },
       {
         keys.term.run_in_python.key,
         function()
           vim.cmd("write")
-          require("toggleterm").exec_command("cmd='" .. python_path() .. " %' direction=vertical size=120")
+          require("toggleterm").exec_command("cmd='" .. python_path() .. " %'", last_terminal_id())
         end,
         desc = keys.term.run_in_python.desc,
       },
@@ -163,11 +194,46 @@ return {
       { keys.git.lazygit.key, "<cmd>TermLazygit<cr>", desc = keys.git.lazygit.desc },
 
       -- send lines etc to terminal
-      { keys.term.send_line.key, "<cmd>ToggleTermSendCurrentLine<cr>j", desc = keys.term.send_line.desc },
-      { keys.term.send_line.key2, "<cmd>ToggleTermSendCurrentLine<cr>j", desc = keys.term.send_line.desc },
-      { keys.term.send_line.key2, "<cmd>ToggleTermSendCurrentLine<cr>", desc = keys.term.send_line.desc, mode = "i" },
-      { keys.term.send_selection.key, ":ToggleTermSendVisualSelectionCustom<CR>'>", desc = keys.term.send_selection.desc, mode = "x" },
-      { keys.term.send_selection.key2, ":ToggleTermSendVisualSelectionCustom<CR>'>", desc = keys.term.send_selection.desc, mode = "x" },
+      {
+        keys.term.send_line.key,
+        function()
+          require("toggleterm").send_lines_to_terminal("single_line", true, { args = last_terminal_id() })
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('j', true, true, true), 'n', false)
+        end,
+        "<cmd>ToggleTermSendCurrentLine<cr>j",
+        desc = keys.term.send_line.desc
+      },
+      {
+        keys.term.send_line.key2,
+        function()
+          require("toggleterm").send_lines_to_terminal("single_line", true, { args = last_terminal_id() })
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('j', true, true, true), 'n', false)
+        end,
+        desc = keys.term.send_line.desc
+      },
+      {
+        keys.term.send_line.key2,
+        function()
+          require("toggleterm").send_lines_to_terminal("single_line", true, { args = last_terminal_id() })
+        end,
+        desc = keys.term.send_line.desc, mode = "i"
+      },
+      {
+        keys.term.send_selection.key,
+        function()
+          custom_send_lines_to_terminal("visual_selection", false, { args = last_terminal_id() })
+          vim.cmd("normal! `>")
+        end,
+        desc = keys.term.send_selection.desc, mode = "x" 
+      },
+      {
+        keys.term.send_selection.key2,
+        function()
+          custom_send_lines_to_terminal("visual_selection", false, { args = last_terminal_id() })
+          vim.cmd("normal! `>")
+        end,
+        desc = keys.term.send_selection.desc, mode = "x"
+      },
     },
     config = function(_, opts)
 
@@ -178,7 +244,8 @@ return {
       end, { range = true, nargs = "?" })
 
       local Terminal = require("toggleterm.terminal").Terminal
-      local lazygit = Terminal:new({ cmd = "lazygit", hidden = true })
+      -- local lazygit = Terminal:new({ cmd = "lazygit", hidden = true, count = 9 })
+      local lazygit = Terminal:new({ cmd = "lazygit", count = 9 })
 
       vim.api.nvim_create_user_command("TermLazygit", function() lazygit:toggle() end, {})
 

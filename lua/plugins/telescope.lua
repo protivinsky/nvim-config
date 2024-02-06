@@ -114,4 +114,35 @@ return {
       vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
     end
   },
+
+  -- {
+  --   "dimaportenko/telescope-toggleterm.nvim",
+  --   keys = { { keys.find.terminal.key, "<cmd>Telescope toggleterm<cr>", desc = keys.find.terminal.desc } },
+  --   dependencies = {
+  --     "akinsho/nvim-toggleterm.lua",
+  --     "nvim-telescope/telescope.nvim",
+  --     "nvim-lua/popup.nvim",
+  --     "nvim-lua/plenary.nvim",
+  --   },
+  --   config = function()
+  --     require("telescope").load_extension("toggleterm")
+  --   end
+  -- },
+ 
+  {
+    "ryanmsnyder/toggleterm-manager.nvim",
+    keys = { { keys.find.terminal.key, "<cmd>Telescope toggleterm_manager<cr>", desc = keys.find.terminal.desc } },
+    dependencies = {
+      "akinsho/nvim-toggleterm.lua",
+      "nvim-telescope/telescope.nvim",
+      "nvim-lua/plenary.nvim", -- only needed because it's a dependency of telescope
+    },
+    opts = {
+      -- mappings = {
+      --   i = {
+      --     ["<CR>"] = { action = require("toggleterm-manager").actions.toggle_term, exit_on_action = true },
+      --   }
+      -- },
+    },
+  }
 }
