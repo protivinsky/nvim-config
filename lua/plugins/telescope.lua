@@ -63,6 +63,7 @@ return {
 
       -- find
       { keys.find.files.key2, "<cmd>Telescope find_files<cr>", desc = keys.find.files.desc },
+      { keys.find.files_no_ignore.key, "<cmd>Telescope find_files no_ignore=true<cr>", desc = keys.find.files_no_ignore.desc },
       { keys.find.config.key, function() require("telescope.builtin").find_files({ cwd = vim.fn.stdpath("config") }) end, desc = keys.find.config.desc },
       { keys.find.buffers.key2, function() require("telescope.builtin").buffers({ sort_mru = true, sort_lastused = true, ignore_current_buffer = true}) end, desc = keys.find.buffers.desc },
       { keys.find.oldfiles.key2, "<cmd>Telescope oldfiles<cr>", desc = keys.find.oldfiles.desc },

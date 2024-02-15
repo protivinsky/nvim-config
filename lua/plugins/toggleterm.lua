@@ -134,6 +134,7 @@ return {
         border = "curved",
       },
       winbar = { enabled = true },
+      close_on_exit = false,
     },
     keys = {
       -- open terminal

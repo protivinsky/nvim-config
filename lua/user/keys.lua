@@ -27,7 +27,7 @@ M.buffer.close_others = { key = "<leader>bo", desc = "Delete others" }
 M.buffer.close_right = { key = "<leader>br", desc = "Delete to the right" }
 M.buffer.close_left = { key = "<leader>bl", desc = "Delete to the left" }
 -- M.buffer.switch = { key = "<leader>bb", key2 = "<leader>`", desc = "Switch to other buffer" }
-M.buffer.switch = { key = "<leader>bb", desc = "Switch to other buffer" }
+M.buffer.switch = { key = "<leader>,", desc = "Switch to other buffer" }
 
 
 M.code = {}
@@ -58,7 +58,8 @@ M.debug.step_out = { key = "<leader>do", desc = "Debug: Step out" }
 M.debug.step_over = { key = "<leader>dO", desc = "Debug: Step over" }
 M.debug.up = { key = "<leader>dk", desc = "Debug: Up" }
 M.debug.down = { key = "<leader>dj", desc = "Debug: Down" }
-M.debug.run_last = { key = "<leader>dl", desc = "Debug: Run last" }
+M.debug.launch_json = { key = "<leader>dl", desc = "Debug: launch.json" }
+M.debug.run_last = { key = "<leader>dL", desc = "Debug: Run last" }
 M.debug.pause = { key = "<leader>dP", desc = "Debug: Pause" }
 M.debug.session = { key = "<leader>ds", desc = "Debug: Session" }
 M.debug.terminate = { key = "<leader>dq", desc = "Debug: Terminate" }
@@ -75,7 +76,7 @@ M.git.blame = { key = "<leader>gB", desc = "git blame" }
 M.git.commits = { key = "<leader>gc", desc = "git commits" }
 M.git.status = { key = "<leader>gs", desc = "git status" }
 M.git.stash = { key = "<leader>gS", desc = "git stash" }
-M.git.fugitive = { key = "<leader>gg", desc = "git fugitive" }
+M.git.neogit = { key = "<leader>gg", desc = "git fugitive" }
 M.git.lazygit = { key = "<leader>gl", desc = "lazygit" }
 
 M.git.stage_hunk = { key = "<leader>hs", desc = "git stage hunk" }
@@ -161,9 +162,10 @@ M.term.send_selection = { key = "<leader>r", key2 = "<A-r>", desc = "Send select
 
 -- telescope
 M.find = {}
-M.find.buffers = { key = "<leader>,", key2 = "<leader>fb", desc = "Buffers" }
+M.find.buffers = { key = "<leader>bb", key2 = "<leader>fb", desc = "Buffers" }
 M.find.oldfiles = { key = "<leader>?", key2 = "<leader>fr", desc = "Recently opened files" }
 M.find.files = { key = "<leader><space>", key2 = "<leader>ff", desc = "Find files" }
+M.find.files_no_ignore = { key = "<leader>fF", desc = "Find files" }
 M.find.config = { key = "<leader>fc", desc = "Find config files" }
 M.find.git_files = { key = "<leader>fg", desc = "Find git files" }
 M.find.jumplist = { key = "<leader>fj", desc = "Jumplist" }

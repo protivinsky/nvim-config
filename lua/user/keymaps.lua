@@ -99,7 +99,7 @@ map("n", keys.trouble.prev.key, vim.cmd.cprev, { desc = keys.trouble.prev.desc }
 map("n", keys.trouble.next.key, vim.cmd.cnext, { desc = keys.trouble.next.desc })
 
 -- git
-map("n", keys.git.fugitive.key, "<cmd>G<cr>", { desc = keys.git.fugitive.desc })
+map("n", keys.git.neogit.key, "<cmd>Neogit kind=auto<cr>", { desc = keys.git.neogit.desc })
 map("n", keys.git.blame.key, "<cmd>Git blame<cr>", { desc = keys.git.blame.desc })
 
 map("n", keys.diff.this.key, "<cmd>diffthis<cr>", { desc = keys.diff.this.desc })
@@ -138,10 +138,10 @@ map("n", keys.ui.show_pos.key, vim.show_pos, { desc = keys.ui.show_pos.desc })
 
 -- Terminal Mappings
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
-map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to left window" })
-map("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to lower window" })
-map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to upper window" })
-map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to right window" })
+map("t", "<C-h>", "<cmd>lua require('tmux').move_left()<cr>", { desc = "Go to left window" })
+map("t", "<C-j>", "<cmd>lua require('tmux').move_bottom()<cr>", { desc = "Go to lower window" })
+map("t", "<C-k>", "<cmd>lua require('tmux').move_top()<cr>", { desc = "Go to upper window" })
+map("t", "<C-l>", "<cmd>lua require('tmux').move_right()<cr>", { desc = "Go to right window" })
 map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 

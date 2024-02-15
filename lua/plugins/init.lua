@@ -7,6 +7,9 @@ return {
   "nvim-lua/plenary.nvim",        -- handy lua functions other plugins use
   "RRethy/vim-illuminate",
   "sindrets/diffview.nvim",
+    -- Git related plugins
+  'tpope/vim-fugitive',
+  'tpope/vim-rhubarb',
 
   -- some other plugins require icons
   { "nvim-tree/nvim-web-devicons", lazy = true },
