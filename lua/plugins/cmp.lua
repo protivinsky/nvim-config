@@ -148,7 +148,7 @@ return {
       suggestion = { enabled = false },
       on_status_update = function() require("lualine").refresh() end,
     },
-    dependencies = { "zbirenbaum/copilot-cmp" },
+    dependencies = { "zbirenbaum/copilot-cmp", config = true },
   },
 }
 
