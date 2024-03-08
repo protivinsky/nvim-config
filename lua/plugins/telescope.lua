@@ -53,6 +53,7 @@ return {
           return vim.fn.executable 'make' == 1
         end,
       },
+      { "nvim-telescope/telescope-live-grep-args.nvim" },
     },
     keys = {
       { keys.find.buffers.key, function() require("telescope.builtin").buffers({ sort_mru = true, sort_lastused = true }) end, desc = keys.find.buffers.desc },
@@ -82,6 +83,11 @@ return {
 
       -- search
       { keys.search.registers.key, "<cmd>Telescope registers<cr>", desc = keys.search.registers.desc },
+      {
+        keys.search.live_grep_args.key,
+        function() require("telescope").extensions.live_grep_args.live_grep_args() end,
+        desc = keys.search.live_grep_args.desc
+      },
       { keys.search.autocommands.key, "<cmd>Telescope autocommands<cr>", desc = keys.search.autocommands.desc },
       { keys.search.buffer.key2, "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = keys.search.buffer.desc },
       { keys.search.command_history.key2, "<cmd>Telescope command_history<cr>", desc = keys.search.command_history.desc },
@@ -112,6 +118,7 @@ return {
     config = function(_, opts)
       require("telescope").setup(opts)
       require("telescope").load_extension("fzf")
+      require("telescope").load_extension("live_grep_args")
       vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
     end
   },

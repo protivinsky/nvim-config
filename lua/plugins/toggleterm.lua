@@ -29,6 +29,7 @@ local function fix_lines_for_python(lines)
       table.insert(lines2, norm_line)
     end
   end
+  table.insert(lines2, "")
 
   if python_or_ipython == "ipython" then
     return lines2
@@ -47,8 +48,6 @@ local function fix_lines_for_python(lines)
         table.insert(lines3, string.rep(" ", next_offset))
       end
       current_offset = next_offset
-    else
-      table.insert(lines3, "")
     end
   end
 
@@ -176,7 +175,7 @@ return {
         function()
           python_or_ipython = "ipython"
           require("toggleterm").exec_command(
-            "cmd='" .. python_path() .. " -m IPython --TerminalInteractiveShell.autoindent=False'",
+            "cmd='" .. python_path() .. " -m IPython --TerminalInteractiveShell.autoindent=False --InteractiveShell.confirm_exit=False'",
             last_terminal_id()
           )
         end,

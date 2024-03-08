@@ -78,6 +78,8 @@ M.git.status = { key = "<leader>gs", desc = "git status" }
 M.git.stash = { key = "<leader>gS", desc = "git stash" }
 M.git.neogit = { key = "<leader>gg", desc = "git fugitive" }
 M.git.lazygit = { key = "<leader>gl", desc = "lazygit" }
+M.git.diffview_open = { key = "<leader>gd", desc = "diffview open" }
+M.git.diffview_close = { key = "<leader>gD", desc = "diffview close" }
 
 M.git.stage_hunk = { key = "<leader>hs", desc = "git stage hunk" }
 M.git.reset_hunk = { key = "<leader>hr", desc = "git reset hunk" }
@@ -180,7 +182,8 @@ M.new_file = { key = "<leader>fn", desc = "New file" }
 M.search = {}
 M.search.buffer = { key = "<leader>/", key2 = "<leader>sb", desc = "Search buffer" }
 M.search.registers = { key = "<leader>s\"", desc = "Registers" }
-M.search.autocommands = { key = "<leader>sa", desc = "Autocommands" }
+M.search.live_grep_args = { key = "<leader>sa", desc = "Live grep with args" }
+M.search.autocommands = { key = "<leader>sA", desc = "Autocommands" }
 M.search.command_history = { key = "<leader>:", key2 = "<leader>sc", desc = "Command history" }
 M.search.commands = { key = "<leader>sC", desc = "Commands" }
 M.search.doc_diag = { key = "<leader>sd", desc = "Document diagnostics" }

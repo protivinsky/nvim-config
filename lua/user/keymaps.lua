@@ -16,10 +16,18 @@ map("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
 
 -- TMUX <-> VIM NAVIGATION
 local tmux = require("tmux")
-vim.keymap.set("n", "<C-k>", tmux.move_top, {})
-vim.keymap.set("n", "<C-j>", tmux.move_bottom, {})
-vim.keymap.set("n", "<C-h>", tmux.move_left, {})
-vim.keymap.set("n", "<C-l>", tmux.move_right, {})
+map("n", "<C-k>", tmux.move_top, {})
+map("n", "<C-j>", tmux.move_bottom, {})
+map("n", "<C-h>", tmux.move_left, {})
+map("n", "<C-l>", tmux.move_right, {})
+-- map("i", "<esc><C-k>", tmux.move_top, {})
+-- map("i", "<esc><C-j>", tmux.move_bottom, {})
+-- map("i", "<esc><C-h>", tmux.move_left, {})
+-- map("i", "<esc><C-l>", tmux.move_right, {})
+-- map("v", "<esc><C-k>", tmux.move_top, {})
+-- map("v", "<esc><C-j>", tmux.move_bottom, {})
+-- map("v", "<esc><C-h>", tmux.move_left, {})
+-- map("v", "<esc><C-l>", tmux.move_right, {})
 
 
 -- Resize window using <ctrl> arrow keys

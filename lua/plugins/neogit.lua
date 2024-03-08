@@ -1,9 +1,18 @@
+local keys = require("user.keys")
+
 return {
   {
     "NeogitOrg/neogit",
     dependencies = {
       "nvim-lua/plenary.nvim",         -- required
-      "sindrets/diffview.nvim",        -- optional - Diff integration
+      {
+        "sindrets/diffview.nvim",
+        keys = {
+          { keys.git.diffview_open.key, "<cmd>DiffviewOpen<cr>", desc = keys.git.diffview_open.desc },
+          { keys.git.diffview_close.key, "<cmd>DiffviewClose<cr>", desc = keys.git.diffview_close.desc },
+        },
+        config = true,
+      },
       "nvim-telescope/telescope.nvim", -- optional
     },
     config = true
