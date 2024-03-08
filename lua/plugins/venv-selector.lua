@@ -8,9 +8,17 @@ return {
   },
   keys = {
     -- Keymap to open VenvSelector to pick a venv.
-    { keys.code.venv_select.key, '<cmd>VenvSelect<cr>' , desc = keys.code.venv_select.desc },
+    {
+      keys.code.venv_select.key,
+      '<cmd>VenvSelect<cr><cmd>LspRestart<cr>',
+      desc = keys.code.venv_select.desc
+    },
     -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
-    { keys.code.venv_cached.key, '<cmd>VenvSelectCached<cr>' , desc = keys.code.venv_cached.desc },
+    {
+      keys.code.venv_cached.key,
+      '<cmd>VenvSelectCached<cr><cmd>LspRestart<cr>',
+      desc = keys.code.venv_cached.desc
+    },
     { keys.code.venv_info.key, "<cmd>VenvSelectCurrent<cr>", desc = keys.code.venv_info.desc },
   }
 }
