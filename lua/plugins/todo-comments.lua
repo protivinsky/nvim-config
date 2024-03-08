@@ -17,6 +17,6 @@ return {
     { keys.trouble.todo.key, "<cmd>TodoTrouble<cr>", desc = keys.trouble.todo.desc },
     { keys.trouble.todo_fix_fixme.key, "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = keys.trouble.todo_fix_fixme.desc },
     { keys.search.todo.key, "<cmd>TodoTelescope<cr>", desc = keys.search.todo.desc },
-    { keys.search.todo_fix_fixme.key, "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = keys.search.todo_fix_fixme.desc },
+    { keys.search.todo_fix_fixme.key, "<cmd>TodoTelescope<cr>", desc = keys.search.todo_fix_fixme.desc },
   },
 }
