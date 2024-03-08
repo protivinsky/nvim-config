@@ -6,7 +6,10 @@ return {
   "folke/todo-comments.nvim",
   cmd = { "TodoTrouble", "TodoTelescope" },
   event = "VeryLazy",
-  config = true,
+  opts = {
+    highlight = { pattern = [[.*<(KEYWORDS)(\([a-zA-Z_]+\))?\s*:]] },
+    search = { pattern = [[\b(KEYWORDS)(\([^)]*\))?:]] },
+  },
   -- stylua: ignore
   keys = {
     { keys.loc.next_todo.key, function() require("todo-comments").jump_next() end, desc = keys.loc.next_todo.desc },
