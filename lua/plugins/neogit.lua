@@ -3,6 +3,7 @@ local keys = require("user.keys")
 return {
   {
     "NeogitOrg/neogit",
+    opts = { status = { recent_commit_count = 20 } },
     dependencies = {
       "nvim-lua/plenary.nvim",         -- required
       {
@@ -15,6 +16,5 @@ return {
       },
       "nvim-telescope/telescope.nvim", -- optional
     },
-    config = true
   }
 }
