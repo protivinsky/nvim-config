@@ -39,6 +39,7 @@ M.code.replace_spectre = { key = "<leader>sr", desc = "Replace in files (Spectre
 M.code.venv_select = { key = "<leader>cv", desc = "Select virtual env" }
 M.code.venv_cached = { key = "<leader>cV", desc = "Select cached env" }
 M.code.venv_info = { key = "<leader>cI", desc = "Current virtual env" }
+M.code.show_dataframe = { key = "<leader>cD", desc = "Show pandas DataFrame" }
 
 M.diff = {}
 M.diff.this = { key = "<leader>dt", desc = "Diff this" }

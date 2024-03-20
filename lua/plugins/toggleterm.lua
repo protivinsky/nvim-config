@@ -54,6 +54,32 @@ local function fix_lines_for_python(lines)
   return lines3
 end
 
+local function show_dataframe(cmd_data)
+  -- TODO: There is likely a bug - with regular python, it might require empty lines after decrease
+  -- in indentation... Though everything is fine in ipython.
+  local toggleterm = require("toggleterm")
+  local utils = require("toggleterm.utils")
+  local id = tonumber(cmd_data.args) or 1
+
+  local lines = {}
+  -- Beginning of the selection: line number, column number
+  local res = utils.get_line_selection("visual")
+  lines = utils.get_visual_selection(res)
+
+  if not lines or not next(lines) or #lines ~= 1 then
+    return
+  end
+
+  local line = lines[1]
+  -- toggleterm.exec("import pandas as pd", id)
+  toggleterm.exec(line .. ".to_csv('~/tmp/df.csv')", id)
+  toggleterm.exec("", id)
+
+  local Terminal = require("toggleterm.terminal").Terminal
+  local vd_term = Terminal:new({ cmd = "vd ~/tmp/df.csv", count = 8, close_on_exit = true })
+  vd_term:toggle()
+end
+
 local function custom_send_lines_to_terminal(selection_type, trim_spaces, cmd_data)
   -- TODO: There is likely a bug - with regular python, it might require empty lines after decrease
   -- in indentation... Though everything is fine in ipython.
@@ -193,6 +219,9 @@ return {
       -- lazygit
       { keys.git.lazygit.key, "<cmd>TermLazygit<cr>", desc = keys.git.lazygit.desc },
 
+      -- show DataFrame
+      { keys.code.show_dataframe.key, "<cmd>ShowDataFrame<cr>", desc = keys.code.show_dataframe.desc, mode = "x" },
+
       -- send lines etc to terminal
       {
         keys.term.send_line.key,
@@ -248,6 +277,11 @@ return {
       local lazygit = Terminal:new({ cmd = "lazygit", count = 9 })
 
       vim.api.nvim_create_user_command("TermLazygit", function() lazygit:toggle() end, {})
+
+      vim.api.nvim_create_user_command("ShowDataFrame", function()
+        show_dataframe({ args = last_terminal_id() })
+      end, { range = true })
+
 
     end
   }
