@@ -47,9 +47,12 @@ return {
       },
     },
     winbar = {
-      -- lualine_a = { "mode" },
+      lualine_a = { "mode" },
       lualine_b = lualine_b,
-      -- lualine_y = { "location" },
+      lualine_z = {
+        { "progress", separator = " ", padding = { left = 1, right = 0 } },
+        { "location", padding = { left = 0, right = 1 } },
+      }
     },
     inactive_winbar = {
       lualine_b = lualine_b,

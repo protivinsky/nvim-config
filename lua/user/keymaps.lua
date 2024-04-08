@@ -115,8 +115,9 @@ map("n", keys.diff.off.key, "<cmd>diffoff!<cr>", { desc = keys.diff.off.desc })
 map("n", keys.diff.get.key, "<cmd>diffget<cr>", { desc = keys.diff.get.desc })
 map("n", keys.diff.put.key, "<cmd>diffput<cr>", { desc = keys.diff.put.desc })
 
--- LspInfo
+-- LspInfo, LspRestart
 map("n", keys.lsp.info.key, "<cmd>LspInfo<cr>", { desc = keys.lsp.info.desc })
+map("n", keys.lsp.restart.key, "<cmd>LspRestart<cr>", { desc = keys.lsp.restart.desc })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)

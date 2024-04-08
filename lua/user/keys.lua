@@ -96,6 +96,10 @@ M.git.toggle_deleted = { key = "<leader>hx", desc = "toggle git show deleted" }
 M.git.select_hunk = { key = "ih", desc = "select git hunk" }
 
 M.lsp = {}
+-- the following two do not require lsp attached to buffer
+M.lsp.info = { key = "<leader>li", desc = "LspInfo" }
+M.lsp.restart = { key = "<leader>lr", desc = "LspRestart" }
+-- these should be activated on attaching to buffer
 M.lsp.definition = { key = "gd", desc = "Definition" }
 M.lsp.references = { key = "gr", desc = "References" }
 M.lsp.implementation = { key = "gI", desc = "Implementation" }
@@ -110,11 +114,10 @@ M.lsp.ws_remove_folder = { key = "<leader>wr", desc = "Workspace remove folder" 
 M.lsp.ws_list_folders = { key = "<leader>wl", desc = "Workspace list folders" }
 M.lsp.line_diag = { key = "<leader>ll", desc = "Line diagnostic" }
 M.lsp.format = { key = "<leader>lf", desc = "Format buffer" }
-M.lsp.info = { key = "<leader>li", desc = "LspInfo" }
 M.lsp.code_action = { key = "<leader>la", desc = "Code action" }
 M.lsp.next_diag = { key = "<leader>lj", desc = "Next diagnostic" }
 M.lsp.prev_diag = { key = "<leader>lk", desc = "Prev diagnostic" }
-M.lsp.rename = { key = "<leader>lr", desc = "Rename" }
+M.lsp.rename = { key = "<leader>lR", desc = "Rename" }
 M.lsp.sig_help = { key = "<leader>ls", desc = "Signature help" }
 M.lsp.diag_list = { key = "<leader>lq", desc = "Diagnostic list" }
 

@@ -54,17 +54,22 @@ local function fix_lines_for_python(lines)
   return lines3
 end
 
-local function show_dataframe(cmd_data)
-  -- TODO: There is likely a bug - with regular python, it might require empty lines after decrease
-  -- in indentation... Though everything is fine in ipython.
+local function show_dataframe(selection_type, cmd_data)
   local toggleterm = require("toggleterm")
   local utils = require("toggleterm.utils")
   local id = tonumber(cmd_data.args) or 1
 
   local lines = {}
   -- Beginning of the selection: line number, column number
-  local res = utils.get_line_selection("visual")
-  lines = utils.get_visual_selection(res)
+  local start_line, start_col
+  if selection_type == "single_line" then
+    start_line, start_col = unpack(vim.api.nvim_win_get_cursor(0))
+    table.insert(lines, vim.fn.getline(start_line))
+  elseif selection_type == "visual_selection" then
+    local res = utils.get_line_selection("visual")
+    start_line, start_col = unpack(res.start_pos)
+    lines = utils.get_visual_selection(res)
+  end
 
   if not lines or not next(lines) or #lines ~= 1 then
     return
@@ -76,7 +81,7 @@ local function show_dataframe(cmd_data)
   toggleterm.exec("", id)
 
   local Terminal = require("toggleterm.terminal").Terminal
-  local vd_term = Terminal:new({ cmd = "vd ~/tmp/df.csv", count = 8, close_on_exit = true })
+  local vd_term = Terminal:new({ cmd = "vd ~/tmp/df.csv", close_on_exit = true })
   vd_term:toggle()
 end
 
@@ -220,7 +225,23 @@ return {
       { keys.git.lazygit.key, "<cmd>TermLazygit<cr>", desc = keys.git.lazygit.desc },
 
       -- show DataFrame
-      { keys.code.show_dataframe.key, "<cmd>ShowDataFrame<cr>", desc = keys.code.show_dataframe.desc, mode = "x" },
+      {
+        keys.code.show_dataframe.key,
+        function()
+          show_dataframe("single_line", { args = last_terminal_id() })
+        end,
+        -- "<cmd>showdataframe<cr>",
+        desc = keys.code.show_dataframe.desc,
+      },
+      {
+        keys.code.show_dataframe.key,
+        function()
+          show_dataframe("visual_selection", { args = last_terminal_id() })
+        end,
+        -- "<cmd>showdataframe<cr>",
+        desc = keys.code.show_dataframe.desc,
+        mode = "x"
+      },
 
       -- send lines etc to terminal
       {
@@ -245,7 +266,8 @@ return {
         function()
           require("toggleterm").send_lines_to_terminal("single_line", true, { args = last_terminal_id() })
         end,
-        desc = keys.term.send_line.desc, mode = "i"
+        desc = keys.term.send_line.desc,
+        mode = "i"
       },
       {
         keys.term.send_selection.key,
@@ -253,7 +275,8 @@ return {
           custom_send_lines_to_terminal("visual_selection", false, { args = last_terminal_id() })
           vim.cmd("normal! `>")
         end,
-        desc = keys.term.send_selection.desc, mode = "x" 
+        desc = keys.term.send_selection.desc, 
+        mode = "x" 
       },
       {
         keys.term.send_selection.key2,
@@ -261,7 +284,8 @@ return {
           custom_send_lines_to_terminal("visual_selection", false, { args = last_terminal_id() })
           vim.cmd("normal! `>")
         end,
-        desc = keys.term.send_selection.desc, mode = "x"
+        desc = keys.term.send_selection.desc, 
+        mode = "x"
       },
     },
     config = function(_, opts)
@@ -279,7 +303,7 @@ return {
       vim.api.nvim_create_user_command("TermLazygit", function() lazygit:toggle() end, {})
 
       vim.api.nvim_create_user_command("ShowDataFrame", function()
-        show_dataframe({ args = last_terminal_id() })
+        show_dataframe("single_line", { args = last_terminal_id() })
       end, { range = true })
 
 
