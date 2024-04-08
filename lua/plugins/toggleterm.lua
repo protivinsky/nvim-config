@@ -206,7 +206,7 @@ return {
         function()
           python_or_ipython = "ipython"
           require("toggleterm").exec_command(
-            "cmd='" .. python_path() .. " -m IPython --TerminalInteractiveShell.autoindent=False --InteractiveShell.confirm_exit=False'",
+            "cmd='" .. python_path() .. " -m IPython --TerminalInteractiveShell.autoindent=False --TerminalInteractiveShell.confirm_exit=False'",
             last_terminal_id()
           )
         end,
