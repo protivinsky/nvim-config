@@ -5,6 +5,7 @@ return {
   dependencies = { 'neovim/nvim-lspconfig', 'nvim-telescope/telescope.nvim', 'mfussenegger/nvim-dap-python' },
   opts = {
     dap_enabled = true,
+    name = { "venv", ".venv" },
   },
   keys = {
     -- Keymap to open VenvSelector to pick a venv.

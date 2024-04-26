@@ -19,6 +19,9 @@ return {
     {
       "rcarriga/nvim-dap-ui",
       -- stylua: ignore
+      dependencies = {
+        "nvim-neotest/nvim-nio",
+      },
       keys = {
         { keys.debug.toggle_ui.key, function() require("dapui").toggle({ }) end, desc = keys.debug.toggle_ui.desc },
         { keys.debug.eval.key, function() require("dapui").eval() end, desc = keys.debug.eval.desc, mode = {"n", "v"} },
