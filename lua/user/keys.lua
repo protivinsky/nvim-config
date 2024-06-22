@@ -17,6 +17,9 @@ M.which.window = { key = "<leader>w", desc = "windows" }
 M.which.trouble = { key = "<leader>x", desc = "trouble" }
 M.which.tab = { key = "<leader><tab>", desc = "tabs" }
 
+M.oil = {}
+M.oil.open = { key = "-", desc = "Open parent directory" }
+
 
 M.buffer = {}
 M.buffer.delete = { key = "<leader>bd", desc = "Delete buffer" }
@@ -40,6 +43,8 @@ M.code.venv_select = { key = "<leader>cv", desc = "Select virtual env" }
 M.code.venv_cached = { key = "<leader>cV", desc = "Select cached env" }
 M.code.venv_info = { key = "<leader>cI", desc = "Current virtual env" }
 M.code.show_dataframe = { key = "<leader>cD", desc = "Show pandas DataFrame" }
+-- ruff format
+M.code.format_ruff = { key = "<leader>cr", desc = "Format with Ruff" }
 
 M.diff = {}
 M.diff.this = { key = "<leader>dt", desc = "Diff this" }
@@ -200,6 +205,8 @@ M.search.keymaps = { key = "<leader>sk", desc = "Key maps" }
 M.search.man_pages = { key = "<leader>sM", desc = "Man pages" }
 M.search.marks = { key = "<leader>sm", desc = "Jump to mark" }
 M.search.options = { key = "<leader>sO", desc = "Options" }
+M.search.quickfix = { key = "<leader>sq", desc = "Quickfix" }
+M.search.quickfix_history = { key = "<leader>sQ", desc = "Quickfix history" }
 M.search.resume = { key = "<leader>sR", desc = "Resume" }
 M.search.word_root = { key = "<leader>sw", desc = "Word (root dir)" }
 M.search.grep_string = { key = "<leader>ss", desc = "Grep string" }

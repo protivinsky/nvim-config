@@ -20,14 +20,18 @@ map("n", "<C-k>", tmux.move_top, {})
 map("n", "<C-j>", tmux.move_bottom, {})
 map("n", "<C-h>", tmux.move_left, {})
 map("n", "<C-l>", tmux.move_right, {})
--- map("i", "<esc><C-k>", tmux.move_top, {})
--- map("i", "<esc><C-j>", tmux.move_bottom, {})
--- map("i", "<esc><C-h>", tmux.move_left, {})
--- map("i", "<esc><C-l>", tmux.move_right, {})
--- map("v", "<esc><C-k>", tmux.move_top, {})
--- map("v", "<esc><C-j>", tmux.move_bottom, {})
--- map("v", "<esc><C-h>", tmux.move_left, {})
--- map("v", "<esc><C-l>", tmux.move_right, {})
+map("i", "<C-k>", tmux.move_top, {})
+map("i", "<C-j>", tmux.move_bottom, {})
+map("i", "<C-h>", tmux.move_left, {})
+map("i", "<C-l>", tmux.move_right, {})
+map("v", "<C-k>", tmux.move_top, {})
+map("v", "<C-j>", tmux.move_bottom, {})
+map("v", "<C-h>", tmux.move_left, {})
+map("v", "<C-l>", tmux.move_right, {})
+map("t", "<C-k>", tmux.move_top, {})
+map("t", "<C-j>", tmux.move_bottom, {})
+map("t", "<C-h>", tmux.move_left, {})
+map("t", "<C-l>", tmux.move_right, {})
 
 
 -- Resize window using <ctrl> arrow keys
@@ -118,6 +122,8 @@ map("n", keys.diff.put.key, "<cmd>diffput<cr>", { desc = keys.diff.put.desc })
 -- LspInfo, LspRestart
 map("n", keys.lsp.info.key, "<cmd>LspInfo<cr>", { desc = keys.lsp.info.desc })
 map("n", keys.lsp.restart.key, "<cmd>LspRestart<cr>", { desc = keys.lsp.restart.desc })
+-- Ruff format
+map("n", keys.code.format_ruff.key, "<cmd>!ruff format % --line-length=120<cr>", { desc = keys.code.format_ruff.desc })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)

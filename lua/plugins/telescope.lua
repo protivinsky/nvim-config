@@ -102,6 +102,8 @@ return {
       { keys.search.man_pages.key, "<cmd>Telescope man_pages<cr>", desc = keys.search.man_pages.desc },
       { keys.search.marks.key, "<cmd>Telescope marks<cr>", desc = keys.search.marks.desc },
       { keys.search.options.key, "<cmd>Telescope vim_options<cr>", desc = keys.search.options.desc },
+      { keys.search.quickfix.key, "<cmd>Telescope quickfix<cr>", desc = keys.search.quickfix.desc },
+      { keys.search.quickfix_history.key, "<cmd>Telescope quickfixhistory<cr>", desc = keys.search.quickfix_history.desc },
       { keys.search.resume.key, "<cmd>Telescope resume<cr>", desc = keys.search.resume.desc },
 
       { keys.search.grep_string.key, "<cmd>Telescope grep_string<cr>", desc = keys.search.grep_string.desc },
