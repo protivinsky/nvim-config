@@ -2,6 +2,12 @@
 local map = vim.keymap.set
 local keys = require("user.keys")
 
+-- remap nav recursively for colemak
+map({ "n", "x" }, "<Left>", "h", { remap = true })
+map({ "n", "x" }, "<Right>", "l", { remap = true })
+map({ "n", "x" }, "<Down>", "j", { remap = true })
+map({ "n", "x" }, "<Up>", "k", { remap = true })
+
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -83,7 +89,7 @@ map("n", keys.buffer.switch.key, "<cmd>e #<cr>", { desc = keys.buffer.switch.des
 map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 
 -- Press jk to escape from insert mode
-map("i", "jk", "<ESC>", { noremap = true, silent = true })
+-- map("i", "jk", "<ESC>", { noremap = true, silent = true })
 -- Menu navigation
 map("c", "<C-j>", 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', { expr = true, noremap = true })
 map("c", "<C-k>", 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', { expr = true, noremap = true })

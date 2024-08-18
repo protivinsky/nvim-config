@@ -46,6 +46,10 @@ return {
     config = function()
       require 'window-picker'.setup({
         hint = 'floating-big-letter',
+        -- colemak
+        selection_chars = 'TNSERIAOC<PLFUWYQ"',
+        -- default for qwerty
+        -- selection_chars = 'FJDKSLA;CMRUEIWOQP',
         filter_rules = {
           include_current_win = false,
           autoselect_one = true,
