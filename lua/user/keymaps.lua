@@ -198,6 +198,7 @@ map("n", "<leader>-", "<C-W>s", { desc = "Split window below", remap = true })
 map("n", "<leader>|", "<C-W>v", { desc = "Split window right", remap = true })
 
 map("n", "<leader>we", "<cmd>tab split<cr>", { desc = "Maximize window" })
+map("n", "<leader>wf", "<cmd>tab split<cr>", { desc = "Maximize window" })
 map("n", "<leader>wq", "<cmd>q<cr>", { desc = "Close window" })
 map("n", "<leader>w=", "<C-W>=", { desc = "Equally high and wide" })
 

@@ -75,7 +75,7 @@ return {
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       { 'j-hui/fidget.nvim', config = true },
-      { 'folke/neodev.nvim', config = true },
+      -- { 'folke/neodev.nvim', config = true },
       { "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
     },
     opts = {
@@ -88,20 +88,47 @@ return {
       },
       servers = {
         lua_ls = {
+          -- mason = false, -- set to false if you don't want this server to be installed with mason
+          -- Use this to add any additional keymaps
+          -- for specific lsp servers
+          -- ---@type LazyKeysSpec[]
+          -- keys = {},
           settings = {
             Lua = {
-              diagnostics = { globals = { "vim" } },
               workspace = {
                 checkThirdParty = false,
-                library = {
-                  [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                  [vim.fn.stdpath("config") .. "/lua"] = true,
-                },
               },
-              completion = { callSnippet = "Replace" },
+              codeLens = {
+                enable = true,
+              },
+              completion = { callSnippet = "Replace", },
+              doc = { privateName = { "^_" }, },
+              hint = {
+                enable = true,
+                setType = false,
+                paramType = true,
+                paramName = "Disable",
+                semicolon = "Disable",
+                arrayIndex = "Disable",
+              },
             },
           },
         },
+        -- lua_ls = {
+        --   settings = {
+        --     Lua = {
+        --       diagnostics = { globals = { "vim" } },
+        --       workspace = {
+        --         checkThirdParty = false,
+        --         library = {
+        --           [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+        --           [vim.fn.stdpath("config") .. "/lua"] = true,
+        --         },
+        --       },
+        --       completion = { callSnippet = "Replace" },
+        --     },
+        --   },
+        -- },
         pyright = {
           settings = {
             python = { analysis = { typeCheckingMode = "basic" } }

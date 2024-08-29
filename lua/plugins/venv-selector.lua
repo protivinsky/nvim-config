@@ -2,6 +2,8 @@ local keys = require("user.keys")
 
 return {
   'linux-cultist/venv-selector.nvim',
+  branch = "regexp",
+  lazy = false,
   dependencies = { 'neovim/nvim-lspconfig', 'nvim-telescope/telescope.nvim', 'mfussenegger/nvim-dap-python' },
   opts = {
     dap_enabled = true,
@@ -14,12 +16,12 @@ return {
       '<cmd>VenvSelect<cr><cmd>LspRestart<cr>',
       desc = keys.code.venv_select.desc
     },
-    -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
-    {
-      keys.code.venv_cached.key,
-      '<cmd>VenvSelectCached<cr><cmd>LspRestart<cr>',
-      desc = keys.code.venv_cached.desc
-    },
-    { keys.code.venv_info.key, "<cmd>VenvSelectCurrent<cr>", desc = keys.code.venv_info.desc },
+    -- -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
+    -- {
+    --   keys.code.venv_cached.key,
+    --   '<cmd>VenvSelectCached<cr><cmd>LspRestart<cr>',
+    --   desc = keys.code.venv_cached.desc
+    -- },
+    { keys.code.venv_info.key, function() print(require("venv-selector").venv()) end, desc = keys.code.venv_info.desc },
   }
 }

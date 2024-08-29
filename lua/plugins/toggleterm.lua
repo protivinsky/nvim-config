@@ -9,7 +9,7 @@ local keys = require("user.keys")
 -- local python_cmd = "${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}python"
 -- local ipython_cmd = "${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}ipython --TerminalInteractiveShell.autoindent=False"
 
-local python_path = function() return require("venv-selector").get_active_path() or "python" end
+local python_path = function() return require("venv-selector").python() or "python" end
 local python_or_ipython = "python"
 -- local python_repl = nil
 -- local python_shell = nil
