@@ -123,8 +123,6 @@ map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
 map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
 -- how about these?
 map("n", "<leader>k", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
-map("n", "<leader>o", "<C-o>", { desc = "Prev position" })
-map("n", "<leader>i", "<C-i>", { desc = "Next position" })
 
 -- better indenting
 map("v", "<", "<gv")
