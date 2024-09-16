@@ -33,6 +33,7 @@ local function live_grep_git_root()
 end
 
 -- Allow for window selection with window picker plugin
+-- https://github.com/nvim-telescope/telescope-file-browser.nvim/issues/306
 local transform_mod = require('telescope.actions.mt').transform_mod
 local actions = require('telescope.actions')
 
