@@ -32,6 +32,18 @@ local function live_grep_git_root()
   end
 end
 
+-- Allow for window selection with window picker plugin
+local transform_mod = require('telescope.actions.mt').transform_mod
+local actions = require('telescope.actions')
+
+local window_picker  = transform_mod({
+  select = function(prompt_bufnr)
+    local action_state = require("telescope.actions.state")
+    local picker = action_state.get_current_picker(prompt_bufnr)
+    picker.original_win_id = require('window-picker').pick_window()
+  end,
+})
+
 
 return {
   -- Fuzzy Finder (files, lsp, etc)
@@ -54,6 +66,15 @@ return {
         end,
       },
       { "nvim-telescope/telescope-live-grep-args.nvim" },
+    },
+    opts = {
+      defaults = {
+        mappings = {
+          i = {
+            ['<C-w>'] = window_picker.select + actions.select_default,
+          },
+        },
+      },
     },
     keys = {
       { keys.find.buffers.key, function() require("telescope.builtin").buffers({ sort_mru = true, sort_lastused = true }) end, desc = keys.find.buffers.desc },
