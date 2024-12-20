@@ -14,6 +14,23 @@ local python_or_ipython = "python"
 -- local python_repl = nil
 -- local python_shell = nil
 
+local julia_path = function()
+  local function file_exists(path)
+    local file = io.open(path, "r")
+    if file then
+      io.close(file)
+      return true
+    else
+      return false
+    end
+  end
+  if file_exists("Project.toml") or file_exists("JuliaProject.toml") then
+    return "julia --project"
+  else
+    return "julia"
+  end
+end
+
 local function fix_lines_for_python(lines)
   -- remove whitespaces at the beginning of the whole block
   -- remove empty lines
@@ -43,7 +60,7 @@ local function fix_lines_for_python(lines)
   for i, line in ipairs(lines2) do
     table.insert(lines3, line)
     if i < #lines2 then
-      next_offset = #(string.match(lines2[i+1], "^ *"))
+      next_offset = #(string.match(lines2[i + 1], "^ *"))
       if next_offset < current_offset then
         table.insert(lines3, string.rep(" ", next_offset))
       end
@@ -82,6 +99,38 @@ local function show_dataframe(selection_type, cmd_data)
 
   local Terminal = require("toggleterm.terminal").Terminal
   local vd_term = Terminal:new({ cmd = "vd ~/tmp/df.csv", close_on_exit = true })
+  vd_term:toggle()
+end
+
+local function test_catch2(selection_type, cmd_data)
+  local toggleterm = require("toggleterm")
+  local utils = require("toggleterm.utils")
+  local id = tonumber(cmd_data.args) or 1
+
+  local lines = {}
+  -- Beginning of the selection: line number, column number
+  local start_line, start_col
+  if selection_type == "single_line" then
+    start_line, start_col = unpack(vim.api.nvim_win_get_cursor(0))
+    table.insert(lines, vim.fn.getline(start_line))
+  elseif selection_type == "visual_selection" then
+    local res = utils.get_line_selection("visual")
+    start_line, start_col = unpack(res.start_pos)
+    lines = utils.get_visual_selection(res)
+  end
+
+  if not lines or not next(lines) or #lines ~= 1 then
+    return
+  end
+
+  local line = lines[1]
+  -- Pattern to match the first quoted string
+  local test_name = line:match('"%s*(.-)%s*"')
+  local cmd = "build/test/unit_tests \"" .. test_name .. "\""
+  -- toggleterm.exec("import pandas as pd", id)
+
+  local Terminal = require("toggleterm.terminal").Terminal
+  local vd_term = Terminal:new({ cmd = cmd, close_on_exit = false })
   vd_term:toggle()
 end
 
@@ -206,7 +255,9 @@ return {
         function()
           python_or_ipython = "ipython"
           require("toggleterm").exec_command(
-            "cmd='" .. python_path() .. " -m IPython --TerminalInteractiveShell.autoindent=False --TerminalInteractiveShell.confirm_exit=False'",
+            "cmd='" ..
+            python_path() ..
+            " -m IPython --TerminalInteractiveShell.autoindent=False --TerminalInteractiveShell.confirm_exit=False'",
             last_terminal_id()
           )
         end,
@@ -219,6 +270,22 @@ return {
           require("toggleterm").exec_command("cmd='" .. python_path() .. " %'", last_terminal_id())
         end,
         desc = keys.term.run_in_python.desc,
+      },
+      -- start julia repl
+      {
+        keys.term.start_julia.key,
+        function()
+          require("toggleterm").exec_command("cmd='" .. julia_path() .. "'", last_terminal_id())
+        end,
+        desc = keys.term.start_julia.desc
+      },
+      {
+        keys.term.run_in_julia.key,
+        function()
+          vim.cmd("write")
+          require("toggleterm").exec_command("cmd='" .. julia_path() .. " %'", last_terminal_id())
+        end,
+        desc = keys.term.run_in_julia.desc,
       },
 
       -- lazygit
@@ -275,8 +342,8 @@ return {
           custom_send_lines_to_terminal("visual_selection", false, { args = last_terminal_id() })
           vim.cmd("normal! `>")
         end,
-        desc = keys.term.send_selection.desc, 
-        mode = "x" 
+        desc = keys.term.send_selection.desc,
+        mode = "x"
       },
       {
         keys.term.send_selection.key2,
@@ -284,12 +351,11 @@ return {
           custom_send_lines_to_terminal("visual_selection", false, { args = last_terminal_id() })
           vim.cmd("normal! `>")
         end,
-        desc = keys.term.send_selection.desc, 
+        desc = keys.term.send_selection.desc,
         mode = "x"
       },
     },
     config = function(_, opts)
-
       require("toggleterm").setup(opts)
 
       vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionCustom", function(args)
@@ -306,7 +372,9 @@ return {
         show_dataframe("single_line", { args = last_terminal_id() })
       end, { range = true })
 
-
+      vim.api.nvim_create_user_command("TestCatch2", function()
+        test_catch2("single_line", { args = last_terminal_id() })
+      end, { range = true })
     end
   }
 }

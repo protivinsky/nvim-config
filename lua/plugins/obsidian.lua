@@ -1,3 +1,4 @@
+local keys = require("user.keys")
 return {
 
   "epwalsh/obsidian.nvim",
@@ -12,6 +13,22 @@ return {
   --   "BufReadPre path/to/my-vault/*.md",
   --   "BufNewFile path/to/my-vault/*.md",
   -- },
+  keys = {
+    { keys.obsidian.new.key, "<cmd>ObsidianNew<cr>", desc = keys.obsidian.new.desc },
+    { keys.obsidian.open_app.key, "<cmd>ObsidianOpen<cr>", desc = keys.obsidian.open_app.desc },
+    { keys.obsidian.quick_switch.key, "<cmd>ObsidianQuickSwitch<cr>", desc = keys.obsidian.quick_switch.desc },
+    { keys.obsidian.follow.key, "<cmd>ObsidianFollowLink<cr>", desc = keys.obsidian.follow.desc },
+    { keys.obsidian.follow_vertical.key, "<cmd>ObsidianFollowLink vsplit<cr>", desc = keys.obsidian.follow_vertical.desc },
+    { keys.obsidian.follow_horizontal.key, "<cmd>ObsidianFollowLink hsplit<cr>", desc = keys.obsidian.follow_horizontal.desc },
+    { keys.obsidian.backlinks.key, "<cmd>ObsidianBacklinks<cr>", desc = keys.obsidian.backlinks.desc },
+    { keys.obsidian.tags.key, "<cmd>ObsidianTags<cr>", desc = keys.obsidian.tags.desc },
+    { keys.obsidian.toc.key, "<cmd>ObsidianTOC<cr>", desc = keys.obsidian.toc.desc },
+    { keys.obsidian.daily.key, "<cmd>ObsidianToday<cr>", desc = keys.obsidian.daily.desc },
+    { keys.obsidian.search.key, "<cmd>ObsidianSearch<cr>", desc = keys.obsidian.search.desc },
+    { keys.obsidian.links.key, "<cmd>ObsidianLinks<cr>", desc = keys.obsidian.links.desc },
+    { keys.obsidian.paste_img.key, "<cmd>ObsidianPasteImg<cr>", desc = keys.obsidian.paste_img.desc },
+    { keys.obsidian.link_new.key, "<cmd>ObsidianLinkNew<cr>", desc = keys.obsidian.link_new.desc },
+  },
   dependencies = {
     -- Required.
     "nvim-lua/plenary.nvim",
@@ -61,17 +78,11 @@ return {
         end,
         opts = { noremap = false, expr = true, buffer = true },
       },
-      -- Toggle check-boxes.
-      ["<leader>ch"] = {
-        action = function()
-          return require("obsidian").util.toggle_checkbox()
-        end,
-        opts = { buffer = true },
-      },
       -- Smart action depending on context, either follow link or toggle checkbox.
       ["<cr>"] = {
         action = function()
-          return require("obsidian").util.smart_action()
+          return require("obsidian").util.gf_passthrough()
+          -- return require("obsidian").util.smart_action()
         end,
         opts = { buffer = true, expr = true },
       }
@@ -80,34 +91,14 @@ return {
     -- Where to put new notes. Valid options are
     --  * "current_dir" - put new notes in same directory as the current buffer.
     --  * "notes_subdir" - put new notes in the default notes subdirectory.
-    new_notes_location = "notes_subdir",
-
-    -- Optional, customize how note IDs are generated given an optional title.
-    ---@param title string|?
-    ---@return string
-    note_id_func = function(title)
-      -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
-      -- In this case a note with the title 'My new note' will be given an ID that looks
-      -- like '1657296016-my-new-note', and therefore the file name '1657296016-my-new-note.md'
-      local suffix = ""
-      if title ~= nil then
-        -- If title is given, transform it into valid file name.
-        suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
-      else
-        -- If title is nil, just add 4 random uppercase letters to the suffix.
-        for _ = 1, 4 do
-          suffix = suffix .. string.char(math.random(65, 90))
-        end
-      end
-      return tostring(os.time()) .. "-" .. suffix
-    end,
+    new_notes_location = "current_dir",
 
     -- Optional, customize how note file names are generated given the ID, target directory, and title.
     ---@param spec { id: string, dir: obsidian.Path, title: string|? }
     ---@return string|obsidian.Path The full path to the new note.
     note_path_func = function(spec)
       -- This is equivalent to the default behavior.
-      local path = spec.dir / tostring(spec.id)
+      local path = spec.dir / tostring(spec.title or spec.id)
       return path:with_suffix(".md")
     end,
 
@@ -115,34 +106,34 @@ return {
     -- `true` indicates that you don't want obsidian.nvim to manage frontmatter.
     disable_frontmatter = false,
 
-    -- Optional, alternatively you can customize the frontmatter data.
-    ---@return table
-    note_frontmatter_func = function(note)
-      -- Add the title of the note as an alias.
-      if note.title then
-        note:add_alias(note.title)
-      end
-
-      local out = { id = note.id, aliases = note.aliases, tags = note.tags }
-
-      -- `note.metadata` contains any manually added fields in the frontmatter.
-      -- So here we just make sure those fields are kept in the frontmatter.
-      if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-        for k, v in pairs(note.metadata) do
-          out[k] = v
-        end
-      end
-
-      return out
-    end,
+    -- -- Optional, alternatively you can customize the frontmatter data.
+    -- ---@return table
+    -- note_frontmatter_func = function(note)
+    --   -- Add the title of the note as an alias.
+    --   if note.title then
+    --     note:add_alias(note.title)
+    --   end
+    --
+    --   local out = { id = note.id, aliases = note.aliases, tags = note.tags }
+    --
+    --   -- `note.metadata` contains any manually added fields in the frontmatter.
+    --   -- So here we just make sure those fields are kept in the frontmatter.
+    --   if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+    --     for k, v in pairs(note.metadata) do
+    --       out[k] = v
+    --     end
+    --   end
+    --
+    --   return out
+    -- end,
 
     -- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
     -- URL it will be ignored but you can customize this behavior here.
     ---@param url string
     follow_url_func = function(url)
       -- Open the URL in the default web browser.
-      vim.fn.jobstart({"open", url})  -- Mac OS
-      -- vim.fn.jobstart({"xdg-open", url})  -- linux
+      -- vim.fn.jobstart({"open", url})  -- Mac OS
+      vim.fn.jobstart({"xdg-open", url})  -- linux
       -- vim.cmd(':silent exec "!start ' .. url .. '"') -- Windows
       -- vim.ui.open(url) -- need Neovim 0.10.0+
     end,
@@ -151,8 +142,8 @@ return {
     -- file it will be ignored but you can customize this behavior here.
     ---@param img string
     follow_img_func = function(img)
-      vim.fn.jobstart { "qlmanage", "-p", img }  -- Mac OS quick look preview
-      -- vim.fn.jobstart({"xdg-open", url})  -- linux
+      -- vim.fn.jobstart { "qlmanage", "-p", img }  -- Mac OS quick look preview
+      vim.fn.jobstart({"xdg-open", img})  -- linux
       -- vim.cmd(':silent exec "!start ' .. url .. '"') -- Windows
     end,
 
@@ -224,6 +215,7 @@ return {
       post_set_workspace = function(client, workspace) end,
     },
 
+    ui = { enable = false },
     -- -- Optional, configure additional syntax highlighting / extmarks.
     -- -- This requires you have `conceallevel` set to 1 or 2. See `:help conceallevel` for more details.
     -- ui = {
@@ -280,7 +272,7 @@ return {
       ---@return string
       img_name_func = function()
         -- Prefix image names with timestamp.
-        return string.format("%s-", os.time())
+        return string.format("img_%s", os.date("%Y%m%d%H%M%S"))
       end,
 
       confirm_img_paste = false,

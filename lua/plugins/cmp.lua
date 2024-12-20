@@ -146,6 +146,7 @@ return {
     opts = {
       panel = { enabled = false },
       suggestion = { enabled = false },
+      filetypes = { markdown = { enabled = true } },
       on_status_update = function() require("lualine").refresh() end,
     },
     dependencies = { "zbirenbaum/copilot-cmp", config = true },

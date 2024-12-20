@@ -85,6 +85,12 @@ return {
         require("dap-python").setup(path .. "/venv/bin/python")
       end,
     },
+    {
+      "kdheepak/nvim-dap-julia",
+      config = function()
+        require("nvim-dap-julia").setup()
+      end,
+    },
   },
   keys = {
     { keys.debug.toggle_breakpoint.key, function() require("dap").toggle_breakpoint() end, desc = keys.debug.toggle_breakpoint.desc },

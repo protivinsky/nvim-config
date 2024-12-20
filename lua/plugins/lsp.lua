@@ -7,6 +7,7 @@ local servers = {
   "bashls",
   "jsonls",
   "openscad_lsp",
+  "julials",
 }
 
 local function lsp_keymaps(bufnr)
@@ -64,6 +65,25 @@ local on_attach = function(client, bufnr)
   illuminate.on_attach(client)
 end
 
+local function file_exists(path)
+  local file = io.open(path, "r")
+  if file then
+    io.close(file)
+    return true
+  else
+    return false
+  end
+end
+
+
+local function get_julia_cmd()
+  local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
+  if file_exists(julia) then
+    return julia
+  else
+    return "julia"
+  end
+end
 
 return {
   -- NOTE: This is where your plugins related to LSP can be installed.
@@ -194,6 +214,13 @@ return {
           capabilities = vim.deepcopy(capabilities),
           on_attach = on_attach,
         }, opts.servers[server] or {})
+        if server == "julials" then
+          server_opts = vim.tbl_deep_extend("force", {
+            on_new_config = function(new_config, _)
+              new_config.cmd[1] = get_julia_cmd()
+            end
+          }, server_opts)
+        end
         require("lspconfig")[server].setup(server_opts)
       end
 

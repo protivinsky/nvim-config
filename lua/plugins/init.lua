@@ -1,7 +1,6 @@
 local keys = require("user.keys")
 
 return {
-  "folke/neodev.nvim",            -- completion etc for nvim lua API
   "tpope/vim-sleuth",             -- automatic buffer indentation
   "echasnovski/mini.bufremove",   -- keep window layout after deleting a buffer
   "nvim-lua/plenary.nvim",        -- handy lua functions other plugins use
@@ -10,7 +9,10 @@ return {
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
+  "bfredl/nvim-luadev",
 
+  -- completion etc for nvim lua API
+  { "folke/lazydev.nvim", ft = "lua", config = true },
   -- some other plugins require icons
   { "nvim-tree/nvim-web-devicons", lazy = true },
 

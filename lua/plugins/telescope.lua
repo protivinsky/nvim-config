@@ -67,6 +67,7 @@ return {
         end,
       },
       { "nvim-telescope/telescope-live-grep-args.nvim" },
+      { "nvim-telescope/telescope-bibtex.nvim" },
     },
     opts = {
       defaults = {
@@ -76,9 +77,15 @@ return {
           },
         },
       },
+      extensions = {
+        bibtex = {
+          global_files = { "~/library.bib" },
+          search_keys = { "author", "date", "title", "keywords" },
+        },
+      },
     },
     keys = {
-      { keys.find.buffers.key, function() require("telescope.builtin").buffers({ sort_mru = true, sort_lastused = true }) end, desc = keys.find.buffers.desc },
+      { keys.find.buffers.key, function() require("telescope.builtin").buffers({ sort_mru = true, sort_lastused = true, select_current = true }) end, desc = keys.find.buffers.desc },
       { keys.search.buffer.key, "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = keys.search.buffer.key },
       { keys.find.oldfiles.key, "<cmd>Telescope oldfiles<cr>", desc = keys.find.oldfiles.desc },
       { keys.search.command_history.key, "<cmd>Telescope command_history<cr>", desc = keys.search.command_history.desc },
@@ -91,7 +98,6 @@ return {
       { keys.find.buffers.key2, function() require("telescope.builtin").buffers({ sort_mru = true, sort_lastused = true, ignore_current_buffer = true}) end, desc = keys.find.buffers.desc },
       { keys.find.oldfiles.key2, "<cmd>Telescope oldfiles<cr>", desc = keys.find.oldfiles.desc },
       { keys.find.git_files.key, "<cmd>Telescope git_files<cr>", desc = keys.find.git_files.desc },
-      { keys.find.jumplist.key, "<cmd>Telescope jumplist<cr>", desc = keys.find.jumplist.desc },
       { keys.find.treesitter.key, "<cmd>Telescope treesitter<cr>", desc = keys.find.treesitter.desc },
       { keys.find.builtin.key, "<cmd>Telescope builtin<cr>", desc = keys.find.builtin.desc },
       { keys.find.reloader.key, "<cmd>Telescope reloader<cr>", desc = keys.find.reloader.desc },
@@ -111,7 +117,7 @@ return {
         desc = keys.search.live_grep_args.desc
       },
       { keys.search.autocommands.key, "<cmd>Telescope autocommands<cr>", desc = keys.search.autocommands.desc },
-      { keys.search.buffer.key2, "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = keys.search.buffer.desc },
+      { keys.search.bibtex.key, "<cmd>Telescope bibtex<cr>", desc = keys.search.bibtex.desc },
       { keys.search.command_history.key2, "<cmd>Telescope command_history<cr>", desc = keys.search.command_history.desc },
       { keys.search.commands.key, "<cmd>Telescope commands<cr>", desc = keys.search.commands.desc },
       { keys.search.doc_diag.key, function() require("telescope.builtin").diagnostics({ bufnr = 0 }) end, desc = keys.search.doc_diag.desc },
@@ -121,6 +127,7 @@ return {
       { keys.search.help.key, "<cmd>Telescope help_tags<cr>", desc = keys.search.help.desc },
       { keys.search.highlights.key, "<cmd>Telescope highlights<cr>", desc = keys.search.highlights.desc },
       { keys.search.keymaps.key, "<cmd>Telescope keymaps<cr>", desc = keys.search.keymaps.desc },
+      { keys.search.jumplist.key, "<cmd>Telescope jumplist<cr>", desc = keys.search.jumplist.desc },
       { keys.search.man_pages.key, "<cmd>Telescope man_pages<cr>", desc = keys.search.man_pages.desc },
       { keys.search.marks.key, "<cmd>Telescope marks<cr>", desc = keys.search.marks.desc },
       { keys.search.options.key, "<cmd>Telescope vim_options<cr>", desc = keys.search.options.desc },
@@ -143,6 +150,7 @@ return {
       require("telescope").setup(opts)
       require("telescope").load_extension("fzf")
       require("telescope").load_extension("live_grep_args")
+      require("telescope").load_extension("bibtex")
       vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
     end
   },

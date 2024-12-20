@@ -3,8 +3,14 @@ local keys = require("user.keys")
 return {
   "nvim-neotest/neotest",
   dependencies = {
-    "nvim-neotest/neotest-python",
+    "nvim-neotest/nvim-nio",
+    "nvim-lua/plenary.nvim",
+    "antoinemadec/FixCursorHold.nvim",
     "nvim-treesitter/nvim-treesitter",
+    -- "vim-test/vim-test",
+    -- "nvim-neotest/neotest-vim-test",
+    "nvim-neotest/neotest-python",
+    "rosstang/neotest-catch2",
   },
   opts = {
     status = { virtual_text = true },
@@ -15,8 +21,20 @@ return {
       require("neotest-python")({
         dap = { justMyCode = false },
         runner = "pytest",
-      })
+      }),
+      require("neotest-catch2"),
+      -- require("neotest-cpp-custom"),
+      -- require("neotest-vim-test")({
+      --   ignore_file_types = { "python", "vim", "lua" },
+      -- }),
     }
+    -- vim.g['test#strategy'] = 'neovim'
+    -- -- Setting a custom test runner
+    -- vim.g['test#custom_runners'] = { cpp = { 'my_custom_runner' } }
+    -- -- Define the custom runner
+    -- vim.g['test#cpp#my_custom_runner#executable'] = 'cmake --build build && test/unit_tests'
+    -- -- Optional: Map commands to run with your test binary
+    -- vim.g['test#cpp#runner'] = 'my_custom_runner'  -- Set this as the default runner for C++
     require("neotest").setup(opts)
   end,
   keys = {

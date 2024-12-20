@@ -9,6 +9,7 @@ M.which.find = { key = "<leader>f", desc = "find" }
 M.which.git = { key = "<leader>g", desc = "git" }
 M.which.hunks = { key = "<leader>h", desc = "git / hunks" }
 M.which.lsp = { key = "<leader>l", desc = "lsp" }
+M.which.obsidian = { key = "<leader>o", desc = "obsidian" }
 M.which.quitsess = { key = "<leader>q", desc = "quit / sessions" }
 M.which.search = { key = "<leader>s", desc = "search" }
 M.which.test = { key = "<leader>t", desc = "test" }
@@ -19,6 +20,22 @@ M.which.tab = { key = "<leader><tab>", desc = "tabs" }
 
 M.oil = {}
 M.oil.open = { key = "-", desc = "Open parent directory" }
+
+M.obsidian = {}
+M.obsidian.new = { key = "<leader>on", desc = "New note" }
+M.obsidian.open_app = { key = "<leader>oO", desc = "Open app" }
+M.obsidian.quick_switch = { key = "<leader>oo", desc = "Quick switch" }
+M.obsidian.follow = { key = "<leader>of", desc = "Follow link" }
+M.obsidian.follow_vertical = { key = "<leader>ov", desc = "Follow vertical" }
+M.obsidian.follow_horizontal = { key = "<leader>oh", desc = "Follow horizontal" }
+M.obsidian.backlinks = { key = "<leader>ob", desc = "Backlinks" }
+M.obsidian.tags = { key = "<leader>ot", desc = "Tags" }
+M.obsidian.toc = { key = "<leader>oT", desc = "TOC" }
+M.obsidian.daily = { key = "<leader>od", desc = "Daily note" }
+M.obsidian.search = { key = "<leader>os", desc = "Search" }
+M.obsidian.links = { key = "<leader>ol", desc = "Links" }
+M.obsidian.paste_img = { key = "<leader>op", desc = "Paste image" }
+M.obsidian.link_new = { key = "<leader>oL", desc = "Link new note" }
 
 
 M.buffer = {}
@@ -167,7 +184,9 @@ M.term.new_vertical = { key = "<leader>ct", desc = "New vertical terminal" }
 M.term.new_float = { key = "<leader>cf", desc = "New float terminal" }
 M.term.start_python = { key = "<leader>cp", desc = "Start python terminal" }
 M.term.start_ipython = { key = "<leader>ci", desc = "Start ipython terminal" }
+M.term.start_julia = { key = "<leader>cj", desc = "Start julia terminal" }
 M.term.run_in_python = { key = "<leader>cP", desc = "Save and run in python" }
+M.term.run_in_julia = { key = "<leader>cJ", desc = "Save and run in julia" }
 M.term.send_line = { key = "<leader>r", key2 = "<A-r>", desc = "Send line to terminal" }
 M.term.send_selection = { key = "<leader>r", key2 = "<A-r>", desc = "Send selection to terminal" }
 
@@ -179,7 +198,6 @@ M.find.files = { key = "<leader><space>", key2 = "<leader>ff", desc = "Find file
 M.find.files_no_ignore = { key = "<leader>fF", desc = "Find files" }
 M.find.config = { key = "<leader>fc", desc = "Find config files" }
 M.find.git_files = { key = "<leader>fg", desc = "Find git files" }
-M.find.jumplist = { key = "<leader>fj", desc = "Jumplist" }
 M.find.terminal = { key = "<leader>ft", desc = "Terminal" }
 M.find.treesitter = { key = "<leader>fT", desc = "Treesitter" }
 M.find.builtin = { key = "<leader>fB", desc = "Built-in pickers" }
@@ -189,7 +207,8 @@ M.find.planets = { key = "<leader>fP", desc = "Planets" }
 M.new_file = { key = "<leader>fn", desc = "New file" }
 
 M.search = {}
-M.search.buffer = { key = "<leader>/", key2 = "<leader>sb", desc = "Search buffer" }
+M.search.buffer = { key = "<leader>/", desc = "Search buffer" }
+M.search.bibtex = { key = "<leader>sb", desc = "Search bibtex" }
 M.search.registers = { key = "<leader>s\"", desc = "Registers" }
 M.search.live_grep_args = { key = "<leader>sa", desc = "Live grep with args" }
 M.search.autocommands = { key = "<leader>sA", desc = "Autocommands" }
@@ -202,6 +221,7 @@ M.search.live_grep_open = { key = "<leader>sG", desc = "Live grep in open files"
 M.search.help = { key = "<leader>sh", desc = "Help pages" }
 M.search.highlights = { key = "<leader>sH", desc = "Search highlight groups" }
 M.search.keymaps = { key = "<leader>sk", desc = "Key maps" }
+M.search.jumplist = { key = "<leader>sj", desc = "Jumplist" }
 M.search.man_pages = { key = "<leader>sM", desc = "Man pages" }
 M.search.marks = { key = "<leader>sm", desc = "Jump to mark" }
 M.search.options = { key = "<leader>sO", desc = "Options" }
