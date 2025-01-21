@@ -10,7 +10,7 @@ return {
     -- "vim-test/vim-test",
     -- "nvim-neotest/neotest-vim-test",
     "nvim-neotest/neotest-python",
-    "rosstang/neotest-catch2",
+    -- "rosstang/neotest-catch2",
   },
   opts = {
     status = { virtual_text = true },
@@ -22,7 +22,7 @@ return {
         dap = { justMyCode = false },
         runner = "pytest",
       }),
-      require("neotest-catch2"),
+      -- require("neotest-catch2"),
       -- require("neotest-cpp-custom"),
       -- require("neotest-vim-test")({
       --   ignore_file_types = { "python", "vim", "lua" },

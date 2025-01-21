@@ -96,7 +96,7 @@ return {
       'williamboman/mason-lspconfig.nvim',
       { 'j-hui/fidget.nvim', config = true },
       -- { 'folke/neodev.nvim', config = true },
-      { "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
+      -- { "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
       'saghen/blink.cmp',
     },
     opts = {
@@ -190,8 +190,8 @@ return {
       },
     },
     config = function(_, opts)
-      local plugin = require("lazy.core.config").spec.plugins["neoconf.nvim"]
-      require("neoconf").setup(require("lazy.core.plugin").values(plugin, "opts", false))
+      -- local plugin = require("lazy.core.config").spec.plugins["neoconf.nvim"]
+      -- require("neoconf").setup(require("lazy.core.plugin").values(plugin, "opts", false))
 
       -- diagnostics
       for name, icon in pairs(require("user.util").icons.diagnostics) do
