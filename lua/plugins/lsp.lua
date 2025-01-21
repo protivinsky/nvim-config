@@ -97,6 +97,7 @@ return {
       { 'j-hui/fidget.nvim', config = true },
       -- { 'folke/neodev.nvim', config = true },
       { "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
+      'saghen/blink.cmp',
     },
     opts = {
       -- options for vim.diagnostic.config()
@@ -200,20 +201,24 @@ return {
 
       vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
-      -- local servers = opts.servers
-      cmp_nvim_lsp = require("cmp_nvim_lsp")
-      local capabilities = vim.tbl_deep_extend(
-        "force",
-        vim.lsp.protocol.make_client_capabilities(),
-        cmp_nvim_lsp.default_capabilities()
-      )
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
+      -- -- local servers = opts.servers
+      -- -- cmp_nvim_lsp = require("cmp_nvim_lsp")
+      -- local capabilities = vim.tbl_deep_extend(
+      --   "force",
+      --   vim.lsp.protocol.make_client_capabilities(),
+      --   {}
+      --   -- cmp_nvim_lsp.default_capabilities()
+      -- )
+      -- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
       local function setup(server)
+        local server_config = opts.servers[server] or {}
+        server_config.capabilities = require('blink.cmp').get_lsp_capabilities(server_config.capabilities)
+        server_config.capabilities.textDocument.completion.completionItem.snippetSupport = true
         local server_opts = vim.tbl_deep_extend("force", {
           capabilities = vim.deepcopy(capabilities),
           on_attach = on_attach,
-        }, opts.servers[server] or {})
+        }, server_config)
         if server == "julials" then
           server_opts = vim.tbl_deep_extend("force", {
             on_new_config = function(new_config, _)

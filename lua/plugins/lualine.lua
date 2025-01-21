@@ -31,7 +31,15 @@ return {
       theme = "onedark",
       component_separators = "|",
       section_separators = "",
-      disabled_filetypes = { winbar = { "neo-tree" }},
+      disabled_filetypes = {
+        winbar = {
+          "neo-tree",
+          "Avante",
+          "AvanteInput",
+          "AvanteSelectedFiles",
+          "dap-repl",
+        },
+      },
     },
     extensions = { "neo-tree", "lazy", "toggleterm" },
     sections = {

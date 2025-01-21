@@ -56,7 +56,7 @@ return {
       vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
       local cmp = require("cmp")
       local defaults = require("cmp.config.default")()
-      def_sorting = defaults.sorting
+      local def_sorting = defaults.sorting
       -- table.insert(def_sorting.comparators, 1, require("clangd_extensions.cmp_scores"))
       return {
         completion = {
@@ -90,6 +90,7 @@ return {
           { name = "nvim_lsp"},
           { name = "calc"},
           { name = "copilot"},
+          -- { name = "codecompanion" },
           { name = "buffer"},
           { name = "luasnip" },
         }),

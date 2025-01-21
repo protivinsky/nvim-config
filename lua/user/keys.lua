@@ -53,7 +53,8 @@ M.buffer.switch = { key = "<leader>,", desc = "Switch to other buffer" }
 M.code = {}
 -- aerial
 M.code.aerial_toggle = { key = "<leader>ca", desc = "Aerial (symbols)" }
-M.code.code_companion = { key = "<leader>cc", desc = "CodeCompanionChat" }
+M.code.copilot_chat = { key = "<leader>cc", desc = "CopilotChat" }
+M.code.code_companion = { key = "<leader>cC", desc = "CodeCompanionChat" }
 -- spectre
 M.code.replace_spectre = { key = "<leader>sr", desc = "Replace in files (Spectre)" }
 -- venv-selector

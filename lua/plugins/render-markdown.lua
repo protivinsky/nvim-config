@@ -4,6 +4,7 @@ return {
     bullet = { right_pad = 1 },
     anti_conceal = { enabled = false },
     latex = { enabled = false },
+    file_types = { 'markdown', 'copilot-chat', 'codecompanion', 'Avante' },
   },
   -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
   -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
