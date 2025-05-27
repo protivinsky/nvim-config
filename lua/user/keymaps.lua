@@ -142,6 +142,10 @@ map("n", keys.diag.prev_warning.key, diagnostic_goto(false, "WARN"), { desc = ke
 map("n", keys.quit.all.key, "<cmd>qa<cr>", { desc = keys.quit.all.desc })
 map("n", keys.quit.window.key, "<cmd>q<cr>", { desc = keys.quit.window.desc })
 
+-- execute nvim lua
+map("n", keys.code.execute_lua.key, ":.lua<cr>", { desc = keys.code.execute_lua.desc })
+map("v", keys.code.execute_lua.key, ":lua<cr>", { desc = keys.code.execute_lua.desc })
+
 -- restore session
 -- map("n", "<leader>qr", require("persistence").load(), "Restore session")
 
@@ -199,6 +203,12 @@ local function create_scratch_file()
 end
 
 map("n", "<leader>fs", create_scratch_file, { desc = "Create scratch file" })
+
+-- I do not think this actually work
+-- map('c', 'w!!', "<esc>:lua require('user.util').sudo_write()<CR>", { silent = true })
+vim.api.nvim_create_user_command("SudoWrite", function()
+    require("user.util").sudo_write()
+end, { desc = "Save file with sudo" })
 
 
 

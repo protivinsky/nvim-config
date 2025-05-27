@@ -25,46 +25,51 @@ return {
   -- Set lualine as statusline
   "nvim-lualine/lualine.nvim",
   dependencies = { "AndreM222/copilot-lualine" },
-  opts = {
-    options = {
-      icons_enabled = true,
-      theme = "onedark",
-      component_separators = "|",
-      section_separators = "",
-      disabled_filetypes = {
-        winbar = {
-          "neo-tree",
-          "Avante",
-          "AvanteInput",
-          "AvanteSelectedFiles",
-          "dap-repl",
+  config = function()
+    require("lualine").setup({
+      options = {
+        icons_enabled = true,
+        theme = "onedark",
+        component_separators = "|",
+        section_separators = "",
+        disabled_filetypes = {
+          winbar = {
+            "neo-tree",
+            "Avante",
+            "AvanteInput",
+            "AvanteSelectedFiles",
+            "dap-repl",
+          },
         },
       },
-    },
-    extensions = { "neo-tree", "lazy", "toggleterm" },
-    sections = {
-      lualine_x = { "copilot", "encoding", "fileformat", "filetype" },
-      lualine_y = {
-        { "progress", separator = " ", padding = { left = 1, right = 0 } },
-        { "location", padding = { left = 0, right = 1 } },
+      extensions = { "neo-tree", "lazy", "toggleterm" },
+      sections = {
+        lualine_x = {
+          "copilot", "encoding", "fileformat", "filetype",
+          {require("mcphub.extensions.lualine")},
+        },
+        lualine_y = {
+          { "progress", separator = " ", padding = { left = 1, right = 0 } },
+          { "location", padding = { left = 0, right = 1 } },
+        },
+        lualine_z = {
+          function()
+            return " " .. os.date("%R")
+          end,
+        },
       },
-      lualine_z = {
-        function()
-          return " " .. os.date("%R")
-        end,
+      winbar = {
+        lualine_a = { "mode" },
+        lualine_b = lualine_b,
+        lualine_z = {
+          { "progress", separator = " ", padding = { left = 1, right = 0 } },
+          { "location", padding = { left = 0, right = 1 } },
+        }
       },
-    },
-    winbar = {
-      lualine_a = { "mode" },
-      lualine_b = lualine_b,
-      lualine_z = {
-        { "progress", separator = " ", padding = { left = 1, right = 0 } },
-        { "location", padding = { left = 0, right = 1 } },
-      }
-    },
-    inactive_winbar = {
-      lualine_b = lualine_b,
-      -- lualine_y = { "location" },
-    },
-  },
+      inactive_winbar = {
+        lualine_b = lualine_b,
+        -- lualine_y = { "location" },
+      },
+    })
+  end
 }

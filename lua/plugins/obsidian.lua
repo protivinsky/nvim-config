@@ -30,10 +30,7 @@ return {
     { keys.obsidian.link_new.key, "<cmd>ObsidianLinkNew<cr>", desc = keys.obsidian.link_new.desc },
   },
   dependencies = {
-    -- Required.
     "nvim-lua/plenary.nvim",
-
-    -- see below for full list of optional dependencies 👇
   },
   opts = {
     -- A list of workspace names, paths, and configuration overrides.
@@ -63,7 +60,7 @@ return {
     -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
     completion = {
       -- Set to false to disable completion.
-      nvim_cmp = true,
+      nvim_cmp = true ,
       -- Trigger completion at 2 chars.
       min_chars = 2,
     },

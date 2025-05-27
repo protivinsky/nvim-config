@@ -12,6 +12,20 @@ local function get_args(config)
   return config
 end
 
+-- taken from LazyVim
+local function get_pkg_path(pkg, path)
+  pcall(require, "mason") -- make sure Mason is loaded. Will fail when generating docs
+  local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
+  path = path or ""
+  local ret = root .. "/packages/" .. pkg .. "/" .. path
+  if not vim.loop.fs_stat(ret) then
+    print(
+      ("Mason package path not found for **%s**:\n- `%s`\nYou may need to force update the package."):format(pkg, path)
+    )
+  end
+  return ret
+end
+
 return {
   'mfussenegger/nvim-dap',
   dependencies = {
@@ -81,8 +95,7 @@ return {
         { keys.debug.test_class.key, function() require('dap-python').test_class() end, desc = keys.debug.test_class.desc, ft = "python" },
       },
       config = function()
-        local path = require("mason-registry").get_package("debugpy"):get_install_path()
-        require("dap-python").setup(path .. "/venv/bin/python")
+        require("dap-python").setup(get_pkg_path("debugpy", "/venv/bin/python"))
       end,
     },
     {

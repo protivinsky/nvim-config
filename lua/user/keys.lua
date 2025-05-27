@@ -53,8 +53,8 @@ M.buffer.switch = { key = "<leader>,", desc = "Switch to other buffer" }
 M.code = {}
 -- aerial
 M.code.aerial_toggle = { key = "<leader>ca", desc = "Aerial (symbols)" }
-M.code.copilot_chat = { key = "<leader>cc", desc = "CopilotChat" }
-M.code.code_companion = { key = "<leader>cC", desc = "CodeCompanionChat" }
+M.code.copilot_chat = { key = "<leader>cC", desc = "CopilotChat" }
+M.code.code_companion = { key = "<leader>cc", desc = "CodeCompanionChat" }
 -- spectre
 M.code.replace_spectre = { key = "<leader>sr", desc = "Replace in files (Spectre)" }
 -- venv-selector
@@ -64,6 +64,7 @@ M.code.venv_info = { key = "<leader>cI", desc = "Current virtual env" }
 M.code.show_dataframe = { key = "<leader>cD", desc = "Show pandas DataFrame" }
 -- ruff format
 M.code.format_ruff = { key = "<leader>cr", desc = "Format with Ruff" }
+M.code.execute_lua = { key = "<leader>cx", desc = "Execute Lua" }
 
 M.diff = {}
 M.diff.this = { key = "<leader>dt", desc = "Diff this" }
