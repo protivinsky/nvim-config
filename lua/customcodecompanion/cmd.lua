@@ -47,7 +47,7 @@ function SlashCommand:execute(SlashCommands)
       ),
     }, { reference = id, visible = false })
 
-    self.Chat.references:add({
+    self.Chat.context:add({
         id = id or "",
         name = "cmd",
         source = "slash_commands",

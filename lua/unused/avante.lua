@@ -5,7 +5,7 @@ return {
   version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
   opts = {
     -- add any opts here
-    hints = { enabled = false },
+    selection = { enabled = false, hint_display = "none" },
     file_selector = { provider = "telescope" },
     -- The system_prompt type supports both a string and a function that returns a string. Using a function here allows dynamically updating the prompt with mcphub
     system_prompt = function()

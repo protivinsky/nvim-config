@@ -55,6 +55,7 @@ M.code = {}
 M.code.aerial_toggle = { key = "<leader>ca", desc = "Aerial (symbols)" }
 M.code.copilot_chat = { key = "<leader>cC", desc = "CopilotChat" }
 M.code.code_companion = { key = "<leader>cc", desc = "CodeCompanionChat" }
+M.code.code_companion_history = { key = "<leader>ch", desc = "CodeCompanionHistory" }
 -- spectre
 M.code.replace_spectre = { key = "<leader>sr", desc = "Replace in files (Spectre)" }
 -- venv-selector
@@ -65,6 +66,7 @@ M.code.show_dataframe = { key = "<leader>cD", desc = "Show pandas DataFrame" }
 -- ruff format
 M.code.format_ruff = { key = "<leader>cr", desc = "Format with Ruff" }
 M.code.execute_lua = { key = "<leader>cx", desc = "Execute Lua" }
+M.code.execute_manim = { key = "<leader>cm", desc = "Execute Manim" }
 
 M.diff = {}
 M.diff.this = { key = "<leader>dt", desc = "Diff this" }
@@ -190,7 +192,8 @@ M.term.start_ipython = { key = "<leader>ci", desc = "Start ipython terminal" }
 M.term.start_julia = { key = "<leader>cj", desc = "Start julia terminal" }
 M.term.run_in_python = { key = "<leader>cP", desc = "Save and run in python" }
 M.term.run_in_julia = { key = "<leader>cJ", desc = "Save and run in julia" }
-M.term.send_line = { key = "<leader>r", key2 = "<A-r>", desc = "Send line to terminal" }
+M.term.send_line = { key = "<A-r>", desc = "Send line to terminal" }
+M.term.send_operator = { key = "<leader>r", desc = "Send to terminal operator" }
 M.term.send_selection = { key = "<leader>r", key2 = "<A-r>", desc = "Send selection to terminal" }
 
 -- telescope

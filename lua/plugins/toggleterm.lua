@@ -197,6 +197,120 @@ local function last_terminal_id()
   return last_focused and last_focused.id or 1
 end
 
+-- -- operator implementation: supports motions (e.g. <leader>tip, <leader>t2j, <leader>tat)
+_G.ToggleTermOperator = function(motion)
+  -- motion is the string Vim passes: "char", "line", or "block"
+  local id = last_terminal_id()
+
+  -- Get operator marks set by the motion
+  local s_pos = vim.fn.getpos("'[")
+  local e_pos = vim.fn.getpos("']")
+  local start_line, start_col = s_pos[2], s_pos[3]
+  local end_line, end_col = e_pos[2], e_pos[3]
+
+  if not start_line or not end_line then return end
+
+  -- Ensure start <= end
+  if end_line < start_line or (end_line == start_line and end_col < start_col) then
+    start_line, end_line, start_col, end_col = end_line, start_line, end_col, start_col
+  end
+
+  local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+  if not lines or vim.tbl_isempty(lines) then return end
+
+  -- Adjust for characterwise motions: slice first and last lines
+  if motion == "char" then
+    if start_line == end_line then
+      local l = lines[1] or ""
+      lines = { string.sub(l, start_col, end_col) }
+    else
+      local first = lines[1] or ""
+      local last  = lines[#lines] or ""
+      lines[1] = string.sub(first, start_col)   -- from start_col to end
+      lines[#lines] = string.sub(last, 1, end_col) -- beginning to end_col
+    end
+  elseif motion == "block" then
+    -- blockwise selections are rectangular; handling them properly is more involved.
+    -- For now treat them as charwise (or you can notify the user).
+    -- vim.notify("Blockwise operator not fully supported; falling back to charwise", vim.log.levels.INFO)
+  end
+
+  -- Determine trim_spaces based on line count: single line = trim, multiple lines = preserve indentation
+  local trim_spaces = #lines == 1
+
+  -- Send lines to terminal
+  if trim_spaces then
+    for _, line in ipairs(lines) do
+      local l = line:gsub("^%s+", ""):gsub("%s+$", "")
+      require("toggleterm").exec(l, id)
+    end
+  else
+    local fixed = fix_lines_for_python(lines)
+    for _, l in ipairs(fixed) do
+      require("toggleterm").exec(l, id)
+    end
+  end
+
+  -- Restore cursor to the start of the motion
+  local cur_win = vim.api.nvim_get_current_win()
+  vim.api.nvim_win_set_cursor(cur_win, { start_line, start_col })
+end
+
+local function execute_manim(selection_type, cmd_data)
+  local toggleterm = require("toggleterm")
+  local utils = require("toggleterm.utils")
+  local id = tonumber(cmd_data.args) or 1
+
+  local start_line, start_col
+  local lines
+
+  if selection_type == "single_line" then
+    start_line, start_col = unpack(vim.api.nvim_win_get_cursor(0))
+  elseif selection_type == "visual_selection" then
+    local res = utils.get_line_selection("visual")
+    start_line, start_col = unpack(res.start_pos)
+    lines = utils.get_visual_selection(res)
+  end
+
+  -- Visual mode behavior: copy selection to clipboard and send checkpoint_paste()
+  if selection_type == "visual_selection" then
+    if not lines or not next(lines) then
+      return
+    end
+    -- copy to system clipboard
+    vim.fn.setreg("+", table.concat(lines, "\n"))
+    toggleterm.exec("checkpoint_paste()", id)
+    return
+  end
+
+  -- Normal mode behavior: send manimgl <relpath> <ClassName> -se <line>
+  vim.cmd("write") -- ensure file is saved
+  local relpath = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
+  if relpath == "" or relpath == nil then
+    vim.notify("Cannot determine file path for manim command", vim.log.levels.WARN)
+    return
+  end
+
+  -- find nearest class above the cursor
+  local class_name
+  for i = start_line, 1, -1 do
+    local l = vim.fn.getline(i)
+    local m = l:match("^%s*class%s+([%w_]+)")
+    if m then
+      class_name = m
+      break
+    end
+  end
+
+  if not class_name then
+    vim.notify("No Python class found above the cursor", vim.log.levels.WARN)
+    return
+  end
+
+  local cmd = string.format("manimgl %s %s -se %d", vim.fn.shellescape(relpath), class_name, start_line)
+  toggleterm.exec(cmd, id)
+end
+
 
 return {
   {
@@ -321,15 +435,7 @@ return {
         desc = keys.term.send_line.desc
       },
       {
-        keys.term.send_line.key2,
-        function()
-          require("toggleterm").send_lines_to_terminal("single_line", true, { args = last_terminal_id() })
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('j', true, true, true), 'n', false)
-        end,
-        desc = keys.term.send_line.desc
-      },
-      {
-        keys.term.send_line.key2,
+        keys.term.send_line.key,
         function()
           require("toggleterm").send_lines_to_terminal("single_line", true, { args = last_terminal_id() })
         end,
@@ -354,6 +460,30 @@ return {
         desc = keys.term.send_selection.desc,
         mode = "x"
       },
+      -- Normal mode mapping (calls nearest class + current line)
+      {
+        keys.code.execute_manim.key,
+        function() execute_manim("single_line", { args = last_terminal_id() }) end,
+        desc = keys.code.execute_manim.desc,
+      },
+      -- Visual mode mapping (yank selection to clipboard and send checkpoint_paste())
+      {
+        keys.code.execute_manim.key,
+        function() execute_manim("visual_selection", { args = last_terminal_id() }) end,
+        desc = keys.code.execute_manim.desc,
+        mode = "x",
+      },
+      {
+        keys.term.send_operator.key,
+        function()
+          -- set the operatorfunc to our global function, then return g@ to start operator-pending
+          vim.go.operatorfunc = "v:lua.ToggleTermOperator"
+          return "g@"
+        end,
+        desc = keys.term.send_operator.desc,
+        expr = true,
+        silent = true,
+      }
     },
     config = function(_, opts)
       require("toggleterm").setup(opts)

@@ -19,6 +19,14 @@ map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true
 map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+-- insert-mode up/down respect soft wraps, but keep completion menu behavior
+-- gpt-5 suggestion, unsure if good
+vim.keymap.set("i", "<Up>", function()
+  return vim.fn.pumvisible() == 1 and "<C-p>" or "<C-o>gk"
+end, { expr = true, silent = true })
+vim.keymap.set("i", "<Down>", function()
+  return vim.fn.pumvisible() == 1 and "<C-n>" or "<C-o>gj"
+end, { expr = true, silent = true })
 
 -- Move to window using the <ctrl> hjkl keys
 map("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })

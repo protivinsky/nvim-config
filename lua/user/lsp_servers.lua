@@ -1,8 +1,8 @@
 return {
   "lua_ls",
   "clangd",
-  -- "pyright",
-  "basedpyright",
+  "pyright",
+  -- "basedpyright",
   "bashls",
   "jsonls",
   "openscad_lsp",

@@ -68,13 +68,30 @@ return {
         },
       },
       textobjects = {
+        select = {
+          enable = true,
+          lookahead = true, -- Automatically jump forward to textobj
+          keymaps = {
+            -- You can use the capture groups defined in textobjects.scm
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["ac"] = "@class.outer",
+            ["ic"] = "@class.inner",
+            ["aa"] = "@parameter.outer",
+            ["ia"] = "@parameter.inner",
+            ["al"] = "@loop.outer",
+            ["il"] = "@loop.inner",
+            ["ai"] = "@conditional.outer",
+            ["ii"] = "@conditional.inner",
+          },
+        },
         move = {
           enable = true,
           goto_next_start = {
             [keys.code.next_function_start.key] = "@function.outer",
-            [keys.code.next_class_start.key] = "@class.outer" 
+            [keys.code.next_class_start.key] = "@class.outer"
           },
-          goto_next_end = { 
+          goto_next_end = {
             [keys.code.next_function_end.key] = "@function.outer",
             [keys.code.next_class_end.key] = "@class.outer"
           },

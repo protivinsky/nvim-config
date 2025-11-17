@@ -2,7 +2,6 @@ local keys = require("user.keys")
 
 return {
   'linux-cultist/venv-selector.nvim',
-  branch = "regexp",
   lazy = false,
   dependencies = { 'neovim/nvim-lspconfig', 'nvim-telescope/telescope.nvim', 'mfussenegger/nvim-dap-python' },
   opts = {
