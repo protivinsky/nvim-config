@@ -2,7 +2,7 @@ return {
   'MeanderingProgrammer/render-markdown.nvim',
   opts = {
     bullet = { right_pad = 1 },
-    anti_conceal = { enabled = false },
+    anti_conceal = { enabled = true },
     latex = { enabled = false },
     file_types = { 'markdown', 'copilot-chat', 'codecompanion', 'Avante' },
   },

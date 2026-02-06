@@ -1,7 +1,6 @@
 return {
   "coder/claudecode.nvim",
   dependencies = { "folke/snacks.nvim" },
-  config = true,
   keys = {
     { "<leader>a", nil, desc = "AI/Claude Code" },
     { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
@@ -21,4 +20,11 @@ return {
     { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
     { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
   },
+
+  opts = {
+    terminal = {
+      provider = "snacks",  -- Use toggleterm instead of native/snacks
+      start_insert = false,  -- Don't auto-enter insert mode
+    }
+  }
 }

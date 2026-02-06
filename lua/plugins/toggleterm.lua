@@ -279,7 +279,15 @@ local function execute_manim(selection_type, cmd_data)
     end
     -- copy to system clipboard
     vim.fn.setreg("+", table.concat(lines, "\n"))
-    toggleterm.exec("checkpoint_paste()", id)
+
+    -- Check if first line is a comment - if so, append it to checkpoint_paste()
+    local first_line = lines[1]
+    local comment = first_line:match("^%s*(#.*)$")
+    if comment and comment ~= "" then
+      toggleterm.exec("checkpoint_paste()  " .. comment .. " ("  .. #lines .. " lines)", id)
+    else
+      toggleterm.exec("checkpoint_paste()", id)
+    end
     return
   end
 
