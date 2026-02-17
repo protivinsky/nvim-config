@@ -1,4 +1,8 @@
 local pretty_path = function()
+  -- Return just filename for toggleterm
+  if vim.bo.filetype == "toggleterm" then
+    return "ToggleTerm #" .. vim.b.toggle_number
+  end
   local path = vim.fn.expand "%:p"
   local cwd = vim.fn.getcwd()
   if path:find(cwd, 1, true) == 1 then
@@ -42,7 +46,8 @@ return {
           },
         },
       },
-      extensions = { "neo-tree", "lazy", "toggleterm" },
+      -- extensions = { "neo-tree", "lazy", "toggleterm" },
+      extensions = { "neo-tree", "lazy" },
       sections = {
         lualine_x = {
           "copilot", "encoding", "fileformat", "filetype",

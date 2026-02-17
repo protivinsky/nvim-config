@@ -28,22 +28,23 @@ return {
       return vim.bo.buftype == "terminal" and vim.bo.filetype == "opencode_terminal"
     end
 
-    -- Smart half-page scrolling: normal scroll in regular buffers, opencode scroll in opencode terminal
-    vim.keymap.set({ "n", "x", "t" }, "<C-u>", function()
-      if is_opencode_terminal() then
-        require("opencode").command("session.half.page.up")
-      else
-        vim.cmd("normal! <C-u>")
-      end
-    end, { desc = "Half page up (opencode-aware)" })
-
-    vim.keymap.set({ "n", "x", "t" }, "<C-d>", function()
-      if is_opencode_terminal() then
-        require("opencode").command("session.half.page.down")
-      else
-        vim.cmd("normal! <C-d>")
-      end
-    end, { desc = "Half page down (opencode-aware)" })
+    -- FIXME: complains that it cannot return to normal mode from terminal on C-d...
+    -- -- Smart half-page scrolling: normal scroll in regular buffers, opencode scroll in opencode terminal
+    -- vim.keymap.set({ "n", "x", "t" }, "<C-u>", function()
+    --   if is_opencode_terminal() then
+    --     require("opencode").command("session.half.page.up")
+    --   else
+    --     vim.cmd("normal! <C-u>")
+    --   end
+    -- end, { desc = "Half page up (opencode-aware)" })
+    --
+    -- vim.keymap.set({ "n", "x", "t" }, "<C-d>", function()
+    --   if is_opencode_terminal() then
+    --     require("opencode").command("session.half.page.down")
+    --   else
+    --     vim.cmd("normal! <C-d>")
+    --   end
+    -- end, { desc = "Half page down (opencode-aware)" })
 
     -- You may want these if you stick with the opinionated "<C-a>" and "<C-x>" above — otherwise consider "<leader>o…".
     vim.keymap.set("n", "+", "<C-a>", { desc = "Increment under cursor", noremap = true })

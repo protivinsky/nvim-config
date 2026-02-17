@@ -11,10 +11,44 @@ return {
   'tpope/vim-rhubarb',
   "bfredl/nvim-luadev",
 
+  {
+    -- Theme inspired by Atom
+    "navarasu/onedark.nvim",
+    priority = 1000,
+    opts = { style = "warmer" },
+    config = function(_, opts)
+      require("onedark").setup(opts)
+      vim.cmd.colorscheme "onedark"
+    end,
+  },
+
   -- completion etc for nvim lua API
   { "folke/lazydev.nvim", ft = "lua", config = true },
   -- some other plugins require icons
-  { "nvim-tree/nvim-web-devicons", lazy = true },
+  {
+    "nvim-tree/nvim-web-devicons",
+    lazy = true,
+    config = function()
+      local devicons = require("nvim-web-devicons")
+      devicons.setup()
+      devicons.set_icon_by_filetype({
+        toggleterm = "terminal"
+      })
+    end,
+  },
+  {
+      "rachartier/tiny-devicons-auto-colors.nvim",
+      dependencies = {
+          "nvim-tree/nvim-web-devicons"
+      },
+      event = "VeryLazy",
+      config = function()
+      local theme_colors = require("onedark.colors")
+      require('tiny-devicons-auto-colors').setup({
+        colors = theme_colors,
+      })
+      end
+  },
 
   -- "gc" to comment visual regions/lines
   {
@@ -46,17 +80,6 @@ return {
     lazy = false,
     config = function()
       require("tmux").setup()
-    end,
-  },
-
-  {
-    -- Theme inspired by Atom
-    "navarasu/onedark.nvim",
-    priority = 1000,
-    opts = { style = "warmer" },
-    config = function(_, opts)
-      require("onedark").setup(opts)
-      vim.cmd.colorscheme "onedark"
     end,
   },
 }

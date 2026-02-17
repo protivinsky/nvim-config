@@ -71,6 +71,13 @@ local function fix_lines_for_python(lines)
   return lines3
 end
 
+-- Track the last terminal we sent code to (our own tracking, most reliable)
+_G.ToggleTermLastUsedId = nil
+
+local function track_terminal_used(id)
+  _G.ToggleTermLastUsedId = id
+end
+
 local function show_dataframe(selection_type, cmd_data)
   local toggleterm = require("toggleterm")
   local utils = require("toggleterm.utils")
@@ -141,6 +148,7 @@ local function custom_send_lines_to_terminal(selection_type, trim_spaces, cmd_da
   local utils = require("toggleterm.utils")
   local id = tonumber(cmd_data.args) or 1
   trim_spaces = trim_spaces == nil or trim_spaces
+  track_terminal_used(id)
 
   vim.validate({
     selection_type = { selection_type, "string", true },
@@ -189,18 +197,33 @@ local function custom_send_lines_to_terminal(selection_type, trim_spaces, cmd_da
 end
 
 local function last_terminal_id()
+  -- First priority: our own tracking of last used terminal
+  if _G.ToggleTermLastUsedId then
+    -- Verify the terminal still exists
+    local term = require("toggleterm.terminal").get(_G.ToggleTermLastUsedId)
+    if term then return _G.ToggleTermLastUsedId end
+  end
+  -- Second: toggleterm's last focused
+  local last_focused = require("toggleterm.terminal").get_last_focused()
+  if last_focused then return last_focused.id end
+  -- Third: any open terminal window
   local is_open, term_wins = require("toggleterm.ui").find_open_windows()
   if is_open then return term_wins[1].term_id end
+  -- Fourth: last toggled terminal
   local toggled_id = require("toggleterm.terminal").get_toggled_id()
   if toggled_id then return toggled_id end
-  local last_focused = require("toggleterm.terminal").get_last_focused()
-  return last_focused and last_focused.id or 1
+  -- Fallback
+  return 1
 end
+
+-- Global variable to store target terminal ID for operator mode with explicit ID
+_G.ToggleTermTargetId = nil
 
 -- -- operator implementation: supports motions (e.g. <leader>tip, <leader>t2j, <leader>tat)
 _G.ToggleTermOperator = function(motion)
   -- motion is the string Vim passes: "char", "line", or "block"
   local id = last_terminal_id()
+  track_terminal_used(id)
 
   -- Get operator marks set by the motion
   local s_pos = vim.fn.getpos("'[")
@@ -252,6 +275,56 @@ _G.ToggleTermOperator = function(motion)
   end
 
   -- Restore cursor to the start of the motion
+  local cur_win = vim.api.nvim_get_current_win()
+  vim.api.nvim_win_set_cursor(cur_win, { start_line, start_col })
+end
+
+-- Operator that sends to a specific terminal ID (stored in _G.ToggleTermTargetId)
+-- Falls back to last_terminal_id() if no target ID is set
+_G.ToggleTermOperatorWithId = function(motion)
+  local id = _G.ToggleTermTargetId or last_terminal_id()
+  track_terminal_used(id)
+
+  local s_pos = vim.fn.getpos("'[")
+  local e_pos = vim.fn.getpos("']")
+  local start_line, start_col = s_pos[2], s_pos[3]
+  local end_line, end_col = e_pos[2], e_pos[3]
+
+  if not start_line or not end_line then return end
+
+  if end_line < start_line or (end_line == start_line and end_col < start_col) then
+    start_line, end_line, start_col, end_col = end_line, start_line, end_col, start_col
+  end
+
+  local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+  if not lines or vim.tbl_isempty(lines) then return end
+
+  if motion == "char" then
+    if start_line == end_line then
+      local l = lines[1] or ""
+      lines = { string.sub(l, start_col, end_col) }
+    else
+      local first = lines[1] or ""
+      local last  = lines[#lines] or ""
+      lines[1] = string.sub(first, start_col)
+      lines[#lines] = string.sub(last, 1, end_col)
+    end
+  end
+
+  local trim_spaces = #lines == 1
+
+  if trim_spaces then
+    for _, line in ipairs(lines) do
+      local l = line:gsub("^%s+", ""):gsub("%s+$", "")
+      require("toggleterm").exec(l, id)
+    end
+  else
+    local fixed = fix_lines_for_python(lines)
+    for _, l in ipairs(fixed) do
+      require("toggleterm").exec(l, id)
+    end
+  end
+
   local cur_win = vim.api.nvim_get_current_win()
   vim.api.nvim_win_set_cursor(cur_win, { start_line, start_col })
 end
@@ -324,10 +397,13 @@ return {
   {
     "akinsho/toggleterm.nvim",
     version = "*",
-    event = "VeryLazy",
+    -- event = "VeryLazy",
+    lazy = false,
     opts = {
       size = 20,
       open_mapping = [[<C-\>]],
+      insert_mappings=false,
+      terminal_mappings=false,
       shade_filetypes = {},
       direction = "float",
       shell = vim.o.shell,
@@ -344,21 +420,27 @@ return {
       {
         keys.term.new_vertical.key,
         function()
-          require("toggleterm.terminal").Terminal:new({ direction = "vertical" }):toggle(120)
+          local term = require("toggleterm.terminal").Terminal:new({ direction = "vertical" })
+          term:toggle(120)
+          track_terminal_used(term.id)
         end,
         desc = keys.term.new_vertical.desc
       },
       {
         keys.term.new_horizontal.key,
         function()
-          require("toggleterm.terminal").Terminal:new({ direction = "horizontal" }):toggle(20)
+          local term = require("toggleterm.terminal").Terminal:new({ direction = "horizontal" })
+          term:toggle(20)
+          track_terminal_used(term.id)
         end,
         desc = keys.term.new_horizontal.desc
       },
       {
         keys.term.new_float.key,
         function()
-          require("toggleterm.terminal").Terminal:new({ direction = "float" }):toggle()
+          local term = require("toggleterm.terminal").Terminal:new({ direction = "float" })
+          term:toggle()
+          track_terminal_used(term.id)
         end,
         desc = keys.term.new_float.desc
       },
@@ -481,17 +563,58 @@ return {
         desc = keys.code.execute_manim.desc,
         mode = "x",
       },
+      -- <leader>rr + motion: send to last used terminal (operator mode)
       {
-        keys.term.send_operator.key,
+        "<leader>rr",
         function()
-          -- set the operatorfunc to our global function, then return g@ to start operator-pending
-          vim.go.operatorfunc = "v:lua.ToggleTermOperator"
+          _G.ToggleTermTargetId = nil  -- nil means use last_terminal_id()
+          vim.go.operatorfunc = "v:lua.ToggleTermOperatorWithId"
           return "g@"
         end,
-        desc = keys.term.send_operator.desc,
+        desc = "Send motion to last terminal",
         expr = true,
         silent = true,
-      }
+      },
+      -- Visual <leader>rr: send selection to last used terminal
+      {
+        "<leader>rr",
+        function()
+          custom_send_lines_to_terminal("visual_selection", false, { args = last_terminal_id() })
+          vim.cmd("normal! `>")
+        end,
+        desc = "Send selection to last terminal",
+        mode = "x",
+      },
+      -- <leader>r1 through <leader>r9 + motion: send to specific terminal (operator mode)
+      -- Visual <leader>r1 through <leader>r9: send selection to specific terminal
+      unpack((function()
+        local specific_term_keys = {}
+        for i = 1, 9 do
+          -- Operator mode: <leader>rN + motion
+          table.insert(specific_term_keys, {
+            "<leader>r" .. i,
+            function()
+              _G.ToggleTermTargetId = i
+              vim.go.operatorfunc = "v:lua.ToggleTermOperatorWithId"
+              return "g@"
+            end,
+            desc = "Send motion to terminal " .. i,
+            expr = true,
+            silent = true,
+          })
+          -- Visual mode: <leader>rN
+          table.insert(specific_term_keys, {
+            "<leader>r" .. i,
+            function()
+              custom_send_lines_to_terminal("visual_selection", false, { args = i })
+              vim.cmd("normal! `>")
+            end,
+            desc = "Send selection to terminal " .. i,
+            mode = "x"
+          })
+        end
+        return specific_term_keys
+      end)())
     },
     config = function(_, opts)
       require("toggleterm").setup(opts)
