@@ -30,6 +30,7 @@ return {
     { keys.obsidian.link_new.key, "<cmd>Obsidian link_new<cr>", desc = keys.obsidian.link_new.desc },
   },
   opts = {
+    legacy_commands = false,
     workspaces = {
       {
         name = "personal",
