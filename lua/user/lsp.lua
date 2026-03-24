@@ -1,10 +1,16 @@
 local keys = require("user.keys")
 
--- enable servers -- actually done by mason-lspconfig + install
--- local servers = require("user.lsp_servers")
--- for _, server in ipairs(servers) do
---   vim.lsp.enable(server)
--- end
+-- enable servers via native Nvim 0.11+ lsp/ directory configs
+local servers = require("user.lsp_servers")
+vim.lsp.enable(servers.all)
+
+-- global LSP capabilities (completion support from cmp_nvim_lsp)
+local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if has_cmp then
+  vim.lsp.config("*", {
+    capabilities = cmp_nvim_lsp.default_capabilities(),
+  })
+end
 
 -- diagnostics
 local icons_diagnostics = require("user.util").icons.diagnostics

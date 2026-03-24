@@ -421,7 +421,7 @@ return {
         keys.term.new_vertical.key,
         function()
           local term = require("toggleterm.terminal").Terminal:new({ direction = "vertical" })
-          term:toggle(120)
+          term:toggle(math.min(120, math.floor(vim.o.columns * 0.4)))
           track_terminal_used(term.id)
         end,
         desc = keys.term.new_vertical.desc

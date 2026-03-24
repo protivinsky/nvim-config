@@ -1,4 +1,5 @@
-return {
+-- Servers installed and managed by Mason
+local mason = {
   "lua_ls",
   "clangd",
   "pyright",
@@ -6,6 +7,14 @@ return {
   "bashls",
   "jsonls",
   "openscad_lsp",
-  "julials",
 }
 
+-- All servers to enable (mason + manually managed)
+local all = vim.list_extend(vim.deepcopy(mason), {
+  "julials",
+})
+
+return {
+  mason = mason,
+  all = all,
+}

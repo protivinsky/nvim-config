@@ -15,7 +15,13 @@ return {
     -- Theme inspired by Atom
     "navarasu/onedark.nvim",
     priority = 1000,
-    opts = { style = "warmer" },
+    opts = {
+      style = "warmer",
+      highlights = {
+        -- ["@markup.quote"] = { fg = "$light_grey", fmt = "bold" },
+        ["@markup.quote"] = { fg = "$yellow" },
+      },
+    },
     config = function(_, opts)
       require("onedark").setup(opts)
       vim.cmd.colorscheme "onedark"
