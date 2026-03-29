@@ -20,9 +20,20 @@ local pretty_path = function()
   return path
 end
 
+local active_toggleterm_dot = function()
+  if vim.bo.filetype == "toggleterm" then
+    local id = vim.b.toggle_number
+    if id == _G.ToggleTermLastUsedId then
+      return "●"
+    end
+  end
+  return ""
+end
+
 local lualine_b = {
   { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-  { pretty_path },
+  { pretty_path, separator = "" },
+  { active_toggleterm_dot, color = { fg = require("onedark.palette").warmer.green }, padding = { left = 0, right = 1 } },
 }
 
 return {

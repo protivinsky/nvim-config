@@ -76,6 +76,8 @@ _G.ToggleTermLastUsedId = nil
 
 local function track_terminal_used(id)
   _G.ToggleTermLastUsedId = id
+  local ok, lualine = pcall(require, "lualine")
+  if ok then lualine.refresh({ place = { "winbar" } }) end
 end
 
 local function show_dataframe(selection_type, cmd_data)
@@ -421,7 +423,8 @@ return {
         keys.term.new_vertical.key,
         function()
           local term = require("toggleterm.terminal").Terminal:new({ direction = "vertical" })
-          term:toggle(math.min(120, math.floor(vim.o.columns * 0.4)))
+          local width = math.min(120, math.floor(vim.o.columns * 0.4))
+          term:toggle(width)
           track_terminal_used(term.id)
         end,
         desc = keys.term.new_vertical.desc
@@ -611,6 +614,15 @@ return {
             end,
             desc = "Send selection to terminal " .. i,
             mode = "x"
+          })
+          -- Mark terminal N as last used: <leader>tN
+          table.insert(specific_term_keys, {
+            "<leader>t" .. i,
+            function()
+              track_terminal_used(i)
+              vim.notify("Terminal " .. i .. " is now active", vim.log.levels.INFO)
+            end,
+            desc = "Set terminal " .. i .. " as active",
           })
         end
         return specific_term_keys
