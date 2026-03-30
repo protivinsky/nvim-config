@@ -1,39 +1,17 @@
 local keys = require("user.keys")
 
--- TODO: Figure out how to do this better, ideally on venv selector plugin
--- Also, I might want to provide some user commands for lazygit, btop etc
--- see https://github.com/LunarVim/Neovim-from-scratch/blob/master/lua/user/toggleterm.lua
---
--- local python_cmd = "python"
--- local ipython_cmd = "ipython --TerminalInteractiveShell.autoindent=False"
--- local python_cmd = "${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}python"
--- local ipython_cmd = "${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/}ipython --TerminalInteractiveShell.autoindent=False"
-
 local python_path = function() return require("venv-selector").python() or "python" end
 local python_or_ipython = "python"
--- local python_repl = nil
--- local python_shell = nil
 
-local julia_path = function()
-  local function file_exists(path)
-    local file = io.open(path, "r")
-    if file then
-      io.close(file)
-      return true
-    else
-      return false
-    end
-  end
-  if file_exists("Project.toml") or file_exists("JuliaProject.toml") then
+local function julia_path()
+  if vim.fn.filereadable("Project.toml") == 1 or vim.fn.filereadable("JuliaProject.toml") == 1 then
     return "julia --project"
-  else
-    return "julia"
   end
+  return "julia"
 end
 
 local function fix_lines_for_python(lines)
-  -- remove whitespaces at the beginning of the whole block
-  -- remove empty lines
+  -- Remove leading whitespace common to the whole block, drop empty lines
   local lines2 = {}
   local first_offset = nil
 
@@ -42,8 +20,7 @@ local function fix_lines_for_python(lines)
       if first_offset == nil then
         first_offset = #(string.match(line, "^ *"))
       end
-      local norm_line = string.gsub(line, " ", "", first_offset)
-      table.insert(lines2, norm_line)
+      table.insert(lines2, line:sub(first_offset + 1))
     end
   end
   table.insert(lines2, "")
@@ -52,7 +29,7 @@ local function fix_lines_for_python(lines)
     return lines2
   end
 
-  -- insert empty lines to make python REPL happy
+  -- Insert empty lines at dedent boundaries to make the Python REPL happy
   local current_offset = 0
   local next_offset = nil
   local lines3 = {}
@@ -71,7 +48,7 @@ local function fix_lines_for_python(lines)
   return lines3
 end
 
--- Track the last terminal we sent code to (our own tracking, most reliable)
+-- Track the last terminal we sent code to
 _G.ToggleTermLastUsedId = nil
 
 local function track_terminal_used(id)
@@ -80,88 +57,72 @@ local function track_terminal_used(id)
   if ok then lualine.refresh({ place = { "winbar" } }) end
 end
 
+local function send_lines(lines, id)
+  local toggleterm = require("toggleterm")
+  if #lines == 1 then
+    toggleterm.exec(lines[1]:gsub("^%s+", ""):gsub("%s+$", ""), id)
+  else
+    for _, l in ipairs(fix_lines_for_python(lines)) do
+      toggleterm.exec(l, id)
+    end
+  end
+end
+
 local function show_dataframe(selection_type, cmd_data)
   local toggleterm = require("toggleterm")
   local utils = require("toggleterm.utils")
   local id = tonumber(cmd_data.args) or 1
 
   local lines = {}
-  -- Beginning of the selection: line number, column number
-  local start_line, start_col
   if selection_type == "single_line" then
-    start_line, start_col = unpack(vim.api.nvim_win_get_cursor(0))
-    table.insert(lines, vim.fn.getline(start_line))
+    table.insert(lines, vim.fn.getline(vim.api.nvim_win_get_cursor(0)[1]))
   elseif selection_type == "visual_selection" then
-    local res = utils.get_line_selection("visual")
-    start_line, start_col = unpack(res.start_pos)
-    lines = utils.get_visual_selection(res)
+    lines = utils.get_visual_selection(utils.get_line_selection("visual"))
   end
 
   if not lines or not next(lines) or #lines ~= 1 then
     return
   end
 
-  local line = lines[1]
-  -- toggleterm.exec("import pandas as pd", id)
-  toggleterm.exec(line .. ".to_csv('~/tmp/df.csv')", id)
+  toggleterm.exec(lines[1] .. ".to_csv('~/tmp/df.csv')", id)
   toggleterm.exec("", id)
 
   local Terminal = require("toggleterm.terminal").Terminal
-  local vd_term = Terminal:new({ cmd = "vd ~/tmp/df.csv", close_on_exit = true })
-  vd_term:toggle()
+  Terminal:new({ cmd = "vd ~/tmp/df.csv", close_on_exit = true }):toggle()
 end
 
 local function test_catch2(selection_type, cmd_data)
-  local toggleterm = require("toggleterm")
   local utils = require("toggleterm.utils")
   local id = tonumber(cmd_data.args) or 1
 
   local lines = {}
-  -- Beginning of the selection: line number, column number
-  local start_line, start_col
   if selection_type == "single_line" then
-    start_line, start_col = unpack(vim.api.nvim_win_get_cursor(0))
-    table.insert(lines, vim.fn.getline(start_line))
+    table.insert(lines, vim.fn.getline(vim.api.nvim_win_get_cursor(0)[1]))
   elseif selection_type == "visual_selection" then
-    local res = utils.get_line_selection("visual")
-    start_line, start_col = unpack(res.start_pos)
-    lines = utils.get_visual_selection(res)
+    lines = utils.get_visual_selection(utils.get_line_selection("visual"))
   end
 
   if not lines or not next(lines) or #lines ~= 1 then
     return
   end
 
-  local line = lines[1]
-  -- Pattern to match the first quoted string
-  local test_name = line:match('"%s*(.-)%s*"')
+  local test_name = lines[1]:match('"%s*(.-)%s*"')
   local cmd = "build/test/unit_tests \"" .. test_name .. "\""
-  -- toggleterm.exec("import pandas as pd", id)
 
   local Terminal = require("toggleterm.terminal").Terminal
-  local vd_term = Terminal:new({ cmd = cmd, close_on_exit = false })
-  vd_term:toggle()
+  Terminal:new({ cmd = cmd, close_on_exit = false }):toggle()
 end
 
 local function custom_send_lines_to_terminal(selection_type, trim_spaces, cmd_data)
-  -- TODO: There is likely a bug - with regular python, it might require empty lines after decrease
-  -- in indentation... Though everything is fine in ipython.
   local toggleterm = require("toggleterm")
   local utils = require("toggleterm.utils")
   local id = tonumber(cmd_data.args) or 1
   trim_spaces = trim_spaces == nil or trim_spaces
   track_terminal_used(id)
 
-  vim.validate({
-    selection_type = { selection_type, "string", true },
-    trim_spaces = { trim_spaces, "boolean", true },
-    terminal_id = { id, "number", true },
-  })
-
-  local current_window = vim.api.nvim_get_current_win() -- save current window
+  local current_window = vim.api.nvim_get_current_win()
 
   local lines = {}
-  -- Beginning of the selection: line number, column number
   local start_line, start_col
   if selection_type == "single_line" then
     start_line, start_col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -182,111 +143,35 @@ local function custom_send_lines_to_terminal(selection_type, trim_spaces, cmd_da
 
   if trim_spaces then
     for _, line in ipairs(lines) do
-      local l = line:gsub("^%s+", ""):gsub("%s+$", "")
-      toggleterm.exec(l, id)
+      toggleterm.exec(line:gsub("^%s+", ""):gsub("%s+$", ""), id)
     end
   else
-    local fixed_lines = fix_lines_for_python(lines)
-    for _, l in ipairs(fixed_lines) do
-      toggleterm.exec(l, id)
-    end
+    send_lines(lines, id)
   end
-  -- toggleterm.exec("", id)
 
-  -- Jump back with the cursor where we were at the beginning of the selection
   vim.api.nvim_set_current_win(current_window)
   vim.api.nvim_win_set_cursor(current_window, { start_line, start_col })
 end
 
 local function last_terminal_id()
-  -- First priority: our own tracking of last used terminal
   if _G.ToggleTermLastUsedId then
-    -- Verify the terminal still exists
     local term = require("toggleterm.terminal").get(_G.ToggleTermLastUsedId)
     if term then return _G.ToggleTermLastUsedId end
   end
-  -- Second: toggleterm's last focused
   local last_focused = require("toggleterm.terminal").get_last_focused()
   if last_focused then return last_focused.id end
-  -- Third: any open terminal window
   local is_open, term_wins = require("toggleterm.ui").find_open_windows()
   if is_open then return term_wins[1].term_id end
-  -- Fourth: last toggled terminal
   local toggled_id = require("toggleterm.terminal").get_toggled_id()
   if toggled_id then return toggled_id end
-  -- Fallback
   return 1
 end
 
--- Global variable to store target terminal ID for operator mode with explicit ID
-_G.ToggleTermTargetId = nil
-
--- -- operator implementation: supports motions (e.g. <leader>tip, <leader>t2j, <leader>tat)
+-- Operator: send motion to active terminal
 _G.ToggleTermOperator = function(motion)
-  -- motion is the string Vim passes: "char", "line", or "block"
   local id = last_terminal_id()
   track_terminal_used(id)
 
-  -- Get operator marks set by the motion
-  local s_pos = vim.fn.getpos("'[")
-  local e_pos = vim.fn.getpos("']")
-  local start_line, start_col = s_pos[2], s_pos[3]
-  local end_line, end_col = e_pos[2], e_pos[3]
-
-  if not start_line or not end_line then return end
-
-  -- Ensure start <= end
-  if end_line < start_line or (end_line == start_line and end_col < start_col) then
-    start_line, end_line, start_col, end_col = end_line, start_line, end_col, start_col
-  end
-
-  local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
-  if not lines or vim.tbl_isempty(lines) then return end
-
-  -- Adjust for characterwise motions: slice first and last lines
-  if motion == "char" then
-    if start_line == end_line then
-      local l = lines[1] or ""
-      lines = { string.sub(l, start_col, end_col) }
-    else
-      local first = lines[1] or ""
-      local last  = lines[#lines] or ""
-      lines[1] = string.sub(first, start_col)   -- from start_col to end
-      lines[#lines] = string.sub(last, 1, end_col) -- beginning to end_col
-    end
-  elseif motion == "block" then
-    -- blockwise selections are rectangular; handling them properly is more involved.
-    -- For now treat them as charwise (or you can notify the user).
-    -- vim.notify("Blockwise operator not fully supported; falling back to charwise", vim.log.levels.INFO)
-  end
-
-  -- Determine trim_spaces based on line count: single line = trim, multiple lines = preserve indentation
-  local trim_spaces = #lines == 1
-
-  -- Send lines to terminal
-  if trim_spaces then
-    for _, line in ipairs(lines) do
-      local l = line:gsub("^%s+", ""):gsub("%s+$", "")
-      require("toggleterm").exec(l, id)
-    end
-  else
-    local fixed = fix_lines_for_python(lines)
-    for _, l in ipairs(fixed) do
-      require("toggleterm").exec(l, id)
-    end
-  end
-
-  -- Restore cursor to the start of the motion
-  local cur_win = vim.api.nvim_get_current_win()
-  vim.api.nvim_win_set_cursor(cur_win, { start_line, start_col })
-end
-
--- Operator that sends to a specific terminal ID (stored in _G.ToggleTermTargetId)
--- Falls back to last_terminal_id() if no target ID is set
-_G.ToggleTermOperatorWithId = function(motion)
-  local id = _G.ToggleTermTargetId or last_terminal_id()
-  track_terminal_used(id)
-
   local s_pos = vim.fn.getpos("'[")
   local e_pos = vim.fn.getpos("']")
   local start_line, start_col = s_pos[2], s_pos[3]
@@ -303,32 +188,16 @@ _G.ToggleTermOperatorWithId = function(motion)
 
   if motion == "char" then
     if start_line == end_line then
-      local l = lines[1] or ""
-      lines = { string.sub(l, start_col, end_col) }
+      lines = { (lines[1] or ""):sub(start_col, end_col) }
     else
-      local first = lines[1] or ""
-      local last  = lines[#lines] or ""
-      lines[1] = string.sub(first, start_col)
-      lines[#lines] = string.sub(last, 1, end_col)
+      lines[1] = (lines[1] or ""):sub(start_col)
+      lines[#lines] = (lines[#lines] or ""):sub(1, end_col)
     end
   end
 
-  local trim_spaces = #lines == 1
+  send_lines(lines, id)
 
-  if trim_spaces then
-    for _, line in ipairs(lines) do
-      local l = line:gsub("^%s+", ""):gsub("%s+$", "")
-      require("toggleterm").exec(l, id)
-    end
-  else
-    local fixed = fix_lines_for_python(lines)
-    for _, l in ipairs(fixed) do
-      require("toggleterm").exec(l, id)
-    end
-  end
-
-  local cur_win = vim.api.nvim_get_current_win()
-  vim.api.nvim_win_set_cursor(cur_win, { start_line, start_col })
+  vim.api.nvim_win_set_cursor(vim.api.nvim_get_current_win(), { start_line, start_col })
 end
 
 local function execute_manim(selection_type, cmd_data)
@@ -336,45 +205,42 @@ local function execute_manim(selection_type, cmd_data)
   local utils = require("toggleterm.utils")
   local id = tonumber(cmd_data.args) or 1
 
-  local start_line, start_col
+  local start_line
   local lines
 
   if selection_type == "single_line" then
-    start_line, start_col = unpack(vim.api.nvim_win_get_cursor(0))
+    start_line = vim.api.nvim_win_get_cursor(0)[1]
   elseif selection_type == "visual_selection" then
     local res = utils.get_line_selection("visual")
-    start_line, start_col = unpack(res.start_pos)
+    start_line = res.start_pos[1]
     lines = utils.get_visual_selection(res)
   end
 
-  -- Visual mode behavior: copy selection to clipboard and send checkpoint_paste()
+  -- Visual mode: copy selection to clipboard and send checkpoint_paste()
   if selection_type == "visual_selection" then
     if not lines or not next(lines) then
       return
     end
-    -- copy to system clipboard
     vim.fn.setreg("+", table.concat(lines, "\n"))
 
-    -- Check if first line is a comment - if so, append it to checkpoint_paste()
     local first_line = lines[1]
     local comment = first_line:match("^%s*(#.*)$")
     if comment and comment ~= "" then
-      toggleterm.exec("checkpoint_paste()  " .. comment .. " ("  .. #lines .. " lines)", id)
+      toggleterm.exec("checkpoint_paste()  " .. comment .. " (" .. #lines .. " lines)", id)
     else
       toggleterm.exec("checkpoint_paste()", id)
     end
     return
   end
 
-  -- Normal mode behavior: send manimgl <relpath> <ClassName> -se <line>
-  vim.cmd("write") -- ensure file is saved
+  -- Normal mode: send manimgl <relpath> <ClassName> -se <line>
+  vim.cmd("write")
   local relpath = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
-  if relpath == "" or relpath == nil then
+  if not relpath or relpath == "" then
     vim.notify("Cannot determine file path for manim command", vim.log.levels.WARN)
     return
   end
 
-  -- find nearest class above the cursor
   local class_name
   for i = start_line, 1, -1 do
     local l = vim.fn.getline(i)
@@ -399,13 +265,12 @@ return {
   {
     "akinsho/toggleterm.nvim",
     version = "*",
-    -- event = "VeryLazy",
     lazy = false,
     opts = {
       size = 20,
       open_mapping = [[<C-\>]],
-      insert_mappings=false,
-      terminal_mappings=false,
+      insert_mappings = false,
+      terminal_mappings = false,
       shade_filetypes = {},
       direction = "float",
       shell = vim.o.shell,
@@ -416,9 +281,6 @@ return {
       close_on_exit = false,
     },
     keys = {
-      -- open terminal
-      -- { keys.term.open_vertical.key, "<cmd>ToggleTerm direction=vertical size=120<cr>", desc = keys.term.open_vertical.desc },
-      -- { keys.term.open_horizontal.key, "<cmd>ToggleTerm direction=horizontal size=40<cr>", desc = keys.term.open_horizontal.desc },
       {
         keys.term.new_vertical.key,
         function()
@@ -448,7 +310,7 @@ return {
         desc = keys.term.new_float.desc
       },
 
-      -- open python terminal
+      -- Start language REPLs
       {
         keys.term.start_python.key,
         function()
@@ -478,7 +340,6 @@ return {
         end,
         desc = keys.term.run_in_python.desc,
       },
-      -- start julia repl
       {
         keys.term.start_julia.key,
         function()
@@ -495,36 +356,29 @@ return {
         desc = keys.term.run_in_julia.desc,
       },
 
-      -- lazygit
+      -- Lazygit
       { keys.git.lazygit.key, "<cmd>TermLazygit<cr>", desc = keys.git.lazygit.desc },
 
-      -- show DataFrame
+      -- Show DataFrame
       {
         keys.code.show_dataframe.key,
-        function()
-          show_dataframe("single_line", { args = last_terminal_id() })
-        end,
-        -- "<cmd>showdataframe<cr>",
+        function() show_dataframe("single_line", { args = last_terminal_id() }) end,
         desc = keys.code.show_dataframe.desc,
       },
       {
         keys.code.show_dataframe.key,
-        function()
-          show_dataframe("visual_selection", { args = last_terminal_id() })
-        end,
-        -- "<cmd>showdataframe<cr>",
+        function() show_dataframe("visual_selection", { args = last_terminal_id() }) end,
         desc = keys.code.show_dataframe.desc,
         mode = "x"
       },
 
-      -- send lines etc to terminal
+      -- Send line to terminal
       {
         keys.term.send_line.key,
         function()
           require("toggleterm").send_lines_to_terminal("single_line", true, { args = last_terminal_id() })
           vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('j', true, true, true), 'n', false)
         end,
-        "<cmd>ToggleTermSendCurrentLine<cr>j",
         desc = keys.term.send_line.desc
       },
       {
@@ -553,70 +407,46 @@ return {
         desc = keys.term.send_selection.desc,
         mode = "x"
       },
-      -- Normal mode mapping (calls nearest class + current line)
+
+      -- Manim
       {
         keys.code.execute_manim.key,
         function() execute_manim("single_line", { args = last_terminal_id() }) end,
         desc = keys.code.execute_manim.desc,
       },
-      -- Visual mode mapping (yank selection to clipboard and send checkpoint_paste())
       {
         keys.code.execute_manim.key,
         function() execute_manim("visual_selection", { args = last_terminal_id() }) end,
         desc = keys.code.execute_manim.desc,
         mode = "x",
       },
-      -- <leader>rr + motion: send to last used terminal (operator mode)
+
+      -- Operator: <leader>r + motion sends to active terminal
       {
-        "<leader>rr",
+        "<leader>r",
         function()
-          _G.ToggleTermTargetId = nil  -- nil means use last_terminal_id()
-          vim.go.operatorfunc = "v:lua.ToggleTermOperatorWithId"
+          vim.go.operatorfunc = "v:lua.ToggleTermOperator"
           return "g@"
         end,
-        desc = "Send motion to last terminal",
+        desc = "Send motion to active terminal",
         expr = true,
         silent = true,
       },
-      -- Visual <leader>rr: send selection to last used terminal
       {
-        "<leader>rr",
+        "<leader>r",
         function()
           custom_send_lines_to_terminal("visual_selection", false, { args = last_terminal_id() })
           vim.cmd("normal! `>")
         end,
-        desc = "Send selection to last terminal",
+        desc = "Send selection to active terminal",
         mode = "x",
       },
-      -- <leader>r1 through <leader>r9 + motion: send to specific terminal (operator mode)
-      -- Visual <leader>r1 through <leader>r9: send selection to specific terminal
+
+      -- <leader>tN: set terminal N as active
       unpack((function()
-        local specific_term_keys = {}
+        local term_keys = {}
         for i = 1, 9 do
-          -- Operator mode: <leader>rN + motion
-          table.insert(specific_term_keys, {
-            "<leader>r" .. i,
-            function()
-              _G.ToggleTermTargetId = i
-              vim.go.operatorfunc = "v:lua.ToggleTermOperatorWithId"
-              return "g@"
-            end,
-            desc = "Send motion to terminal " .. i,
-            expr = true,
-            silent = true,
-          })
-          -- Visual mode: <leader>rN
-          table.insert(specific_term_keys, {
-            "<leader>r" .. i,
-            function()
-              custom_send_lines_to_terminal("visual_selection", false, { args = i })
-              vim.cmd("normal! `>")
-            end,
-            desc = "Send selection to terminal " .. i,
-            mode = "x"
-          })
-          -- Mark terminal N as last used: <leader>tN
-          table.insert(specific_term_keys, {
+          table.insert(term_keys, {
             "<leader>t" .. i,
             function()
               track_terminal_used(i)
@@ -625,18 +455,39 @@ return {
             desc = "Set terminal " .. i .. " as active",
           })
         end
-        return specific_term_keys
+        return term_keys
       end)())
     },
     config = function(_, opts)
       require("toggleterm").setup(opts)
+
+      -- When a terminal exits, update the active marker after toggleterm cleans up
+      vim.api.nvim_create_autocmd("TermClose", {
+        pattern = "term://*toggleterm#*",
+        callback = function(ev)
+          local id = vim.b[ev.buf].toggle_number
+          if id and id == _G.ToggleTermLastUsedId then
+            _G.ToggleTermLastUsedId = nil
+            -- Defer so toggleterm removes the terminal from its registry first
+            vim.defer_fn(function()
+              if _G.ToggleTermLastUsedId == nil then
+                local next_id = last_terminal_id()
+                if require("toggleterm.terminal").get(next_id) then
+                  _G.ToggleTermLastUsedId = next_id
+                end
+              end
+              local ok, lualine = pcall(require, "lualine")
+              if ok then lualine.refresh({ place = { "winbar" } }) end
+            end, 200)
+          end
+        end,
+      })
 
       vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionCustom", function(args)
         custom_send_lines_to_terminal("visual_selection", false, args)
       end, { range = true, nargs = "?" })
 
       local Terminal = require("toggleterm.terminal").Terminal
-      -- local lazygit = Terminal:new({ cmd = "lazygit", hidden = true, count = 9 })
       local lazygit = Terminal:new({ cmd = "lazygit", count = 9 })
 
       vim.api.nvim_create_user_command("TermLazygit", function() lazygit:toggle() end, {})
