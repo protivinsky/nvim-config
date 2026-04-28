@@ -104,11 +104,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     lsp_keymaps(bufnr)
 
-    local status_ok, illuminate = pcall(require, "illuminate")
-    if not status_ok then
-      return
+    if client:supports_method("textDocument/documentHighlight") then
+      local group = vim.api.nvim_create_augroup("user_lsp_highlight_" .. bufnr, { clear = true })
+      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+        group = group,
+        buffer = bufnr,
+        callback = vim.lsp.buf.document_highlight,
+      })
+      vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+        group = group,
+        buffer = bufnr,
+        callback = vim.lsp.buf.clear_references,
+      })
     end
-    illuminate.on_attach(client)
   end,
 })
 -- }}}

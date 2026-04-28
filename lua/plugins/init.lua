@@ -4,7 +4,6 @@ return {
   "tpope/vim-sleuth",             -- automatic buffer indentation
   "echasnovski/mini.bufremove",   -- keep window layout after deleting a buffer
   "nvim-lua/plenary.nvim",        -- handy lua functions other plugins use
-  "RRethy/vim-illuminate",
   "sindrets/diffview.nvim",
   -- Git related plugins
   'tpope/vim-fugitive',
