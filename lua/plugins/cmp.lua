@@ -150,7 +150,26 @@ return {
       filetypes = { markdown = { enabled = true } },
       on_status_update = function() require("lualine").refresh() end,
     },
-    dependencies = { "zbirenbaum/copilot-cmp", config = true },
+    dependencies = {
+      {
+        "zbirenbaum/copilot-cmp",
+        config = function()
+          require("copilot_cmp").setup()
+          -- Upstream uses deprecated `client.is_stopped` (dot syntax). Patch it.
+          local source = require("copilot_cmp.source")
+          function source:is_available()
+            if self.client:is_stopped() then
+              return false
+            end
+            local clients = vim.lsp.get_clients({
+              bufnr = vim.api.nvim_get_current_buf(),
+              id = self.client.id,
+            })
+            return next(clients) ~= nil
+          end
+        end,
+      },
+    },
   },
 }
 
