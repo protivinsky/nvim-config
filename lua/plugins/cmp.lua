@@ -118,6 +118,7 @@ return {
       end
       local cmp = require("cmp")
       cmp.setup(opts)
+      cmp.setup.filetype("etude", { enabled = false })
       -- `/` cmdline setup.
       cmp.setup.cmdline({ "/", "?" }, {
         mapping = cmp.mapping.preset.cmdline(),
